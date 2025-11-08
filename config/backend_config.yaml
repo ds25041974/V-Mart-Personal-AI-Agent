@@ -1,0 +1,100 @@
+# V-Mart Backend Server Configuration
+
+server:
+  # Network settings
+  host: "0.0.0.0"  # Listen on all interfaces (0.0.0.0 for public, 127.0.0.1 for localhost only)
+  port: 5000       # Port to listen on
+  
+  # SSL/TLS settings (for WAN deployment)
+  ssl:
+    enabled: false  # Set to true for HTTPS
+    cert_file: "/path/to/cert.pem"
+    key_file: "/path/to/key.pem"
+  
+  # CORS settings (if needed for web clients)
+  cors:
+    enabled: false
+    origins:
+      - "http://localhost:8000"
+      - "https://chatbot.vmart.co.in"
+
+# Security settings
+security:
+  # API key management
+  api_keys_file: "~/.vmart/api_keys.json"
+  
+  # Rate limiting
+  rate_limit:
+    enabled: true
+    requests_per_hour: 100
+    burst_limit: 20  # Allow short bursts
+  
+  # IP whitelisting (optional - leave empty to allow all)
+  ip_whitelist: []
+  # Example:
+  # - "192.168.1.0/24"  # Local network
+  # - "10.0.0.0/8"      # Private network
+  # - "203.0.113.10"    # Specific IP
+  
+  # Request size limits
+  max_content_length: 10485760  # 10 MB
+
+# Database connection pool settings
+database:
+  max_connections: 20
+  connection_timeout: 30  # seconds
+  query_timeout: 300      # seconds
+  pool_recycle: 3600      # Recycle connections after 1 hour
+
+# AI Insights settings
+ai:
+  gemini_api_key: "${GEMINI_API_KEY}"  # Use environment variable
+  model: "gemini-pro"
+  max_tokens: 2048
+  temperature: 0.7
+
+# Logging settings
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # File logging
+  file:
+    enabled: true
+    path: "logs/backend.log"
+    max_bytes: 104857600  # 100 MB
+    backup_count: 5
+  
+  # Console logging
+  console:
+    enabled: true
+  
+  # Request logging
+  request_log:
+    enabled: true
+    include_body: false  # Don't log request bodies (may contain sensitive data)
+
+# Cache settings
+cache:
+  enabled: true
+  ttl: 300  # seconds
+  max_size: 1000  # Maximum number of cached entries
+
+# Performance tuning
+performance:
+  workers: 4  # Number of worker processes (if using gunicorn)
+  threads: 2  # Threads per worker
+  worker_timeout: 300  # seconds
+
+# Monitoring
+monitoring:
+  enabled: true
+  metrics_endpoint: "/metrics"  # Prometheus-style metrics
+  health_endpoint: "/health"
+
+# Feature flags
+features:
+  ai_insights: true
+  data_export: true
+  schema_introspection: true
+  user_management: true

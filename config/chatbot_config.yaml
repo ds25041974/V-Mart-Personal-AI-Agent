@@ -1,0 +1,98 @@
+# V-Mart Chatbot Agent Configuration
+
+# Chatbot web server settings
+chatbot:
+  port: 8000
+  host: "0.0.0.0"
+  debug: false
+  session_timeout: 3600  # 1 hour
+
+# Backend server connection
+backend:
+  # Backend server URL
+  # LAN example: http://192.168.1.100:5000
+  # WAN example: https://backend.vmart.co.in:5000
+  url: "${BACKEND_URL:http://localhost:5000}"
+  
+  # API key for backend authentication
+  api_key: "${BACKEND_API_KEY:admin_key_default}"
+  
+  # Connection settings
+  timeout: 30  # seconds
+  retry_attempts: 3
+  verify_ssl: true  # Set to false for self-signed certificates
+  
+  # Cache settings
+  cache:
+    enabled: true
+    ttl: 300  # seconds (5 minutes)
+  
+  # Graceful degradation
+  offline_mode:
+    enabled: true
+    show_warning: true
+    cache_fallback: true
+
+# Google OAuth settings
+google_oauth:
+  client_id: "${GOOGLE_CLIENT_ID}"
+  client_secret: "${GOOGLE_CLIENT_SECRET}"
+  redirect_uri: "http://localhost:8000/auth/callback"
+  scopes:
+    - "openid"
+    - "email"
+    - "profile"
+
+# Gemini AI settings
+gemini:
+  api_key: "${GEMINI_API_KEY}"
+  model: "gemini-pro"
+  max_tokens: 2048
+  temperature: 0.7
+
+# Local file access settings
+local_files:
+  enabled: true
+  base_path: "~"  # User home directory
+  allowed_extensions:
+    - ".txt"
+    - ".pdf"
+    - ".doc"
+    - ".docx"
+    - ".csv"
+    - ".json"
+  max_file_size: 10485760  # 10 MB
+
+# Data reader settings
+data_reader:
+  enabled: true
+  max_results: 100
+  timeout: 30
+
+# Task scheduler settings
+scheduler:
+  enabled: true
+  timezone: "UTC"
+
+# UI settings
+ui:
+  theme: "light"  # light or dark
+  language: "en"  # Default language
+  show_welcome: true
+  show_examples: true
+
+# Feature flags
+features:
+  backend_integration: true  # Enable/disable backend features
+  local_mode: true          # Allow running without backend
+  ai_chat: true
+  file_access: true
+  data_reading: true
+  task_scheduling: true
+
+# Logging
+logging:
+  level: "INFO"
+  file: "logs/chatbot.log"
+  max_size_mb: 50
+  backup_count: 3
