@@ -16,6 +16,7 @@ A comprehensive personal AI agent powered by Google's Gemini AI, featuring docum
 **🔴 HIGH PRIORITY - START HERE:**
 - ⭐ [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) - Complete system architecture with flowcharts and objectives
 - ⭐ [**CHATBOT_INTERFACE_GUIDE.md**](docs/CHATBOT_INTERFACE_GUIDE.md) - Detailed guide to all tabs and features
+- ⭐ [**SERVICE_24x7_SETUP.md**](docs/SERVICE_24x7_SETUP.md) - 24x7 auto-start service configuration
 - [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) - Complete setup instructions for Windows, macOS, and Linux
 - [USER_GUIDE.md](docs/USER_GUIDE.md) - Comprehensive usage guide
 
@@ -57,6 +58,37 @@ A comprehensive personal AI agent powered by Google's Gemini AI, featuring docum
 - GitHub personal access token (optional, for GitHub features)
 
 ## 🚀 Quick Start
+
+### Option 1: Run as 24x7 Service (Recommended for macOS)
+
+**Auto-start on boot, restart on crash, always available:**
+
+```bash
+# Navigate to project directory
+cd "/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent"
+
+# Install and start the service
+./install_service.sh
+
+# Check service status
+./check_service.sh
+
+# Access the application
+open http://localhost:5000
+```
+
+**Benefits:**
+- ✅ Starts automatically on system boot
+- ✅ Restarts automatically if it crashes
+- ✅ Waits for network before starting
+- ✅ Runs 24x7 without manual intervention
+- ✅ Complete logging and monitoring
+
+📖 **Full Documentation**: [SERVICE_24x7_SETUP.md](docs/SERVICE_24x7_SETUP.md)
+
+---
+
+### Option 2: Manual Start
 
 ### 1. Clone the Repository
 

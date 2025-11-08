@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Service Label (Unique Identifier) -->
+    <key>Label</key>
+    <string>com.vmart.aiagent</string>
+    
+    <!-- Program to Run -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/python3</string>
+        <string>/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent/main.py</string>
+    </array>
+    
+    <!-- Working Directory -->
+    <key>WorkingDirectory</key>
+    <string>/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent</string>
+    
+    <!-- Auto-start on login and system boot -->
+    <key>RunAtLoad</key>
+    <true/>
+    
+    <!-- Keep the service running (restart if it crashes) -->
+    <key>KeepAlive</key>
+    <dict>
+        <!-- Always keep alive -->
+        <key>SuccessfulExit</key>
+        <false/>
+        <!-- Restart if crashed -->
+        <key>Crashed</key>
+        <true/>
+        <!-- Wait for network before starting -->
+        <key>NetworkState</key>
+        <true/>
+    </dict>
+    
+    <!-- Restart after crash with throttle -->
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+    
+    <!-- Standard Output Logging -->
+    <key>StandardOutPath</key>
+    <string>/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent/logs/service.log</string>
+    
+    <!-- Standard Error Logging -->
+    <key>StandardErrorPath</key>
+    <string>/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent/logs/service-error.log</string>
+    
+    <!-- Environment Variables -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>PYTHONUNBUFFERED</key>
+        <string>1</string>
+    </dict>
+    
+    <!-- Process Type (Adaptive for web servers) -->
+    <key>ProcessType</key>
+    <string>Interactive</string>
+    
+    <!-- Nice value (priority) -->
+    <key>Nice</key>
+    <integer>0</integer>
+    
+    <!-- User to run as -->
+    <key>UserName</key>
+    <string>dineshsrivastava</string>
+    
+</dict>
+</plist>
