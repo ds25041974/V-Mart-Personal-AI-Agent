@@ -12,6 +12,7 @@ import os
 
 from agent.gemini_agent import GeminiAgent
 from auth import google_auth
+from connectors.data_reader import DataReaderConnector
 from connectors.local_files import LocalFilesConnector
 from flask import Flask, jsonify, redirect, render_template, request, session
 from scheduler.task_scheduler import TaskScheduler
@@ -29,6 +30,9 @@ gemini_agent = GeminiAgent(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # Initialize Local Files Connector
 local_connector = LocalFilesConnector(base_path=os.path.expanduser("~"))
+
+# Initialize Data Reader Connector
+data_reader = DataReaderConnector()
 
 # Initialize Task Scheduler
 scheduler = TaskScheduler()
@@ -459,6 +463,112 @@ def health():
             "user_authenticated": "user" in session,
         }
     )
+
+
+# Data Reading API Endpoints
+
+
+@app.route("/data/read-active-screen", methods=["POST"])
+def read_active_screen():
+    """Read data from the currently active application"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    include_hidden = data.get("include_hidden", True)
+
+    result = data_reader.read_active_screen_data(include_hidden=include_hidden)
+    return jsonify(result)
+
+
+@app.route("/data/read-excel", methods=["POST"])
+def read_excel():
+    """Read data from Excel file"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    file_path = data.get("file_path")
+    include_hidden = data.get("include_hidden", True)
+    active_sheet_only = data.get("active_sheet_only", False)
+
+    if active_sheet_only:
+        result = data_reader.read_excel_active_sheet(
+            file_path=file_path, include_hidden=include_hidden
+        )
+    else:
+        result = data_reader.read_excel_data(
+            file_path=file_path, include_hidden=include_hidden
+        )
+
+    return jsonify(result)
+
+
+@app.route("/data/read-google-sheets", methods=["POST"])
+def read_google_sheets():
+    """Read data from Google Sheets"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    spreadsheet_id = data.get("spreadsheet_id")
+    include_hidden = data.get("include_hidden", True)
+
+    result = data_reader.read_google_sheets_data(
+        spreadsheet_id=spreadsheet_id, include_hidden=include_hidden
+    )
+    return jsonify(result)
+
+
+@app.route("/data/read-powerpoint", methods=["POST"])
+def read_powerpoint():
+    """Read data from PowerPoint presentation"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    file_path = data.get("file_path")
+
+    result = data_reader.read_powerpoint_data(file_path=file_path)
+    return jsonify(result)
+
+
+@app.route("/data/read-email", methods=["POST"])
+def read_email():
+    """Read email data from Gmail"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    max_results = data.get("max_results", 10)
+    query = data.get("query", "")
+
+    result = data_reader.read_email_data(max_results=max_results, query=query)
+    return jsonify(result)
+
+
+@app.route("/data/detect-application", methods=["GET"])
+def detect_application():
+    """Detect the currently active application"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    app_info = data_reader.detect_active_application()
+    return jsonify(app_info)
+
+
+@app.route("/data/format-summary", methods=["POST"])
+def format_summary():
+    """Get a formatted summary of data"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    if "data" not in data:
+        return jsonify({"error": "Please provide data to summarize"}), 400
+
+    summary = data_reader.format_for_chatbot(data["data"])
+    return jsonify({"summary": summary})
 
 
 if __name__ == "__main__":
