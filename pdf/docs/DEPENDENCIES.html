@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>V-Mart Dependencies Documentation</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <link rel="stylesheet" href="pdf/style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart Dependencies Documentation</h1>
+</header>
+<h1 id="v-mart-personal-ai-agent---dependencies-libraries-documentation">V-Mart
+Personal AI Agent - Dependencies &amp; Libraries Documentation</h1>
+<h2 id="overview">Overview</h2>
+<p>This document provides a comprehensive list of all Python libraries
+and dependencies used in the V-Mart Personal AI Agent project, their
+purposes, versions, and how they contribute to achieving the project
+objectives.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#core-objective">Core Objective</a></li>
+<li><a href="#web-framework-dependencies">Web Framework
+Dependencies</a></li>
+<li><a href="#ai--machine-learning">AI &amp; Machine Learning</a></li>
+<li><a href="#google-cloud-integration">Google Cloud
+Integration</a></li>
+<li><a href="#authentication--security">Authentication &amp;
+Security</a></li>
+<li><a href="#data-processing">Data Processing</a></li>
+<li><a href="#system-utilities">System Utilities</a></li>
+<li><a href="#development--type-safety">Development &amp; Type
+Safety</a></li>
+<li><a href="#dependency-tree">Dependency Tree</a></li>
+<li><a href="#installation">Installation</a></li>
+</ol>
+<hr />
+<h2 id="core-objective">Core Objective</h2>
+<p><strong>Project Goal:</strong> Build an intelligent AI agent that
+integrates with Google Workspace (Gmail, Drive), GitHub, and uses Gemini
+AI to provide intelligent assistance for: - Document search and analysis
+- Business decision making - Financial analysis - File management -
+Automated workflows</p>
+<hr />
+<h2 id="web-framework-dependencies">Web Framework Dependencies</h2>
+<h3 id="flask-3.0.0">1. Flask (3.0.0)</h3>
+<p><strong>Purpose:</strong> Core web framework for building the web
+application</p>
+<p><strong>Key Features:</strong> - Creates RESTful API endpoints -
+Handles HTTP requests/responses - Manages routing and URL mapping -
+Serves the web interface</p>
+<p><strong>How It Helps:</strong> - Provides the foundation for the
+4-tab web interface (Chat, Analysis, Files, Decision) - Enables
+real-time interaction with the AI agent - Serves static files (CSS,
+JavaScript) - Manages session handling</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask, render_template, request, jsonify</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">&#39;/&#39;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> index():</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> render_template(<span class="st">&#39;index.html&#39;</span>)</span></code></pre></div>
+<p><strong>Dependencies:</strong> - Werkzeug (WSGI utility library) -
+Jinja2 (template engine) - Click (CLI framework) - ItsDangerous
+(cryptographic signing)</p>
+<hr />
+<h3 id="werkzeug-3.0.1">2. Werkzeug (3.0.1)</h3>
+<p><strong>Purpose:</strong> WSGI utility library that powers Flask</p>
+<p><strong>Key Features:</strong> - Request/response handling - URL
+routing - Debug utilities - Security features</p>
+<p><strong>How It Helps:</strong> - Provides secure password hashing -
+Handles multipart form data (file uploads) - URL parsing and generation
+- Development server with auto-reload</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> werkzeug.security <span class="im">import</span> generate_password_hash</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> werkzeug.utils <span class="im">import</span> secure_filename</span></code></pre></div>
+<hr />
+<h2 id="ai-machine-learning">AI &amp; Machine Learning</h2>
+<h3 id="google-generativeai-0.3.1">3. google-generativeai (0.3.1)</h3>
+<p><strong>Purpose:</strong> Official Google Gemini AI SDK</p>
+<p><strong>Key Features:</strong> - Access to Gemini Pro model - Text
+generation - Multi-turn conversations - Content understanding</p>
+<p><strong>How It Helps:</strong> - <strong>Core AI Engine</strong>:
+Powers all intelligent features - <strong>Natural Language
+Understanding</strong>: Processes user queries - <strong>Content
+Generation</strong>: Creates responses, summaries, recommendations -
+<strong>Decision Support</strong>: Analyzes data and provides
+insights</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> google.generativeai <span class="im">as</span> genai</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>genai.configure(api_key<span class="op">=</span>GEMINI_API_KEY)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> genai.GenerativeModel(<span class="st">&#39;gemini-pro&#39;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> model.generate_content(prompt)</span></code></pre></div>
+<p><strong>Capabilities Used:</strong> 1. <strong>Chat Tab</strong>:
+Conversational AI 2. <strong>Analysis Tab</strong>: Financial and sales
+analysis 3. <strong>Files Tab</strong>: Document summarization 4.
+<strong>Decision Tab</strong>: AI-powered recommendations</p>
+<hr />
+<h2 id="google-cloud-integration">Google Cloud Integration</h2>
+<h3 id="google-api-python-client-2.108.0">4. google-api-python-client
+(2.108.0)</h3>
+<p><strong>Purpose:</strong> Official Google API client library</p>
+<p><strong>Key Features:</strong> - Access to Gmail API - Access to
+Google Drive API - OAuth2 authentication - Resource management</p>
+<p><strong>How It Helps:</strong> - <strong>Email Integration</strong>:
+Search and read Gmail messages - <strong>File Access</strong>: Search
+and retrieve Google Drive files - <strong>Document Search</strong>: Find
+documents across Google Workspace - <strong>Attachment
+Handling</strong>: Download and process email attachments</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> googleapiclient.discovery <span class="im">import</span> build</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Gmail API</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>gmail_service <span class="op">=</span> build(<span class="st">&#39;gmail&#39;</span>, <span class="st">&#39;v1&#39;</span>, credentials<span class="op">=</span>creds)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>messages <span class="op">=</span> gmail_service.users().messages().<span class="bu">list</span>(userId<span class="op">=</span><span class="st">&#39;me&#39;</span>).execute()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drive API</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>drive_service <span class="op">=</span> build(<span class="st">&#39;drive&#39;</span>, <span class="st">&#39;v3&#39;</span>, credentials<span class="op">=</span>creds)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> drive_service.files().<span class="bu">list</span>(q<span class="op">=</span><span class="st">&quot;name contains &#39;invoice&#39;&quot;</span>).execute()</span></code></pre></div>
+<p><strong>APIs Integrated:</strong> - <strong>Gmail API v1</strong>:
+Email search, read, attachments - <strong>Drive API v3</strong>: File
+search, download, metadata</p>
+<hr />
+<h3 id="google-auth-httplib2-0.2.0">5. google-auth-httplib2 (0.2.0)</h3>
+<p><strong>Purpose:</strong> HTTP transport library for Google
+authentication</p>
+<p><strong>Key Features:</strong> - HTTP/2 support - Connection pooling
+- Authentication transport</p>
+<p><strong>How It Helps:</strong> - Enables authenticated HTTP requests
+to Google APIs - Manages connection efficiency - Handles authentication
+headers</p>
+<hr />
+<h3 id="google-auth-oauthlib-1.2.0">6. google-auth-oauthlib (1.2.0)</h3>
+<p><strong>Purpose:</strong> OAuth 2.0 authentication flow</p>
+<p><strong>Key Features:</strong> - OAuth2 consent flow - Token
+management - Credential storage</p>
+<p><strong>How It Helps:</strong> - <strong>User
+Authentication</strong>: Securely authenticate users with Google -
+<strong>Token Refresh</strong>: Automatically refresh expired tokens -
+<strong>Scope Management</strong>: Request specific permissions (Gmail,
+Drive) - <strong>Security</strong>: Implements OAuth2 best practices</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google_auth_oauthlib.flow <span class="im">import</span> InstalledAppFlow</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>flow <span class="op">=</span> InstalledAppFlow.from_client_secrets_file(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;credentials.json&#39;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    scopes<span class="op">=</span>[<span class="st">&#39;https://www.googleapis.com/auth/gmail.readonly&#39;</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;https://www.googleapis.com/auth/drive.readonly&#39;</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>credentials <span class="op">=</span> flow.run_local_server(port<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div>
+<hr />
+<h2 id="authentication-security">Authentication &amp; Security</h2>
+<h3 id="authlib-1.3.0">7. authlib (1.3.0)</h3>
+<p><strong>Purpose:</strong> OAuth and authentication library</p>
+<p><strong>Key Features:</strong> - OAuth 1.0/2.0 client and server -
+OpenID Connect - JWT handling - Session management</p>
+<p><strong>How It Helps:</strong> - <strong>Multi-provider
+Auth</strong>: Support for Google, GitHub OAuth - <strong>Token
+Management</strong>: Secure token storage and refresh - <strong>Session
+Security</strong>: Encrypted session handling - <strong>Standards
+Compliance</strong>: Implements RFC specifications</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> authlib.integrations.flask_client <span class="im">import</span> OAuth</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>oauth <span class="op">=</span> OAuth(app)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>oauth.register(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">&#39;google&#39;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    client_id<span class="op">=</span>GOOGLE_CLIENT_ID,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    client_secret<span class="op">=</span>GOOGLE_CLIENT_SECRET</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<hr />
+<h3 id="requests-2.31.0">8. requests (2.31.0)</h3>
+<p><strong>Purpose:</strong> HTTP library for making API calls</p>
+<p><strong>Key Features:</strong> - Simple HTTP requests - Session
+management - SSL verification - Automatic content decoding</p>
+<p><strong>How It Helps:</strong> - <strong>External API Calls</strong>:
+Communicate with third-party services - <strong>File Downloads</strong>:
+Retrieve files from URLs - <strong>Webhook Integration</strong>:
+Send/receive webhooks - <strong>Error Handling</strong>: Robust request
+error management</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(<span class="st">&#39;https://api.github.com/repos/user/repo&#39;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> response.json()</span></code></pre></div>
+<hr />
+<h2 id="github-integration">GitHub Integration</h2>
+<h3 id="pygithub-2.1.1">9. PyGithub (2.1.1)</h3>
+<p><strong>Purpose:</strong> GitHub API v3 Python library</p>
+<p><strong>Key Features:</strong> - Repository management - Issue
+tracking - Pull request handling - User/organization access</p>
+<p><strong>How It Helps:</strong> - <strong>Repository Access</strong>:
+Browse and manage GitHub repositories - <strong>Issue
+Management</strong>: Create, read, update issues - <strong>File
+Operations</strong>: Read files from repositories -
+<strong>Automation</strong>: Automate GitHub workflows</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> github <span class="im">import</span> Github</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> Github(GITHUB_TOKEN)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>repo <span class="op">=</span> g.get_repo(<span class="st">&quot;user/repository&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>issues <span class="op">=</span> repo.get_issues(state<span class="op">=</span><span class="st">&#39;open&#39;</span>)</span></code></pre></div>
+<p><strong>Features Used:</strong> - Search repositories - Read file
+contents - Access commit history - Manage issues and PRs</p>
+<hr />
+<h2 id="data-processing">Data Processing</h2>
+<h3 id="pandas-2.1.4">10. pandas (2.1.4)</h3>
+<p><strong>Purpose:</strong> Data manipulation and analysis library</p>
+<p><strong>Key Features:</strong> - DataFrame operations - Data cleaning
+- Statistical analysis - CSV/Excel handling</p>
+<p><strong>How It Helps:</strong> - <strong>Financial Analysis</strong>:
+Process sales and revenue data - <strong>Data Aggregation</strong>:
+Group and summarize information - <strong>Report Generation</strong>:
+Create structured reports - <strong>Data Visualization</strong>: Prepare
+data for charts</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Financial analysis</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(sales_data)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>monthly_revenue <span class="op">=</span> df.groupby(<span class="st">&#39;month&#39;</span>)[<span class="st">&#39;revenue&#39;</span>].<span class="bu">sum</span>()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>growth_rate <span class="op">=</span> (monthly_revenue.pct_change() <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<p><strong>Use Cases:</strong> 1. <strong>Sales Analysis</strong>:
+Revenue trends, growth rates 2. <strong>Inventory Management</strong>:
+Stock levels, reorder points 3. <strong>Financial Reports</strong>:
+P&amp;L statements, cash flow 4. <strong>Data Cleaning</strong>: Handle
+missing values, duplicates</p>
+<hr />
+<h3 id="numpy-1.26.2">11. numpy (1.26.2)</h3>
+<p><strong>Purpose:</strong> Numerical computing library</p>
+<p><strong>Key Features:</strong> - Array operations - Mathematical
+functions - Linear algebra - Statistical operations</p>
+<p><strong>How It Helps:</strong> - <strong>Calculations</strong>: Fast
+numerical computations - <strong>Data Processing</strong>: Array-based
+operations for pandas - <strong>Statistical Analysis</strong>: Mean,
+median, standard deviation - <strong>Performance</strong>: Optimized
+C-based operations</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>revenue_array <span class="op">=</span> np.array([<span class="dv">100000</span>, <span class="dv">120000</span>, <span class="dv">115000</span>, <span class="dv">130000</span>])</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>avg_revenue <span class="op">=</span> np.mean(revenue_array)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>growth <span class="op">=</span> np.diff(revenue_array) <span class="op">/</span> revenue_array[:<span class="op">-</span><span class="dv">1</span>] <span class="op">*</span> <span class="dv">100</span></span></code></pre></div>
+<hr />
+<h2 id="scheduling-automation">Scheduling &amp; Automation</h2>
+<h3 id="schedule-1.2.0">12. schedule (1.2.0)</h3>
+<p><strong>Purpose:</strong> Job scheduling library</p>
+<p><strong>Key Features:</strong> - Cron-like scheduling - Periodic task
+execution - Time-based triggers - Simple API</p>
+<p><strong>How It Helps:</strong> - <strong>Automated Tasks</strong>:
+Run background jobs periodically - <strong>Data Refresh</strong>: Update
+caches and data at intervals - <strong>Monitoring</strong>: Check system
+health regularly - <strong>Cleanup</strong>: Remove old files/logs
+automatically</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> schedule</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_emails():</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check for new emails every 5 minutes</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>schedule.every(<span class="dv">5</span>).minutes.do(check_emails)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    schedule.run_pending()</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)</span></code></pre></div>
+<p><strong>Scheduled Tasks:</strong> - Email synchronization - Cache
+updates - Log rotation - Health checks</p>
+<hr />
+<h2 id="system-utilities">System Utilities</h2>
+<h3 id="python-dotenv-1.0.0">13. python-dotenv (1.0.0)</h3>
+<p><strong>Purpose:</strong> Environment variable management</p>
+<p><strong>Key Features:</strong> - Load .env files - Environment
+isolation - Configuration management - Secret handling</p>
+<p><strong>How It Helps:</strong> - <strong>Security</strong>: Keep API
+keys out of code - <strong>Configuration</strong>: Manage settings per
+environment - <strong>Portability</strong>: Easy deployment across
+environments - <strong>Secret Management</strong>: Secure credential
+storage</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>GEMINI_API_KEY <span class="op">=</span> os.getenv(<span class="st">&#39;GEMINI_API_KEY&#39;</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>GITHUB_TOKEN <span class="op">=</span> os.getenv(<span class="st">&#39;GITHUB_TOKEN&#39;</span>)</span></code></pre></div>
+<p><strong>Environment Variables:</strong></p>
+<pre class="env"><code>GEMINI_API_KEY=your_gemini_key
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GITHUB_TOKEN=your_github_token
+PORT=5000
+DEBUG=False</code></pre>
+<hr />
+<h2 id="development-type-safety">Development &amp; Type Safety</h2>
+<h3 id="typing-extensions-4.9.0">14. typing-extensions (4.9.0)</h3>
+<p><strong>Purpose:</strong> Backport of latest typing features</p>
+<p><strong>Key Features:</strong> - Type hints - Generic types -
+Protocol support - Runtime type checking</p>
+<p><strong>How It Helps:</strong> - <strong>Code Quality</strong>: Catch
+errors before runtime - <strong>IDE Support</strong>: Better
+autocomplete and hints - <strong>Documentation</strong>:
+Self-documenting code - <strong>Maintainability</strong>: Easier
+refactoring</p>
+<p><strong>Usage in Project:</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Optional, Union</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing_extensions <span class="im">import</span> TypedDict</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> AnalysisResult(TypedDict):</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    revenue: <span class="bu">float</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    growth_rate: <span class="bu">float</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    insights: List[<span class="bu">str</span>]</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_data(data: List[Dict]) <span class="op">-&gt;</span> Optional[AnalysisResult]:</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Type hints help catch errors</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div>
+<hr />
+<h2 id="dependency-tree">Dependency Tree</h2>
+<h3 id="primary-dependencies-sub-dependencies">Primary Dependencies →
+Sub-dependencies</h3>
+<pre><code>V-Mart Personal AI Agent
+├── Flask (3.0.0)
+│   ├── Werkzeug (3.0.1)
+│   ├── Jinja2 (3.1.2)
+│   ├── Click (8.1.7)
+│   └── ItsDangerous (2.1.2)
+│
+├── google-generativeai (0.3.1)
+│   ├── google-ai-generativelanguage
+│   ├── google-api-core
+│   ├── google-auth
+│   ├── protobuf
+│   └── pydantic
+│
+├── google-api-python-client (2.108.0)
+│   ├── google-auth
+│   ├── google-auth-httplib2
+│   ├── google-api-core
+│   ├── httplib2
+│   └── uritemplate
+│
+├── google-auth-oauthlib (1.2.0)
+│   ├── google-auth
+│   ├── requests-oauthlib
+│   └── click
+│
+├── PyGithub (2.1.1)
+│   ├── pynacl
+│   ├── requests
+│   ├── pyjwt
+│   └── urllib3
+│
+├── pandas (2.1.4)
+│   ├── numpy
+│   ├── python-dateutil
+│   ├── pytz
+│   └── tzdata
+│
+├── authlib (1.3.0)
+│   └── cryptography
+│
+├── requests (2.31.0)
+│   ├── charset-normalizer
+│   ├── idna
+│   ├── urllib3
+│   └── certifi
+│
+├── schedule (1.2.0)
+│   (no dependencies)
+│
+├── python-dotenv (1.0.0)
+│   (no dependencies)
+│
+└── typing-extensions (4.9.0)
+    (no dependencies)</code></pre>
+<hr />
+<h2 id="installation">Installation</h2>
+<h3 id="method-1-using-requirements.txt">Method 1: Using
+requirements.txt</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h3 id="method-2-individual-installation">Method 2: Individual
+Installation</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Web Framework</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install Flask==3.0.0 Werkzeug==3.0.1</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># AI &amp; Google APIs</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install google-generativeai==0.3.1</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install google-api-python-client==2.108.0</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install google-auth-httplib2==0.2.0</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install google-auth-oauthlib==1.2.0</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># GitHub Integration</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install PyGithub==2.1.1</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Authentication &amp; HTTP</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install authlib==1.3.0</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install requests==2.31.0</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Processing</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas==2.1.4</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy==1.26.2</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Utilities</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install schedule==1.2.0</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install python-dotenv==1.0.0</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install typing-extensions==4.9.0</span></code></pre></div>
+<h3 id="method-3-development-installation">Method 3: Development
+Installation</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create virtual environment</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv venv</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate  <span class="co"># On Windows: venv\Scripts\activate</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Install dependencies</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify installation</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> list</span></code></pre></div>
+<hr />
+<h2 id="dependency-summary-by-category">Dependency Summary by
+Category</h2>
+<h3 id="web-api-3-libraries">Web &amp; API (3 libraries)</h3>
+<ul>
+<li><strong>Flask</strong>: Web framework</li>
+<li><strong>Werkzeug</strong>: WSGI utilities</li>
+<li><strong>requests</strong>: HTTP client</li>
+</ul>
+<h3 id="ai-intelligence-1-library">AI &amp; Intelligence (1
+library)</h3>
+<ul>
+<li><strong>google-generativeai</strong>: Gemini AI SDK</li>
+</ul>
+<h3 id="google-cloud-3-libraries">Google Cloud (3 libraries)</h3>
+<ul>
+<li><strong>google-api-python-client</strong>: Gmail, Drive APIs</li>
+<li><strong>google-auth-httplib2</strong>: HTTP transport</li>
+<li><strong>google-auth-oauthlib</strong>: OAuth2 flow</li>
+</ul>
+<h3 id="authentication-1-library">Authentication (1 library)</h3>
+<ul>
+<li><strong>authlib</strong>: OAuth and authentication</li>
+</ul>
+<h3 id="github-1-library">GitHub (1 library)</h3>
+<ul>
+<li><strong>PyGithub</strong>: GitHub API client</li>
+</ul>
+<h3 id="data-processing-2-libraries">Data Processing (2 libraries)</h3>
+<ul>
+<li><strong>pandas</strong>: Data analysis</li>
+<li><strong>numpy</strong>: Numerical computing</li>
+</ul>
+<h3 id="utilities-3-libraries">Utilities (3 libraries)</h3>
+<ul>
+<li><strong>schedule</strong>: Task scheduling</li>
+<li><strong>python-dotenv</strong>: Environment management</li>
+<li><strong>typing-extensions</strong>: Type hints</li>
+</ul>
+<p><strong>Total Primary Dependencies</strong>: 14 libraries<br />
+<strong>Total with Sub-dependencies</strong>: ~50+ libraries</p>
+<hr />
+<h2 id="how-dependencies-work-together">How Dependencies Work
+Together</h2>
+<h3 id="user-authentication-flow">1. User Authentication Flow</h3>
+<pre><code>User → Flask (Web Interface)
+     → authlib (OAuth initiation)
+     → google-auth-oauthlib (Google consent)
+     → google-api-python-client (Access Gmail/Drive)</code></pre>
+<h3 id="ai-query-processing">2. AI Query Processing</h3>
+<pre><code>User Query → Flask (Receives input)
+          → google-generativeai (Gemini AI)
+          → pandas/numpy (Data processing)
+          → Flask (Returns response)</code></pre>
+<h3 id="document-search">3. Document Search</h3>
+<pre><code>Search Request → Flask (API endpoint)
+             → google-api-python-client (Drive/Gmail search)
+             → google-generativeai (Content analysis)
+             → Flask (Formatted results)</code></pre>
+<h3 id="github-integration-1">4. GitHub Integration</h3>
+<pre><code>GitHub Request → Flask (API)
+             → PyGithub (GitHub API)
+             → requests (HTTP calls)
+             → Flask (Response)</code></pre>
+<h3 id="background-tasks">5. Background Tasks</h3>
+<pre><code>schedule → Check emails (every 5 min)
+        → Update cache (every hour)
+        → Cleanup logs (daily)</code></pre>
+<hr />
+<h2 id="performance-considerations">Performance Considerations</h2>
+<h3 id="library-sizes-approximate">Library Sizes (Approximate)</h3>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Size</th>
+<th>Load Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flask</td>
+<td>2 MB</td>
+<td>Fast</td>
+</tr>
+<tr>
+<td>google-generativeai</td>
+<td>5 MB</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>pandas</td>
+<td>20 MB</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>numpy</td>
+<td>15 MB</td>
+<td>Fast</td>
+</tr>
+<tr>
+<td>PyGithub</td>
+<td>3 MB</td>
+<td>Fast</td>
+</tr>
+<tr>
+<td>Others</td>
+<td>10 MB</td>
+<td>Fast</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Installed Size</strong>: ~100-150 MB</p>
+<h3 id="optimization-tips">Optimization Tips</h3>
+<ol type="1">
+<li><strong>Lazy Loading</strong>: Import heavy libraries only when
+needed</li>
+<li><strong>Caching</strong>: Cache API responses to reduce calls</li>
+<li><strong>Async Operations</strong>: Use background tasks for long
+operations</li>
+<li><strong>Connection Pooling</strong>: Reuse HTTP connections</li>
+<li><strong>Data Pagination</strong>: Load data in chunks</li>
+</ol>
+<hr />
+<h2 id="security-best-practices">Security Best Practices</h2>
+<h3 id="api-keys-secrets">1. API Keys &amp; Secrets</h3>
+<ul>
+<li>Store in <code>.env</code> file (never commit to Git)</li>
+<li>Use environment variables (<code>python-dotenv</code>)</li>
+<li>Rotate keys regularly</li>
+</ul>
+<h3 id="oauth-tokens">2. OAuth Tokens</h3>
+<ul>
+<li>Secure token storage (<code>authlib</code>)</li>
+<li>Automatic token refresh</li>
+<li>Minimal scope requests</li>
+</ul>
+<h3 id="http-security">3. HTTP Security</h3>
+<ul>
+<li>Use HTTPS for production</li>
+<li>Verify SSL certificates (<code>requests</code>)</li>
+<li>Sanitize user inputs (Werkzeug)</li>
+</ul>
+<h3 id="data-protection">4. Data Protection</h3>
+<ul>
+<li>Encrypt sensitive data</li>
+<li>Secure session cookies</li>
+<li>Input validation</li>
+</ul>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<h4 id="import-errors">1. Import Errors</h4>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution: Reinstall dependencies</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--force-reinstall</span> <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h4 id="api-authentication-failures">2. API Authentication Failures</h4>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check environment variables</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&quot;from dotenv import load_dotenv; import os; load_dotenv(); print(os.getenv(&#39;GEMINI_API_KEY&#39;))&quot;</span></span></code></pre></div>
+<h4 id="version-conflicts">3. Version Conflicts</h4>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create fresh virtual environment</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> venv</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv venv</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h4 id="google-api-quota-exceeded">4. Google API Quota Exceeded</h4>
+<ul>
+<li>Implement rate limiting</li>
+<li>Use caching</li>
+<li>Batch requests</li>
+</ul>
+<hr />
+<h2 id="future-dependencies-roadmap">Future Dependencies (Roadmap)</h2>
+<h3 id="planned-additions">Planned Additions</h3>
+<ol type="1">
+<li><strong>Database</strong>: SQLAlchemy or MongoDB
+<ul>
+<li>Persistent data storage</li>
+<li>User management</li>
+</ul></li>
+<li><strong>Caching</strong>: Redis
+<ul>
+<li>Fast data caching</li>
+<li>Session storage</li>
+</ul></li>
+<li><strong>Testing</strong>: pytest, pytest-cov
+<ul>
+<li>Unit tests</li>
+<li>Integration tests</li>
+<li>Coverage reports</li>
+</ul></li>
+<li><strong>Logging</strong>: loguru
+<ul>
+<li>Advanced logging</li>
+<li>Log rotation</li>
+</ul></li>
+<li><strong>Monitoring</strong>: Sentry
+<ul>
+<li>Error tracking</li>
+<li>Performance monitoring</li>
+</ul></li>
+<li><strong>Documentation</strong>: Sphinx
+<ul>
+<li>API documentation</li>
+<li>Auto-generated docs</li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="license-information">License Information</h2>
+<p>All dependencies are open-source with permissive licenses:</p>
+<ul>
+<li><strong>Apache 2.0</strong>: Flask, google-* libraries, pandas</li>
+<li><strong>MIT</strong>: requests, PyGithub, schedule,
+python-dotenv</li>
+<li><strong>BSD</strong>: numpy, Werkzeug</li>
+</ul>
+<p>See individual package licenses for details.</p>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>The V-Mart Personal AI Agent leverages a carefully selected stack of
+14 primary Python libraries (plus ~50 sub-dependencies) to deliver:</p>
+<p>✅ <strong>Intelligent AI Capabilities</strong> (Gemini AI)<br />
+✅ <strong>Google Workspace Integration</strong> (Gmail, Drive)<br />
+✅ <strong>GitHub Integration</strong> (Repository management)<br />
+✅ <strong>Data Analysis</strong> (pandas, numpy)<br />
+✅ <strong>Web Interface</strong> (Flask)<br />
+✅ <strong>Security</strong> (OAuth, authlib)<br />
+✅ <strong>Automation</strong> (schedule)<br />
+✅ <strong>Reliability</strong> (Type hints, error handling)</p>
+<p>Each library is chosen for its: - <strong>Reliability</strong>:
+Well-maintained and tested - <strong>Performance</strong>: Optimized for
+production use - <strong>Community</strong>: Strong community support -
+<strong>Documentation</strong>: Comprehensive docs -
+<strong>Integration</strong>: Works well with other libraries</p>
+<p>This technology stack enables the AI agent to provide comprehensive,
+intelligent assistance while maintaining security, performance, and
+reliability.</p>
+<hr />
+<p><strong>Document Version</strong>: 1.0<br />
+<strong>Last Updated</strong>: November 8, 2025<br />
+<strong>Project</strong>: V-Mart Personal AI Agent<br />
+<strong>Repository</strong>:
+https://github.com/ds25041974/V-Mart-Personal-AI-Agent</p>
+</body>
+</html>
