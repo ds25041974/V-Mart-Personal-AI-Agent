@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-11-08" />
+  <title>V-Mart AI Agent: CUSTOM DOMAIN SETUP</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 5px; margin-top: 30px; }
+            h3 { color: #555; margin-top: 20px; }
+            code {
+                background-color: #f4f4f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+            }
+            pre {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            pre code { background-color: transparent; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }
+            table th {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            table tr:nth-child(even) { background-color: #f9f9f9; }
+            blockquote {
+                border-left: 4px solid #3498db;
+                padding-left: 20px;
+                margin: 20px 0;
+                color: #555;
+            }
+            a { color: #3498db; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #3498db;
+            }
+            @media print {
+                body { margin: 0; padding: 20px; }
+                a { color: #000; }
+            }
+        
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart AI Agent: CUSTOM DOMAIN SETUP</h1>
+<p class="date">November 08, 2025</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#custom-domain-setup-vmartai" id="toc-custom-domain-setup-vmartai"><span class="toc-section-number">1</span> Custom Domain Setup: vmartai</a>
+<ul>
+<li><a href="#quick-setup" id="toc-quick-setup"><span class="toc-section-number">1.1</span> Quick Setup</a>
+<ul>
+<li><a href="#option-1-automatic-setup-recommended" id="toc-option-1-automatic-setup-recommended"><span class="toc-section-number">1.1.1</span> Option 1: Automatic Setup
+(Recommended)</a></li>
+<li><a href="#option-2-manual-setup" id="toc-option-2-manual-setup"><span class="toc-section-number">1.1.2</span> Option 2: Manual Setup</a></li>
+<li><a href="#verify-setup" id="toc-verify-setup"><span class="toc-section-number">1.1.3</span> Verify Setup</a></li>
+</ul></li>
+<li><a href="#access-urls" id="toc-access-urls"><span class="toc-section-number">1.2</span> Access URLs</a></li>
+<li><a href="#what-this-does" id="toc-what-this-does"><span class="toc-section-number">1.3</span> What This Does</a></li>
+<li><a href="#remove-custom-domain-optional" id="toc-remove-custom-domain-optional"><span class="toc-section-number">1.4</span> Remove Custom Domain
+(Optional)</a></li>
+<li><a href="#troubleshooting" id="toc-troubleshooting"><span class="toc-section-number">1.5</span> Troubleshooting</a>
+<ul>
+<li><a href="#domain-not-working" id="toc-domain-not-working"><span class="toc-section-number">1.5.1</span> Domain not working?</a></li>
+<li><a href="#permission-denied" id="toc-permission-denied"><span class="toc-section-number">1.5.2</span> Permission denied?</a></li>
+</ul></li>
+<li><a href="#benefits" id="toc-benefits"><span class="toc-section-number">1.6</span> Benefits</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="custom-domain-setup-vmartai"><span class="header-section-number">1</span> Custom Domain Setup: vmartai</h1>
+<h2 data-number="1.1" id="quick-setup"><span class="header-section-number">1.1</span> Quick Setup</h2>
+<p>To access your V-Mart AI Agent at <code>http://vmartai:5000</code>
+instead of <code>http://localhost:5000</code>, follow these simple
+steps:</p>
+<h3 data-number="1.1.1" id="option-1-automatic-setup-recommended"><span class="header-section-number">1.1.1</span> Option 1: Automatic Setup
+(Recommended)</h3>
+<p>Run this command and enter your password when prompted:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;127.0.0.1       vmartai&quot;</span> <span class="kw">|</span> <span class="fu">sudo</span> tee <span class="at">-a</span> /etc/hosts</span></code></pre></div>
+<h3 data-number="1.1.2" id="option-2-manual-setup"><span class="header-section-number">1.1.2</span> Option 2: Manual Setup</h3>
+<ol type="1">
+<li><p>Open Terminal</p></li>
+<li><p>Edit the hosts file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> nano /etc/hosts</span></code></pre></div></li>
+<li><p>Add this line at the end of the file:</p>
+<pre><code>127.0.0.1       vmartai</code></pre></li>
+<li><p>Save and exit:</p>
+<ul>
+<li>Press <code>Ctrl + O</code> (to save)</li>
+<li>Press <code>Enter</code> (to confirm)</li>
+<li>Press <code>Ctrl + X</code> (to exit)</li>
+</ul></li>
+</ol>
+<h3 data-number="1.1.3" id="verify-setup"><span class="header-section-number">1.1.3</span> Verify Setup</h3>
+<p>Test that vmartai is working:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the domain</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://vmartai:5000/health</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or open in browser</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> http://vmartai:5000</span></code></pre></div>
+<h2 data-number="1.2" id="access-urls"><span class="header-section-number">1.2</span> Access URLs</h2>
+<p>After setup, you can use either:</p>
+<ul>
+<li><strong>Custom Domain:</strong>
+<code>http://vmartai:5000</code></li>
+<li><strong>Standard:</strong> <code>http://localhost:5000</code></li>
+</ul>
+<p>Both URLs point to the same V-Mart AI Agent application.</p>
+<h2 data-number="1.3" id="what-this-does"><span class="header-section-number">1.3</span> What This Does</h2>
+<p>The hosts file tells your Mac that when you type
+<code>vmartai</code>, it should connect to <code>127.0.0.1</code>
+(localhost). This is:</p>
+<ul>
+<li>✅ <strong>Local only</strong> - Works only on your Mac</li>
+<li>✅ <strong>No internet required</strong> - Completely offline</li>
+<li>✅ <strong>Secure</strong> - No external access</li>
+<li>✅ <strong>Simple</strong> - Just a name alias</li>
+</ul>
+<h2 data-number="1.4" id="remove-custom-domain-optional"><span class="header-section-number">1.4</span> Remove Custom Domain
+(Optional)</h2>
+<p>If you want to remove the vmartai domain later:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> sed <span class="at">-i</span> <span class="st">&#39;&#39;</span> <span class="st">&#39;/vmartai/d&#39;</span> /etc/hosts</span></code></pre></div>
+<h2 data-number="1.5" id="troubleshooting"><span class="header-section-number">1.5</span> Troubleshooting</h2>
+<h3 data-number="1.5.1" id="domain-not-working"><span class="header-section-number">1.5.1</span> Domain not working?</h3>
+<ol type="1">
+<li><p><strong>Verify hosts entry:</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /etc/hosts <span class="kw">|</span> <span class="fu">grep</span> vmartai</span></code></pre></div>
+<p>Should show: <code>127.0.0.1       vmartai</code></p></li>
+<li><p><strong>Flush DNS cache:</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dscacheutil <span class="at">-flushcache</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> killall <span class="at">-HUP</span> mDNSResponder</span></code></pre></div></li>
+<li><p><strong>Test with ping:</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ping</span> vmartai</span></code></pre></div>
+<p>Should show: <code>PING vmartai (127.0.0.1)</code></p></li>
+</ol>
+<h3 data-number="1.5.2" id="permission-denied"><span class="header-section-number">1.5.2</span> Permission denied?</h3>
+<p>You need administrator privileges. Make sure to use <code>sudo</code>
+and enter your Mac password.</p>
+<h2 data-number="1.6" id="benefits"><span class="header-section-number">1.6</span> Benefits</h2>
+<ul>
+<li>🎯 <strong>Easier to remember:</strong> <code>vmartai</code> vs
+<code>localhost:5000</code></li>
+<li>🚀 <strong>Professional:</strong> Looks cleaner in browser
+bookmarks</li>
+<li>💼 <strong>Branded:</strong> Uses your V-Mart AI branding</li>
+<li>🔧 <strong>Flexible:</strong> Can change port without updating
+URL</li>
+</ul>
+<hr />
+<p><strong>Note:</strong> This is a local-only setup. The vmartai domain
+will only work on your Mac.</p>
+</body>
+</html>

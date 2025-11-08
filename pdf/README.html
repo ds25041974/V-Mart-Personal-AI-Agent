@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-11-08" />
+  <title>V-Mart AI Agent: README</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 5px; margin-top: 30px; }
+            h3 { color: #555; margin-top: 20px; }
+            code {
+                background-color: #f4f4f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+            }
+            pre {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            pre code { background-color: transparent; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }
+            table th {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            table tr:nth-child(even) { background-color: #f9f9f9; }
+            blockquote {
+                border-left: 4px solid #3498db;
+                padding-left: 20px;
+                margin: 20px 0;
+                color: #555;
+            }
+            a { color: #3498db; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #3498db;
+            }
+            @media print {
+                body { margin: 0; padding: 20px; }
+                a { color: #000; }
+            }
+        
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart AI Agent: README</h1>
+<p class="date">November 08, 2025</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#v-mart-personal-ai-agent" id="toc-v-mart-personal-ai-agent"><span class="toc-section-number">1</span> 🤖 V-Mart Personal AI Agent</a>
+<ul>
+<li><a href="#documentation" id="toc-documentation"><span class="toc-section-number">1.1</span> 📚 Documentation</a></li>
+<li><a href="#features" id="toc-features"><span class="toc-section-number">1.2</span> 🌟 Features</a>
+<ul>
+<li><a href="#core-capabilities" id="toc-core-capabilities"><span class="toc-section-number">1.2.1</span> Core Capabilities</a></li>
+<li><a href="#security-authentication" id="toc-security-authentication"><span class="toc-section-number">1.2.2</span> Security &amp;
+Authentication</a></li>
+<li><a href="#multi-platform-support" id="toc-multi-platform-support"><span class="toc-section-number">1.2.3</span> Multi-Platform Support</a></li>
+</ul></li>
+<li><a href="#prerequisites" id="toc-prerequisites"><span class="toc-section-number">1.3</span> 📋 Prerequisites</a></li>
+<li><a href="#quick-start" id="toc-quick-start"><span class="toc-section-number">1.4</span> 🚀 Quick Start</a>
+<ul>
+<li><a href="#option-1-run-as-24x7-service-recommended-for-macos" id="toc-option-1-run-as-24x7-service-recommended-for-macos"><span class="toc-section-number">1.4.1</span> Option 1: Run as 24x7 Service
+(Recommended for macOS)</a></li>
+<li><a href="#option-2-manual-start" id="toc-option-2-manual-start"><span class="toc-section-number">1.4.2</span> Option 2: Manual Start</a></li>
+<li><a href="#clone-the-repository" id="toc-clone-the-repository"><span class="toc-section-number">1.4.3</span> 1. Clone the Repository</a></li>
+<li><a href="#install-dependencies" id="toc-install-dependencies"><span class="toc-section-number">1.4.4</span> 2. Install Dependencies</a></li>
+<li><a href="#configure-environment-variables" id="toc-configure-environment-variables"><span class="toc-section-number">1.4.5</span> 3. Configure Environment
+Variables</a></li>
+<li><a href="#set-up-google-oauth" id="toc-set-up-google-oauth"><span class="toc-section-number">1.4.6</span> 4. Set Up Google OAuth</a></li>
+<li><a href="#get-gemini-api-key" id="toc-get-gemini-api-key"><span class="toc-section-number">1.4.7</span> 5. Get Gemini API Key</a></li>
+<li><a href="#run-the-application" id="toc-run-the-application"><span class="toc-section-number">1.4.8</span> 6. Run the Application</a></li>
+</ul></li>
+<li><a href="#project-structure" id="toc-project-structure"><span class="toc-section-number">1.5</span> 📚 Project Structure</a></li>
+<li><a href="#usage-guide" id="toc-usage-guide"><span class="toc-section-number">1.6</span> 🎯 Usage Guide</a>
+<ul>
+<li><a href="#chat-interface" id="toc-chat-interface"><span class="toc-section-number">1.6.1</span> Chat Interface</a></li>
+<li><a href="#data-analysis" id="toc-data-analysis"><span class="toc-section-number">1.6.2</span> Data Analysis</a></li>
+<li><a href="#file-management" id="toc-file-management"><span class="toc-section-number">1.6.3</span> File Management</a></li>
+<li><a href="#decision-support" id="toc-decision-support"><span class="toc-section-number">1.6.4</span> Decision Support</a></li>
+</ul></li>
+<li><a href="#advanced-configuration" id="toc-advanced-configuration"><span class="toc-section-number">1.7</span> 🔧 Advanced Configuration</a>
+<ul>
+<li><a href="#auto-start-on-system-boot" id="toc-auto-start-on-system-boot"><span class="toc-section-number">1.7.1</span> Auto-Start on System
+Boot</a></li>
+</ul></li>
+<li><a href="#testing" id="toc-testing"><span class="toc-section-number">1.8</span> 🧪 Testing</a></li>
+<li><a href="#contributing" id="toc-contributing"><span class="toc-section-number">1.9</span> 🤝 Contributing</a></li>
+<li><a href="#license" id="toc-license"><span class="toc-section-number">1.10</span> 📝 License</a></li>
+<li><a href="#support" id="toc-support"><span class="toc-section-number">1.11</span> 🆘 Support</a></li>
+<li><a href="#updates" id="toc-updates"><span class="toc-section-number">1.12</span> 🔄 Updates</a></li>
+<li><a href="#important-notes" id="toc-important-notes"><span class="toc-section-number">1.13</span> ⚠️ Important Notes</a></li>
+<li><a href="#acknowledgments" id="toc-acknowledgments"><span class="toc-section-number">1.14</span> 🎉 Acknowledgments</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="v-mart-personal-ai-agent"><span class="header-section-number">1</span> 🤖 V-Mart Personal AI Agent</h1>
+<p><a href="https://github.com/ds25041974/V-Mart-Personal-AI-Agent/actions/workflows/python-app.yml"><img role="img" aria-label="Python Application CI" src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODgiIGhlaWdodD0iMjAiPgogIDx0aXRsZT5QeXRob24gQXBwbGljYXRpb24gQ0kgLSBmYWlsaW5nPC90aXRsZT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0id29ya2Zsb3ctZmlsbCIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiM0NDRENTYiIG9mZnNldD0iMCUiPjwvc3RvcD4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzI0MjkyRSIgb2Zmc2V0PSIxMDAlIj48L3N0b3A+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzdGF0ZS1maWxsIiB4MT0iNTAlIiB5MT0iMCUiIHgyPSI1MCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iI0Q3M0E0OSIgb2Zmc2V0PSIwJSI+PC9zdG9wPgogICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjQ0IyNDMxIiBvZmZzZXQ9IjEwMCUiPjwvc3RvcD4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICA8ZyBmb250LWZhbWlseT0iJiMzOTtEZWphVnUgU2FucyYjMzk7LFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgICA8cGF0aCBpZD0id29ya2Zsb3ctYmciIGQ9Ik0wLDMgQzAsMS4zNDMxIDEuMzU1MiwwIDMuMDI3MDI3MDMsMCBMMTQ1LDAgTDE0NSwyMCBMMy4wMjcwMjcwMywyMCBDMS4zNTUyLDIwIDAsMTguNjU2OSAwLDE3IEwwLDMgWiIgZmlsbD0idXJsKCN3b3JrZmxvdy1maWxsKSIgZmlsbC1ydWxlPSJub256ZXJvIj48L3BhdGg+CiAgICAgIDx0ZXh0IGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiPgogICAgICAgIDx0c3BhbiB4PSIyMi4xOTgxOTgyIiB5PSIxNSIgYXJpYS1oaWRkZW49InRydWUiPlB5dGhvbiBBcHBsaWNhdGlvbiBDSTwvdHNwYW4+CiAgICAgIDwvdGV4dD4KICAgICAgPHRleHQgZmlsbD0iI0ZGRkZGRiI+CiAgICAgICAgPHRzcGFuIHg9IjIyLjE5ODE5ODIiIHk9IjE0Ij5QeXRob24gQXBwbGljYXRpb24gQ0k8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICA8L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDUpIiBmb250LWZhbWlseT0iJiMzOTtEZWphVnUgU2FucyYjMzk7LFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgICA8cGF0aCBkPSJNMCAwaDQwLjQ3QzQxLjg2OSAwIDQzIDEuMzQzIDQzIDN2MTRjMCAxLjY1Ny0xLjEzMiAzLTIuNTMgM0gwVjB6IiBpZD0ic3RhdGUtYmciIGZpbGw9InVybCgjc3RhdGUtZmlsbCkiIGZpbGwtcnVsZT0ibm9uemVybyI+PC9wYXRoPgogICAgICA8dGV4dCBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICAgICAgPHRzcGFuIHg9IjUiIHk9IjE1Ij5mYWlsaW5nPC90c3Bhbj4KICAgICAgPC90ZXh0PgogICAgICA8dGV4dCBmaWxsPSIjRkZGRkZGIj4KICAgICAgICA8dHNwYW4geD0iNSIgeT0iMTQiPmZhaWxpbmc8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICA8L2c+CiAgICA8cGF0aCBmaWxsPSIjOTU5REE1IiBkPSJNMTEgM2MtMy44NjggMC03IDMuMTMyLTcgN2E2Ljk5NiA2Ljk5NiAwIDAgMCA0Ljc4NiA2LjY0MWMuMzUuMDYyLjQ4Mi0uMTQ4LjQ4Mi0uMzMyIDAtLjE2Ni0uMDEtLjcxOC0uMDEtMS4zMDQtMS43NTguMzI0LTIuMjEzLS40MjktMi4zNTMtLjgyMi0uMDc5LS4yMDItLjQyLS44MjMtLjcxNy0uOTktLjI0NS0uMTMtLjU5NS0uNDU0LS4wMS0uNDYzLjU1Mi0uMDA5Ljk0Ni41MDggMS4wNzcuNzE4LjYzIDEuMDU4IDEuNjM2Ljc2IDIuMDM5LjU3Ny4wNjEtLjQ1NS4yNDUtLjc2MS40NDYtLjkzNi0xLjU1Ny0uMTc1LTMuMTg1LS43NzktMy4xODUtMy40NTYgMC0uNzYyLjI3MS0xLjM5Mi43MTgtMS44ODItLjA3LS4xNzUtLjMxNS0uODkyLjA3LTEuODU1IDAgMCAuNTg2LS4xODMgMS45MjUuNzE4YTYuNSA2LjUgMCAwIDEgMS43NS0uMjM2IDYuNSA2LjUgMCAwIDEgMS43NS4yMzZjMS4zMzgtLjkxIDEuOTI1LS43MTggMS45MjUtLjcxOC4zODUuOTYzLjE0IDEuNjguMDcgMS44NTUuNDQ2LjQ5LjcxNyAxLjExMi43MTcgMS44ODIgMCAyLjY4Ni0xLjYzNiAzLjI4LTMuMTk0IDMuNDU2LjI1NC4yMTkuNDczLjYzOS40NzMgMS4yOTUgMCAuOTM2LS4wMDkgMS42ODktLjAwOSAxLjkyNSAwIC4xODQuMTMxLjQwMi40ODEuMzMyQTcuMDExIDcuMDExIDAgMCAwIDE4IDEwYzAtMy44NjctMy4xMzMtNy03LTd6Ij48L3BhdGg+CiAgPC9nPgo8L3N2Zz4KCg==" alt="Python Application CI" /></a> <a href="https://www.python.org/downloads/"><img role="img" aria-label="Python Version" src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4NiIgaGVpZ2h0PSIyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJweXRob246IDMuOCsiPjx0aXRsZT5weXRob246IDMuOCs8L3RpdGxlPjxsaW5lYXJHcmFkaWVudCBpZD0icyIgeDI9IjAiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNiYmIiIHN0b3Atb3BhY2l0eT0iLjEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3Atb3BhY2l0eT0iLjEiLz48L2xpbmVhckdyYWRpZW50PjxjbGlwUGF0aCBpZD0iciI+PHJlY3Qgd2lkdGg9Ijg2IiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iI2ZmZiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI3IpIj48cmVjdCB3aWR0aD0iNDkiIGhlaWdodD0iMjAiIGZpbGw9IiM1NTUiLz48cmVjdCB4PSI0OSIgd2lkdGg9IjM3IiBoZWlnaHQ9IjIwIiBmaWxsPSIjMDA3ZWM2Ii8+PHJlY3Qgd2lkdGg9Ijg2IiBoZWlnaHQ9IjIwIiBmaWxsPSJ1cmwoI3MpIi8+PC9nPjxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJWZXJkYW5hLEdlbmV2YSxEZWphVnUgU2FucyxzYW5zLXNlcmlmIiB0ZXh0LXJlbmRlcmluZz0iZ2VvbWV0cmljUHJlY2lzaW9uIiBmb250LXNpemU9IjExMCI+PHRleHQgYXJpYS1oaWRkZW49InRydWUiIHg9IjI1NSIgeT0iMTUwIiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIiB0cmFuc2Zvcm09InNjYWxlKC4xKSIgdGV4dExlbmd0aD0iMzkwIj5weXRob248L3RleHQ+PHRleHQgeD0iMjU1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiBmaWxsPSIjZmZmIiB0ZXh0TGVuZ3RoPSIzOTAiPnB5dGhvbjwvdGV4dD48dGV4dCBhcmlhLWhpZGRlbj0idHJ1ZSIgeD0iNjY1IiB5PSIxNTAiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiB0ZXh0TGVuZ3RoPSIyNzAiPjMuOCs8L3RleHQ+PHRleHQgeD0iNjY1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiBmaWxsPSIjZmZmIiB0ZXh0TGVuZ3RoPSIyNzAiPjMuOCs8L3RleHQ+PC9nPjwvc3ZnPg==" alt="Python Version" /></a> <a href="LICENSE"><img role="img" aria-label="License" src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3OCIgaGVpZ2h0PSIyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJsaWNlbnNlOiBNSVQiPjx0aXRsZT5saWNlbnNlOiBNSVQ8L3RpdGxlPjxsaW5lYXJHcmFkaWVudCBpZD0icyIgeDI9IjAiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNiYmIiIHN0b3Atb3BhY2l0eT0iLjEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3Atb3BhY2l0eT0iLjEiLz48L2xpbmVhckdyYWRpZW50PjxjbGlwUGF0aCBpZD0iciI+PHJlY3Qgd2lkdGg9Ijc4IiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iI2ZmZiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI3IpIj48cmVjdCB3aWR0aD0iNDciIGhlaWdodD0iMjAiIGZpbGw9IiM1NTUiLz48cmVjdCB4PSI0NyIgd2lkdGg9IjMxIiBoZWlnaHQ9IjIwIiBmaWxsPSIjOTdjYTAwIi8+PHJlY3Qgd2lkdGg9Ijc4IiBoZWlnaHQ9IjIwIiBmaWxsPSJ1cmwoI3MpIi8+PC9nPjxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJWZXJkYW5hLEdlbmV2YSxEZWphVnUgU2FucyxzYW5zLXNlcmlmIiB0ZXh0LXJlbmRlcmluZz0iZ2VvbWV0cmljUHJlY2lzaW9uIiBmb250LXNpemU9IjExMCI+PHRleHQgYXJpYS1oaWRkZW49InRydWUiIHg9IjI0NSIgeT0iMTUwIiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIiB0cmFuc2Zvcm09InNjYWxlKC4xKSIgdGV4dExlbmd0aD0iMzcwIj5saWNlbnNlPC90ZXh0Pjx0ZXh0IHg9IjI0NSIgeT0iMTQwIiB0cmFuc2Zvcm09InNjYWxlKC4xKSIgZmlsbD0iI2ZmZiIgdGV4dExlbmd0aD0iMzcwIj5saWNlbnNlPC90ZXh0Pjx0ZXh0IGFyaWEtaGlkZGVuPSJ0cnVlIiB4PSI2MTUiIHk9IjE1MCIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyIgdHJhbnNmb3JtPSJzY2FsZSguMSkiIHRleHRMZW5ndGg9IjIxMCI+TUlUPC90ZXh0Pjx0ZXh0IHg9IjYxNSIgeT0iMTQwIiB0cmFuc2Zvcm09InNjYWxlKC4xKSIgZmlsbD0iI2ZmZiIgdGV4dExlbmd0aD0iMjEwIj5NSVQ8L3RleHQ+PC9nPjwvc3ZnPg==" alt="License" /></a> <a href="https://github.com/ds25041974/V-Mart-Personal-AI-Agent"><img role="img" aria-label="Platform" src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMTAiIGhlaWdodD0iMjAiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0icGxhdGZvcm06IFdpbmRvd3MgfCBtYWNPUyB8IExpbnV4Ij48dGl0bGU+cGxhdGZvcm06IFdpbmRvd3MgfCBtYWNPUyB8IExpbnV4PC90aXRsZT48bGluZWFyR3JhZGllbnQgaWQ9InMiIHgyPSIwIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+PC9saW5lYXJHcmFkaWVudD48Y2xpcFBhdGggaWQ9InIiPjxyZWN0IHdpZHRoPSIyMTAiIGhlaWdodD0iMjAiIHJ4PSIzIiBmaWxsPSIjZmZmIi8+PC9jbGlwUGF0aD48ZyBjbGlwLXBhdGg9InVybCgjcikiPjxyZWN0IHdpZHRoPSI1NyIgaGVpZ2h0PSIyMCIgZmlsbD0iIzU1NSIvPjxyZWN0IHg9IjU3IiB3aWR0aD0iMTUzIiBoZWlnaHQ9IjIwIiBmaWxsPSIjOWY5ZjlmIi8+PHJlY3Qgd2lkdGg9IjIxMCIgaGVpZ2h0PSIyMCIgZmlsbD0idXJsKCNzKSIvPjwvZz48ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iVmVyZGFuYSxHZW5ldmEsRGVqYVZ1IFNhbnMsc2Fucy1zZXJpZiIgdGV4dC1yZW5kZXJpbmc9Imdlb21ldHJpY1ByZWNpc2lvbiIgZm9udC1zaXplPSIxMTAiPjx0ZXh0IGFyaWEtaGlkZGVuPSJ0cnVlIiB4PSIyOTUiIHk9IjE1MCIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyIgdHJhbnNmb3JtPSJzY2FsZSguMSkiIHRleHRMZW5ndGg9IjQ3MCI+cGxhdGZvcm08L3RleHQ+PHRleHQgeD0iMjk1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiBmaWxsPSIjZmZmIiB0ZXh0TGVuZ3RoPSI0NzAiPnBsYXRmb3JtPC90ZXh0Pjx0ZXh0IGFyaWEtaGlkZGVuPSJ0cnVlIiB4PSIxMzI1IiB5PSIxNTAiIGZpbGw9IiMwMTAxMDEiIGZpbGwtb3BhY2l0eT0iLjMiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiB0ZXh0TGVuZ3RoPSIxNDMwIj5XaW5kb3dzIHwgbWFjT1MgfCBMaW51eDwvdGV4dD48dGV4dCB4PSIxMzI1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiBmaWxsPSIjZmZmIiB0ZXh0TGVuZ3RoPSIxNDMwIj5XaW5kb3dzIHwgbWFjT1MgfCBMaW51eDwvdGV4dD48L2c+PC9zdmc+" alt="Platform" /></a></p>
+<p><strong>Developed by: DSR | Inspired by: LA | Powered by: Gemini
+AI</strong></p>
+<hr />
+<p>A comprehensive personal AI agent powered by Google’s Gemini AI,
+featuring document search, Gmail/Drive integration, and multi-platform
+support.</p>
+<h2 data-number="1.1" id="documentation"><span class="header-section-number">1.1</span> 📚 Documentation</h2>
+<p><strong>🔴 HIGH PRIORITY - START HERE:</strong> - ⭐ <a href="docs/ARCHITECTURE.md"><strong>ARCHITECTURE.md</strong></a> -
+Complete system architecture with flowcharts and objectives - ⭐ <a href="docs/CHATBOT_INTERFACE_GUIDE.md"><strong>CHATBOT_INTERFACE_GUIDE.md</strong></a>
+- Detailed guide to all tabs and features - ⭐ <a href="docs/SERVICE_24x7_SETUP.md"><strong>SERVICE_24x7_SETUP.md</strong></a>
+- 24x7 auto-start service configuration - <a href="docs/SETUP_GUIDE.md">SETUP_GUIDE.md</a> - Complete setup
+instructions for Windows, macOS, and Linux - <a href="docs/USER_GUIDE.md">USER_GUIDE.md</a> - Comprehensive usage
+guide</p>
+<p><strong>Additional Resources:</strong> - <a href="docs/GOOGLE_OAUTH_SETUP.md">GOOGLE_OAUTH_SETUP.md</a> - Google
+OAuth configuration - <a href="docs/API_REFERENCE.md">API_REFERENCE.md</a> - API documentation
+for developers - <a href="QUICK_SETUP.md">QUICK_SETUP.md</a> - Quick
+start guide</p>
+<h2 data-number="1.2" id="features"><span class="header-section-number">1.2</span> 🌟 Features</h2>
+<h3 data-number="1.2.1" id="core-capabilities"><span class="header-section-number">1.2.1</span> Core Capabilities</h3>
+<ul>
+<li><strong>💬 Intelligent Chat</strong>: Context-aware conversations
+with Gemini 2.0 Flash</li>
+<li><strong>📁 Document Search</strong>: Scan and search local files
+(PDF, Word, Excel, PowerPoint, text files)</li>
+<li><strong>📊 Data Analysis</strong>: Advanced analysis for financial,
+sales, and inventory data</li>
+<li><strong>🎯 Decision Support</strong>: AI-powered recommendations
+with pros/cons analysis</li>
+<li><strong>📧 Email Integration</strong>: Read emails, send automated
+messages, and schedule bulk emails</li>
+<li><strong>📈 Google Workspace Integration</strong>: Access Google
+Drive, Sheets, Docs, and Slides</li>
+<li><strong>🔄 GitHub Integration</strong>: Manage repositories, read
+files, and create issues</li>
+<li><strong>⏰ Task Scheduler</strong>: Automate recurring tasks and
+emails</li>
+<li><strong>🧠 Reasoning Engine</strong>: Step-by-step analysis for
+complex problems</li>
+</ul>
+<h3 data-number="1.2.2" id="security-authentication"><span class="header-section-number">1.2.2</span> Security &amp;
+Authentication</h3>
+<ul>
+<li><strong>🔐 Google OAuth</strong>: Secure authentication</li>
+<li><strong>� Demo Mode</strong>: Quick access without OAuth setup</li>
+<li><strong>🔒 Session Management</strong>: Secure user sessions</li>
+<li><strong>🛡️ Push Protection</strong>: GitHub secret scanning
+enabled</li>
+</ul>
+<h3 data-number="1.2.3" id="multi-platform-support"><span class="header-section-number">1.2.3</span> Multi-Platform Support</h3>
+<ul>
+<li>✅ Windows 10+</li>
+<li>✅ macOS 10.15+</li>
+<li>✅ Linux (Ubuntu/Debian/Fedora/Arch)</li>
+</ul>
+<h2 data-number="1.3" id="prerequisites"><span class="header-section-number">1.3</span> 📋 Prerequisites</h2>
+<ul>
+<li>Python 3.8 or higher</li>
+<li>Google Cloud account (optional, for OAuth)</li>
+<li>Gemini API key (free tier available)</li>
+<li>Gemini API key</li>
+<li>GitHub personal access token (optional, for GitHub features)</li>
+</ul>
+<h2 data-number="1.4" id="quick-start"><span class="header-section-number">1.4</span> 🚀 Quick Start</h2>
+<h3 data-number="1.4.1" id="option-1-run-as-24x7-service-recommended-for-macos"><span class="header-section-number">1.4.1</span> Option 1: Run as 24x7 Service
+(Recommended for macOS)</h3>
+<p><strong>Auto-start on boot, restart on crash, always
+available:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to project directory</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and start the service</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./install_service.sh</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check service status</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">./check_service.sh</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Access the application</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> http://localhost:5000</span></code></pre></div>
+<p><strong>Benefits:</strong> - ✅ Starts automatically on system boot -
+✅ Restarts automatically if it crashes - ✅ Waits for network before
+starting - ✅ Runs 24x7 without manual intervention - ✅ Complete
+logging and monitoring</p>
+<p>📖 <strong>Full Documentation</strong>: <a href="docs/SERVICE_24x7_SETUP.md">SERVICE_24x7_SETUP.md</a></p>
+<hr />
+<h3 data-number="1.4.2" id="option-2-manual-start"><span class="header-section-number">1.4.2</span> Option 2: Manual Start</h3>
+<h3 data-number="1.4.3" id="clone-the-repository"><span class="header-section-number">1.4.3</span> 1. Clone the Repository</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ds25041974/dinesh-assistant-deployment.git</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;V-Mart Personal AI Agent&quot;</span></span></code></pre></div>
+<h3 data-number="1.4.4" id="install-dependencies"><span class="header-section-number">1.4.4</span> 2. Install Dependencies</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h3 data-number="1.4.5" id="configure-environment-variables"><span class="header-section-number">1.4.5</span> 3. Configure Environment
+Variables</h3>
+<p>Copy the example environment file and fill in your credentials:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env</span></code></pre></div>
+<p>Edit <code>.env</code> with your actual credentials:</p>
+<pre class="env"><code>GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GEMINI_API_KEY=your_gemini_api_key
+GITHUB_TOKEN=your_github_token
+SECRET_KEY=your_random_secret_key</code></pre>
+<h3 data-number="1.4.6" id="set-up-google-oauth"><span class="header-section-number">1.4.6</span> 4. Set Up Google OAuth</h3>
+<ol type="1">
+<li>Go to <a href="https://console.cloud.google.com/">Google Cloud
+Console</a></li>
+<li>Create a new project or select an existing one</li>
+<li>Enable the following APIs:
+<ul>
+<li>Google Drive API</li>
+<li>Gmail API</li>
+<li>Google Sheets API</li>
+<li>Google Docs API</li>
+<li>Google Slides API</li>
+</ul></li>
+<li>Create OAuth 2.0 credentials</li>
+<li>Add authorized redirect URIs:
+<ul>
+<li><code>http://localhost:5000/authorize</code></li>
+<li><code>http://127.0.0.1:5000/authorize</code></li>
+</ul></li>
+<li>Copy the Client ID and Client Secret to your <code>.env</code>
+file</li>
+</ol>
+<h3 data-number="1.4.7" id="get-gemini-api-key"><span class="header-section-number">1.4.7</span> 5. Get Gemini API Key</h3>
+<ol type="1">
+<li>Visit <a href="https://makersuite.google.com/app/apikey">Google AI
+Studio</a></li>
+<li>Create an API key</li>
+<li>Copy it to your <code>.env</code> file</li>
+</ol>
+<h3 data-number="1.4.8" id="run-the-application"><span class="header-section-number">1.4.8</span> 6. Run the Application</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py</span></code></pre></div>
+<p>Visit <code>http://localhost:5000</code> in your browser.</p>
+<h2 data-number="1.5" id="project-structure"><span class="header-section-number">1.5</span> 📚 Project Structure</h2>
+<pre><code>V-Mart Personal AI Agent/
+├── src/
+│   ├── agent/              # Core AI agent logic
+│   │   └── gemini_agent.py # Gemini LLM integration
+│   ├── auth/               # Authentication handling
+│   │   └── google_auth.py  # Google OAuth
+│   ├── connectors/         # External service connectors
+│   │   ├── google_drive.py
+│   │   ├── gmail_connector.py
+│   │   ├── google_sheets_connector.py
+│   │   ├── google_docs_connector.py
+│   │   ├── google_slides_connector.py
+│   │   ├── github_connector.py
+│   │   └── local_files.py
+│   ├── scheduler/          # Task automation
+│   │   ├── task_scheduler.py
+│   │   └── auto_emailer.py
+│   └── web/                # Flask web application
+│       ├── app.py          # Main Flask app
+│       ├── templates/      # HTML templates
+│       └── static/         # CSS and assets
+├── tests/                  # Unit tests
+├── docs/                   # Documentation
+├── scripts/                # Utility scripts
+├── main.py                 # Entry point
+├── requirements.txt        # Dependencies
+└── README.md              # This file</code></pre>
+<h2 data-number="1.6" id="usage-guide"><span class="header-section-number">1.6</span> 🎯 Usage Guide</h2>
+<h3 data-number="1.6.1" id="chat-interface"><span class="header-section-number">1.6.1</span> Chat Interface</h3>
+<p>The chat interface provides context-aware conversations with the AI
+agent. Simply type your question and get intelligent responses.</p>
+<p><strong>Example queries:</strong> - “Analyze our Q4 sales
+performance” - “What factors should I consider for inventory planning?”
+- “Summarize this document”</p>
+<h3 data-number="1.6.2" id="data-analysis"><span class="header-section-number">1.6.2</span> Data Analysis</h3>
+<p>Upload or paste data in various formats (CSV, JSON, text) and select
+the analysis type: - <strong>General</strong>: Overall insights and
+patterns - <strong>Financial</strong>: Profitability, trends, financial
+health - <strong>Sales</strong>: Sales patterns, trends, forecasts -
+<strong>Inventory</strong>: Stock levels, turnover analysis</p>
+<h3 data-number="1.6.3" id="file-management"><span class="header-section-number">1.6.3</span> File Management</h3>
+<ul>
+<li>Browse local files</li>
+<li>Search files by name</li>
+<li>Read file contents</li>
+<li>Analyze documents with AI</li>
+</ul>
+<h3 data-number="1.6.4" id="decision-support"><span class="header-section-number">1.6.4</span> Decision Support</h3>
+<p>Get AI-powered recommendations for business decisions: 1. Enter the
+decision title 2. Provide context and background 3. List possible
+options 4. Get detailed pros/cons analysis with recommendations</p>
+<h2 data-number="1.7" id="advanced-configuration"><span class="header-section-number">1.7</span> 🔧 Advanced Configuration</h2>
+<h3 data-number="1.7.1" id="auto-start-on-system-boot"><span class="header-section-number">1.7.1</span> Auto-Start on System
+Boot</h3>
+<h4 data-number="1.7.1.1" id="macos-launchagent"><span class="header-section-number">1.7.1.1</span> macOS (LaunchAgent)</h4>
+<p>Create a plist file at
+<code>~/Library/LaunchAgents/com.vmart.agent.plist</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">plist</span> PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;<span class="dt">&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">plist</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span>&gt;</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dict</span>&gt;</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;Label&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">string</span>&gt;com.vmart.agent&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;ProgramArguments&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">array</span>&gt;</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">string</span>&gt;/usr/bin/python3&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">string</span>&gt;/path/to/V-Mart Personal AI Agent/main.py&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">array</span>&gt;</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;RunAtLoad&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">true</span>/&gt;</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;KeepAlive&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">true</span>/&gt;</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dict</span>&gt;</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">plist</span>&gt;</span></code></pre></div>
+<p>Load it with:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> load ~/Library/LaunchAgents/com.vmart.agent.plist</span></code></pre></div>
+<h4 data-number="1.7.1.2" id="linux-systemd"><span class="header-section-number">1.7.1.2</span> Linux (systemd)</h4>
+<p>Create <code>/etc/systemd/system/vmart-agent.service</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[Unit]</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dt">Description</span><span class="ot">=</span><span class="st">V-Mart Personal AI Agent</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="dt">After</span><span class="ot">=</span><span class="st">network.target</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">[Service]</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="dt">Type</span><span class="ot">=</span><span class="st">simple</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="dt">User</span><span class="ot">=</span><span class="st">yourusername</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="dt">WorkingDirectory</span><span class="ot">=</span><span class="st">/path/to/V-Mart Personal AI Agent</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="dt">ExecStart</span><span class="ot">=</span><span class="st">/usr/bin/python3 /path/to/V-Mart Personal AI Agent/main.py</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="dt">Restart</span><span class="ot">=</span><span class="st">always</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="dt">RestartSec</span><span class="ot">=</span><span class="dv">10</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="kw">[Install]</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="dt">WantedBy</span><span class="ot">=</span><span class="st">multi-user.target</span></span></code></pre></div>
+<p>Enable and start:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl enable vmart-agent</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl start vmart-agent</span></code></pre></div>
+<h4 data-number="1.7.1.3" id="windows-task-scheduler"><span class="header-section-number">1.7.1.3</span> Windows (Task
+Scheduler)</h4>
+<p>Use the Windows Task Scheduler to run <code>main.py</code> on system
+startup.</p>
+<h2 data-number="1.8" id="testing"><span class="header-section-number">1.8</span> 🧪 Testing</h2>
+<p>Run the test suite:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pytest tests/</span></code></pre></div>
+<h2 data-number="1.9" id="contributing"><span class="header-section-number">1.9</span> 🤝 Contributing</h2>
+<p>This is a private project for V-Mart Retail. For feature requests or
+issues, contact the development team.</p>
+<h2 data-number="1.10" id="license"><span class="header-section-number">1.10</span> 📝 License</h2>
+<p>Proprietary - V-Mart Retail Ltd.</p>
+<h2 data-number="1.11" id="support"><span class="header-section-number">1.11</span> 🆘 Support</h2>
+<p>For support, contact: - Email: support@vmartretail.com - Internal
+Slack: #ai-agent-support</p>
+<h2 data-number="1.12" id="updates"><span class="header-section-number">1.12</span> 🔄 Updates</h2>
+<p>The agent automatically stays updated with the latest Gemini AI
+capabilities. Regular dependency updates are recommended:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h2 data-number="1.13" id="important-notes"><span class="header-section-number">1.13</span> ⚠️ Important Notes</h2>
+<ol type="1">
+<li><strong>Security</strong>: Never commit your <code>.env</code> file
+to version control</li>
+<li><strong>API Limits</strong>: Be mindful of Google API quotas</li>
+<li><strong>Costs</strong>: Gemini API usage may incur costs - monitor
+your usage</li>
+<li><strong>Data Privacy</strong>: Ensure sensitive data is handled
+according to company policies</li>
+</ol>
+<h2 data-number="1.14" id="acknowledgments"><span class="header-section-number">1.14</span> 🎉 Acknowledgments</h2>
+<ul>
+<li>Google Gemini AI team for the powerful LLM</li>
+<li>Google Cloud team for excellent APIs</li>
+<li>V-Mart IT team for support and testing</li>
+</ul>
+</body>
+</html>

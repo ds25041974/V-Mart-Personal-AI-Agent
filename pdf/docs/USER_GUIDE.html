@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-11-08" />
+  <title>V-Mart AI Agent: USER GUIDE</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 5px; margin-top: 30px; }
+            h3 { color: #555; margin-top: 20px; }
+            code {
+                background-color: #f4f4f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+            }
+            pre {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            pre code { background-color: transparent; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }
+            table th {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            table tr:nth-child(even) { background-color: #f9f9f9; }
+            blockquote {
+                border-left: 4px solid #3498db;
+                padding-left: 20px;
+                margin: 20px 0;
+                color: #555;
+            }
+            a { color: #3498db; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #3498db;
+            }
+            @media print {
+                body { margin: 0; padding: 20px; }
+                a { color: #000; }
+            }
+        
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart AI Agent: USER GUIDE</h1>
+<p class="date">November 08, 2025</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#v-mart-ai-agent---user-guide" id="toc-v-mart-ai-agent---user-guide"><span class="toc-section-number">1</span> 📖 V-Mart AI Agent - User Guide</a>
+<ul>
+<li><a href="#table-of-contents" id="toc-table-of-contents"><span class="toc-section-number">1.1</span> 📋 Table of Contents</a></li>
+<li><a href="#getting-started" id="toc-getting-started"><span class="toc-section-number">1.2</span> 🚀 Getting Started</a>
+<ul>
+<li><a href="#accessing-the-application" id="toc-accessing-the-application"><span class="toc-section-number">1.2.1</span> Accessing the
+Application</a></li>
+<li><a href="#home-screen" id="toc-home-screen"><span class="toc-section-number">1.2.2</span> Home Screen</a></li>
+</ul></li>
+<li><a href="#interface-overview" id="toc-interface-overview"><span class="toc-section-number">1.3</span> 🎨 Interface Overview</a>
+<ul>
+<li><a href="#navigation-tabs" id="toc-navigation-tabs"><span class="toc-section-number">1.3.1</span> Navigation Tabs</a></li>
+<li><a href="#responsive-design" id="toc-responsive-design"><span class="toc-section-number">1.3.2</span> Responsive Design</a></li>
+</ul></li>
+<li><a href="#chat-features" id="toc-chat-features"><span class="toc-section-number">1.4</span> 💬 Chat Features</a>
+<ul>
+<li><a href="#basic-chat" id="toc-basic-chat"><span class="toc-section-number">1.4.1</span> Basic Chat</a></li>
+<li><a href="#example-conversations" id="toc-example-conversations"><span class="toc-section-number">1.4.2</span> Example Conversations</a></li>
+<li><a href="#chat-controls" id="toc-chat-controls"><span class="toc-section-number">1.4.3</span> Chat Controls</a></li>
+<li><a href="#keyboard-shortcuts" id="toc-keyboard-shortcuts"><span class="toc-section-number">1.4.4</span> Keyboard Shortcuts</a></li>
+</ul></li>
+<li><a href="#document-search" id="toc-document-search"><span class="toc-section-number">1.5</span> 📁 Document Search</a>
+<ul>
+<li><a href="#supported-document-types" id="toc-supported-document-types"><span class="toc-section-number">1.5.1</span> Supported Document
+Types</a></li>
+<li><a href="#searchable-locations" id="toc-searchable-locations"><span class="toc-section-number">1.5.2</span> Searchable Locations</a></li>
+<li><a href="#how-to-search-documents" id="toc-how-to-search-documents"><span class="toc-section-number">1.5.3</span> How to Search Documents</a></li>
+<li><a href="#document-search-examples" id="toc-document-search-examples"><span class="toc-section-number">1.5.4</span> Document Search
+Examples</a></li>
+<li><a href="#document-preview" id="toc-document-preview"><span class="toc-section-number">1.5.5</span> Document Preview</a></li>
+<li><a href="#search-results" id="toc-search-results"><span class="toc-section-number">1.5.6</span> Search Results</a></li>
+<li><a href="#limitations" id="toc-limitations"><span class="toc-section-number">1.5.7</span> Limitations</a></li>
+</ul></li>
+<li><a href="#data-analysis" id="toc-data-analysis"><span class="toc-section-number">1.6</span> 📊 Data Analysis</a>
+<ul>
+<li><a href="#using-the-analysis-tab" id="toc-using-the-analysis-tab"><span class="toc-section-number">1.6.1</span> Using the Analysis Tab</a></li>
+<li><a href="#analysis-types" id="toc-analysis-types"><span class="toc-section-number">1.6.2</span> Analysis Types</a></li>
+<li><a href="#example-sales-data" id="toc-example-sales-data"><span class="toc-section-number">1.6.3</span> Example: Sales Data</a></li>
+</ul></li>
+<li><a href="#file-management" id="toc-file-management"><span class="toc-section-number">1.7</span> 📂 File Management</a>
+<ul>
+<li><a href="#file-search" id="toc-file-search"><span class="toc-section-number">1.7.1</span> File Search</a></li>
+<li><a href="#reading-files" id="toc-reading-files"><span class="toc-section-number">1.7.2</span> Reading Files</a></li>
+<li><a href="#file-information" id="toc-file-information"><span class="toc-section-number">1.7.3</span> File Information</a></li>
+</ul></li>
+<li><a href="#decision-support" id="toc-decision-support"><span class="toc-section-number">1.8</span> 🎯 Decision Support</a>
+<ul>
+<li><a href="#making-better-decisions" id="toc-making-better-decisions"><span class="toc-section-number">1.8.1</span> Making Better Decisions</a></li>
+<li><a href="#analysis-results" id="toc-analysis-results"><span class="toc-section-number">1.8.2</span> Analysis Results</a></li>
+<li><a href="#example-decision" id="toc-example-decision"><span class="toc-section-number">1.8.3</span> Example Decision</a></li>
+</ul></li>
+<li><a href="#advanced-features" id="toc-advanced-features"><span class="toc-section-number">1.9</span> 🔧 Advanced Features</a>
+<ul>
+<li><a href="#context-management" id="toc-context-management"><span class="toc-section-number">1.9.1</span> Context Management</a></li>
+<li><a href="#multi-turn-conversations" id="toc-multi-turn-conversations"><span class="toc-section-number">1.9.2</span> Multi-turn
+Conversations</a></li>
+<li><a href="#clear-history" id="toc-clear-history"><span class="toc-section-number">1.9.3</span> Clear History</a></li>
+</ul></li>
+<li><a href="#tips-best-practices" id="toc-tips-best-practices"><span class="toc-section-number">1.10</span> 💡 Tips &amp; Best Practices</a>
+<ul>
+<li><a href="#getting-better-responses" id="toc-getting-better-responses"><span class="toc-section-number">1.10.1</span> Getting Better
+Responses</a></li>
+<li><a href="#document-search-tips" id="toc-document-search-tips"><span class="toc-section-number">1.10.2</span> Document Search Tips</a></li>
+<li><a href="#performance-tips" id="toc-performance-tips"><span class="toc-section-number">1.10.3</span> Performance Tips</a></li>
+</ul></li>
+<li><a href="#privacy-security" id="toc-privacy-security"><span class="toc-section-number">1.11</span> 🔐 Privacy &amp; Security</a>
+<ul>
+<li><a href="#data-handling" id="toc-data-handling"><span class="toc-section-number">1.11.1</span> Data Handling</a></li>
+<li><a href="#whats-shared" id="toc-whats-shared"><span class="toc-section-number">1.11.2</span> What’s Shared</a></li>
+<li><a href="#security-best-practices" id="toc-security-best-practices"><span class="toc-section-number">1.11.3</span> Security Best
+Practices</a></li>
+</ul></li>
+<li><a href="#mobile-usage" id="toc-mobile-usage"><span class="toc-section-number">1.12</span> 📱 Mobile Usage</a>
+<ul>
+<li><a href="#access-from-phonetablet" id="toc-access-from-phonetablet"><span class="toc-section-number">1.12.1</span> Access from
+Phone/Tablet</a></li>
+<li><a href="#mobile-tips" id="toc-mobile-tips"><span class="toc-section-number">1.12.2</span> Mobile Tips</a></li>
+</ul></li>
+<li><a href="#common-questions" id="toc-common-questions"><span class="toc-section-number">1.13</span> ❓ Common Questions</a>
+<ul>
+<li><a href="#q-can-i-use-this-offline" id="toc-q-can-i-use-this-offline"><span class="toc-section-number">1.13.1</span> Q: Can I use this
+offline?</a></li>
+<li><a href="#q-does-it-read-my-document-contents" id="toc-q-does-it-read-my-document-contents"><span class="toc-section-number">1.13.2</span> Q: Does it read my document
+contents?</a></li>
+<li><a href="#q-how-do-i-access-gmaildrive" id="toc-q-how-do-i-access-gmaildrive"><span class="toc-section-number">1.13.3</span> Q: How do I access
+Gmail/Drive?</a></li>
+<li><a href="#q-can-i-change-the-port" id="toc-q-can-i-change-the-port"><span class="toc-section-number">1.13.4</span> Q: Can I change the
+port?</a></li>
+<li><a href="#q-is-my-data-private" id="toc-q-is-my-data-private"><span class="toc-section-number">1.13.5</span> Q: Is my data private?</a></li>
+<li><a href="#q-can-i-customize-responses" id="toc-q-can-i-customize-responses"><span class="toc-section-number">1.13.6</span> Q: Can I customize
+responses?</a></li>
+<li><a href="#q-does-it-work-on-tablets" id="toc-q-does-it-work-on-tablets"><span class="toc-section-number">1.13.7</span> Q: Does it work on
+tablets?</a></li>
+<li><a href="#q-how-do-i-update-the-app" id="toc-q-how-do-i-update-the-app"><span class="toc-section-number">1.13.8</span> Q: How do I update the
+app?</a></li>
+</ul></li>
+<li><a href="#troubleshooting" id="toc-troubleshooting"><span class="toc-section-number">1.14</span> 🆘 Troubleshooting</a>
+<ul>
+<li><a href="#ai-not-finding-documents" id="toc-ai-not-finding-documents"><span class="toc-section-number">1.14.1</span> AI Not Finding
+Documents</a></li>
+<li><a href="#search-too-slow" id="toc-search-too-slow"><span class="toc-section-number">1.14.2</span> Search Too Slow</a></li>
+<li><a href="#cant-access-from-mobile" id="toc-cant-access-from-mobile"><span class="toc-section-number">1.14.3</span> Can’t Access from
+Mobile</a></li>
+<li><a href="#server-not-starting" id="toc-server-not-starting"><span class="toc-section-number">1.14.4</span> Server Not Starting</a></li>
+</ul></li>
+<li><a href="#additional-resources" id="toc-additional-resources"><span class="toc-section-number">1.15</span> 📚 Additional Resources</a></li>
+<li><a href="#learning-resources" id="toc-learning-resources"><span class="toc-section-number">1.16</span> 🎓 Learning Resources</a>
+<ul>
+<li><a href="#getting-started-1" id="toc-getting-started-1"><span class="toc-section-number">1.16.1</span> Getting Started</a></li>
+<li><a href="#advanced-usage" id="toc-advanced-usage"><span class="toc-section-number">1.16.2</span> Advanced Usage</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="v-mart-ai-agent---user-guide"><span class="header-section-number">1</span> 📖 V-Mart AI Agent - User
+Guide</h1>
+<p><strong>Developed by: DSR | Inspired by: LA | Powered by: Gemini
+AI</strong></p>
+<p>Complete guide to using the V-Mart Personal AI Agent.</p>
+<hr />
+<h2 data-number="1.1" id="table-of-contents"><span class="header-section-number">1.1</span> 📋 Table of Contents</h2>
+<ul>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#interface-overview">Interface Overview</a></li>
+<li><a href="#chat-features">Chat Features</a></li>
+<li><a href="#document-search">Document Search</a></li>
+<li><a href="#data-analysis">Data Analysis</a></li>
+<li><a href="#file-management">File Management</a></li>
+<li><a href="#decision-support">Decision Support</a></li>
+<li><a href="#advanced-features">Advanced Features</a></li>
+<li><a href="#tips--best-practices">Tips &amp; Best Practices</a></li>
+</ul>
+<hr />
+<h2 data-number="1.2" id="getting-started"><span class="header-section-number">1.2</span> 🚀 Getting Started</h2>
+<h3 data-number="1.2.1" id="accessing-the-application"><span class="header-section-number">1.2.1</span> Accessing the
+Application</h3>
+<ol type="1">
+<li><p><strong>Start the server:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py  <span class="co"># or python3 main.py on macOS/Linux</span></span></code></pre></div></li>
+<li><p><strong>Open in browser:</strong></p>
+<ul>
+<li>Local: http://localhost:8000</li>
+<li>Network: http://YOUR_IP:8000</li>
+</ul></li>
+<li><p><strong>Login:</strong></p>
+<ul>
+<li><strong>Quick Start:</strong> Click “Demo Login” (no credentials
+needed)</li>
+<li><strong>Full Access:</strong> Click “Login with Google” (requires
+OAuth setup)</li>
+</ul></li>
+</ol>
+<h3 data-number="1.2.2" id="home-screen"><span class="header-section-number">1.2.2</span> Home Screen</h3>
+<p>After logging in, you’ll see: - <strong>Header:</strong> App name and
+credits - <strong>Welcome message:</strong> Shows your name -
+<strong>Four main tabs:</strong> Chat, Analysis, Files, Decision Support
+- <strong>Footer:</strong> Development credits</p>
+<hr />
+<h2 data-number="1.3" id="interface-overview"><span class="header-section-number">1.3</span> 🎨 Interface Overview</h2>
+<h3 data-number="1.3.1" id="navigation-tabs"><span class="header-section-number">1.3.1</span> Navigation Tabs</h3>
+<h4 data-number="1.3.1.1" id="chat-tab-default"><span class="header-section-number">1.3.1.1</span> 💬 Chat Tab (Default)</h4>
+<ul>
+<li>Real-time conversation with AI</li>
+<li>Document-aware responses</li>
+<li>Context retention</li>
+<li>Multi-turn conversations</li>
+</ul>
+<h4 data-number="1.3.1.2" id="analysis-tab"><span class="header-section-number">1.3.1.2</span> 📊 Analysis Tab</h4>
+<ul>
+<li>Data analysis tools</li>
+<li>Financial analysis</li>
+<li>Sales metrics</li>
+<li>Inventory insights</li>
+</ul>
+<h4 data-number="1.3.1.3" id="files-tab"><span class="header-section-number">1.3.1.3</span> 📁 Files Tab</h4>
+<ul>
+<li>Local file browser</li>
+<li>Document search</li>
+<li>File content preview</li>
+<li>Quick access to recent files</li>
+</ul>
+<h4 data-number="1.3.1.4" id="decision-support-tab"><span class="header-section-number">1.3.1.4</span> 🎯 Decision Support
+Tab</h4>
+<ul>
+<li>Compare multiple options</li>
+<li>Pros/cons analysis</li>
+<li>Recommendation engine</li>
+<li>Strategic planning assistance</li>
+</ul>
+<h3 data-number="1.3.2" id="responsive-design"><span class="header-section-number">1.3.2</span> Responsive Design</h3>
+<p>The interface adapts to your device: - <strong>Desktop
+(1024px+):</strong> Full layout with sidebar - <strong>Tablet
+(768-1024px):</strong> Optimized grid layout - <strong>Mobile
+(&lt;768px):</strong> Stacked, touch-friendly layout</p>
+<hr />
+<h2 data-number="1.4" id="chat-features"><span class="header-section-number">1.4</span> 💬 Chat Features</h2>
+<h3 data-number="1.4.1" id="basic-chat"><span class="header-section-number">1.4.1</span> Basic Chat</h3>
+<ol type="1">
+<li><strong>Type your message</strong> in the text box</li>
+<li><strong>Press Enter</strong> or click “Send”</li>
+<li><strong>Wait for response</strong> (usually 2-5 seconds)</li>
+<li><strong>Continue conversation</strong> - AI remembers context</li>
+</ol>
+<h3 data-number="1.4.2" id="example-conversations"><span class="header-section-number">1.4.2</span> Example Conversations</h3>
+<p><strong>General Questions:</strong></p>
+<pre><code>You: What is V-Mart?
+AI: V-Mart is a retail company...
+
+You: Tell me about artificial intelligence
+AI: Artificial Intelligence (AI) is...</code></pre>
+<p><strong>Follow-up Questions:</strong></p>
+<pre><code>You: What&#39;s the weather like?
+AI: I don&#39;t have real-time weather data, but...
+
+You: Can you write me a poem?
+AI: Of course! Here&#39;s a poem for you...</code></pre>
+<h3 data-number="1.4.3" id="chat-controls"><span class="header-section-number">1.4.3</span> Chat Controls</h3>
+<ul>
+<li><strong>Clear History:</strong> Removes all messages (fresh
+start)</li>
+<li><strong>Scroll:</strong> Auto-scrolls to latest message</li>
+<li><strong>Copy Text:</strong> Select and copy AI responses</li>
+</ul>
+<h3 data-number="1.4.4" id="keyboard-shortcuts"><span class="header-section-number">1.4.4</span> Keyboard Shortcuts</h3>
+<ul>
+<li><code>Enter</code>: Send message</li>
+<li><code>Shift + Enter</code>: New line in message</li>
+<li><code>Ctrl/Cmd + A</code>: Select all text</li>
+</ul>
+<hr />
+<h2 data-number="1.5" id="document-search"><span class="header-section-number">1.5</span> 📁 Document Search</h2>
+<p><strong>The AI can search and analyze your local
+documents!</strong></p>
+<h3 data-number="1.5.1" id="supported-document-types"><span class="header-section-number">1.5.1</span> Supported Document Types</h3>
+<p>✅ <strong>Office Documents:</strong> - Microsoft Word (.doc, .docx)
+- Excel spreadsheets (.xlsx, .xls) - PowerPoint presentations (.ppt,
+.pptx)</p>
+<p>✅ <strong>PDF Files:</strong> - PDF documents (.pdf)</p>
+<p>✅ <strong>Text Files:</strong> - Plain text (.txt) - Markdown (.md)
+- CSV files (.csv) - Rich text (.rtf)</p>
+<h3 data-number="1.5.2" id="searchable-locations"><span class="header-section-number">1.5.2</span> Searchable Locations</h3>
+<p>The AI automatically scans: - 📂 <strong>Documents folder</strong>
+(<code>~/Documents</code>) - 🖥️ <strong>Desktop</strong>
+(<code>~/Desktop</code>) - ⬇️ <strong>Downloads</strong>
+(<code>~/Downloads</code>)</p>
+<h3 data-number="1.5.3" id="how-to-search-documents"><span class="header-section-number">1.5.3</span> How to Search Documents</h3>
+<h4 data-number="1.5.3.1" id="automatic-search-recommended"><span class="header-section-number">1.5.3.1</span> Automatic Search
+(Recommended)</h4>
+<p>Just ask naturally! The AI detects document-related keywords:</p>
+<pre><code>You: Show me my progress reports
+AI: [Searches Documents/Desktop/Downloads]
+    📁 Found 5 documents...
+    1. Q4_Progress_Report.pdf
+    2. Annual_Progress_2024.docx
+    ...
+
+You: Find my sales spreadsheet
+AI: [Searches for Excel files with &quot;sales&quot;]
+    Found: Sales_Data_Q4.xlsx, Monthly_Sales.xlsx
+
+You: What&#39;s in my presentation about marketing?
+AI: [Searches for PowerPoint files]
+    Found: Marketing_Strategy.pptx...</code></pre>
+<h4 data-number="1.5.3.2" id="trigger-keywords"><span class="header-section-number">1.5.3.2</span> Trigger Keywords</h4>
+<p>These words activate document search: - <strong>Documents:</strong>
+document, doc, file, pdf - <strong>Spreadsheets:</strong> sheet, excel,
+spreadsheet, xlsx - <strong>Presentations:</strong> slide, presentation,
+ppt, powerpoint - <strong>Locations:</strong> desktop, downloads,
+documents, local, computer - <strong>Actions:</strong> find, search,
+show, locate - <strong>Data:</strong> progress, report, status, results,
+data, analysis</p>
+<h3 data-number="1.5.4" id="document-search-examples"><span class="header-section-number">1.5.4</span> Document Search Examples</h3>
+<p><strong>Example 1: Progress Reports</strong></p>
+<pre><code>You: Summarize my progress reports
+AI: 📚 Sources: Found 3 documents in local system
+
+    📁 AVAILABLE DOCUMENTS:
+    1. Q4_Progress_Report.pdf
+       Location: Documents
+       Size: 245.3 KB
+       
+    2. Team_Progress_Nov.docx
+       Location: Desktop
+       Size: 89.2 KB
+       
+    Based on these documents, your Q4 progress shows...</code></pre>
+<p><strong>Example 2: Spreadsheet Analysis</strong></p>
+<pre><code>You: What data is in my sales spreadsheet?
+AI: Found: Sales_Analysis_2024.xlsx
+    
+    This spreadsheet contains sales data with metrics 
+    including revenue, units sold, and regional breakdown...</code></pre>
+<p><strong>Example 3: Find Recent Files</strong></p>
+<pre><code>You: Show me my recent documents
+AI: Here are your 8 most recent documents:
+    
+    1. Meeting_Notes.docx (Modified: Nov 8, 2024)
+    2. Budget_2024.xlsx (Modified: Nov 7, 2024)
+    3. Proposal.pdf (Modified: Nov 6, 2024)
+    ...</code></pre>
+<h3 data-number="1.5.5" id="document-preview"><span class="header-section-number">1.5.5</span> Document Preview</h3>
+<p>For text files (.txt, .md, .csv), the AI shows content previews:</p>
+<pre><code>File: Project_Notes.txt
+Preview: &quot;Meeting with team on Nov 8. Discussed Q4 
+goals and new product launch strategy. Action items: 
+1. Review budget 2. Schedule follow-up...&quot;</code></pre>
+<h3 data-number="1.5.6" id="search-results"><span class="header-section-number">1.5.6</span> Search Results</h3>
+<p>Each result shows: - <strong>File name</strong> -
+<strong>Location</strong> (Documents/Desktop/Downloads) - <strong>File
+size</strong> in KB - <strong>Directory path</strong> - <strong>Content
+preview</strong> (for text files) - <strong>Last modified date</strong>
+(sorted by newest first)</p>
+<h3 data-number="1.5.7" id="limitations"><span class="header-section-number">1.5.7</span> Limitations</h3>
+<p>⚠️ <strong>Current Limitations:</strong> - <strong>Max
+depth:</strong> 2 folder levels - <strong>Max results:</strong> 8 most
+recent documents - <strong>Text preview:</strong> Only for .txt, .md,
+.csv files - <strong>Binary files:</strong> PDF/Office files show
+metadata only</p>
+<p>📧 <strong>Email &amp; Cloud Storage:</strong> - Gmail search
+requires Google OAuth setup - Google Drive requires OAuth setup - See:
+<code>docs/GOOGLE_OAUTH_SETUP.md</code></p>
+<hr />
+<h2 data-number="1.6" id="data-analysis"><span class="header-section-number">1.6</span> 📊 Data Analysis</h2>
+<h3 data-number="1.6.1" id="using-the-analysis-tab"><span class="header-section-number">1.6.1</span> Using the Analysis Tab</h3>
+<ol type="1">
+<li><strong>Switch to Analysis tab</strong></li>
+<li><strong>Select analysis type:</strong>
+<ul>
+<li>General Analysis</li>
+<li>Financial Analysis</li>
+<li>Sales Analysis</li>
+<li>Inventory Analysis</li>
+</ul></li>
+<li><strong>Paste your data</strong></li>
+<li><strong>Click “Analyze”</strong></li>
+<li><strong>Review results</strong></li>
+</ol>
+<h3 data-number="1.6.2" id="analysis-types"><span class="header-section-number">1.6.2</span> Analysis Types</h3>
+<h4 data-number="1.6.2.1" id="general-analysis"><span class="header-section-number">1.6.2.1</span> General Analysis</h4>
+<ul>
+<li>Pattern detection</li>
+<li>Trend identification</li>
+<li>Summary statistics</li>
+<li>Insights and recommendations</li>
+</ul>
+<h4 data-number="1.6.2.2" id="financial-analysis"><span class="header-section-number">1.6.2.2</span> Financial Analysis</h4>
+<ul>
+<li>Revenue trends</li>
+<li>Profit margins</li>
+<li>Cost analysis</li>
+<li>Financial health indicators</li>
+</ul>
+<h4 data-number="1.6.2.3" id="sales-analysis"><span class="header-section-number">1.6.2.3</span> Sales Analysis</h4>
+<ul>
+<li>Sales performance</li>
+<li>Top products/regions</li>
+<li>Growth rates</li>
+<li>Seasonal patterns</li>
+</ul>
+<h4 data-number="1.6.2.4" id="inventory-analysis"><span class="header-section-number">1.6.2.4</span> Inventory Analysis</h4>
+<ul>
+<li>Stock levels</li>
+<li>Turnover rates</li>
+<li>Reorder points</li>
+<li>Inventory optimization</li>
+</ul>
+<h3 data-number="1.6.3" id="example-sales-data"><span class="header-section-number">1.6.3</span> Example: Sales Data</h3>
+<p><strong>Input:</strong></p>
+<pre class="csv"><code>Month,Revenue,Units
+Jan,50000,500
+Feb,55000,550
+Mar,60000,600</code></pre>
+<p><strong>Click Analyze</strong> → AI provides: - Revenue trend: +20%
+growth - Average units per month: 550 - Recommendations for Q2 -
+Forecasts and insights</p>
+<hr />
+<h2 data-number="1.7" id="file-management"><span class="header-section-number">1.7</span> 📂 File Management</h2>
+<h3 data-number="1.7.1" id="file-search"><span class="header-section-number">1.7.1</span> File Search</h3>
+<ol type="1">
+<li>Go to <strong>Files tab</strong></li>
+<li>Enter search term in search box</li>
+<li>Click <strong>“Search”</strong></li>
+<li>View results list</li>
+</ol>
+<h3 data-number="1.7.2" id="reading-files"><span class="header-section-number">1.7.2</span> Reading Files</h3>
+<ol type="1">
+<li>Click on any file in the results</li>
+<li>File content appears below</li>
+<li>Supports text files, code files, markdown</li>
+</ol>
+<h3 data-number="1.7.3" id="file-information"><span class="header-section-number">1.7.3</span> File Information</h3>
+<p>Results show: - File path - File size - Last modified - File type</p>
+<hr />
+<h2 data-number="1.8" id="decision-support"><span class="header-section-number">1.8</span> 🎯 Decision Support</h2>
+<h3 data-number="1.8.1" id="making-better-decisions"><span class="header-section-number">1.8.1</span> Making Better Decisions</h3>
+<ol type="1">
+<li><p><strong>Go to Decision Support tab</strong></p></li>
+<li><p><strong>Enter decision title:</strong></p>
+<pre><code>Example: &quot;Choose Marketing Platform&quot;</code></pre></li>
+<li><p><strong>Add context:</strong></p>
+<pre><code>We need a platform for social media management.
+Budget: $500/month
+Team size: 5 people</code></pre></li>
+<li><p><strong>List options:</strong></p>
+<ul>
+<li>Option 1: Hootsuite</li>
+<li>Option 2: Buffer</li>
+<li>Option 3: Sprout Social</li>
+</ul>
+<p>Click “+ Add Option” for more</p></li>
+<li><p><strong>Click “Analyze Decision”</strong></p></li>
+</ol>
+<h3 data-number="1.8.2" id="analysis-results"><span class="header-section-number">1.8.2</span> Analysis Results</h3>
+<p>The AI provides: - ✅ <strong>Pros</strong> for each option - ❌
+<strong>Cons</strong> for each option - 💰 <strong>Cost
+comparison</strong> - 🏆 <strong>Recommendation</strong> - 📝
+<strong>Additional considerations</strong></p>
+<h3 data-number="1.8.3" id="example-decision"><span class="header-section-number">1.8.3</span> Example Decision</h3>
+<p><strong>Title:</strong> “Hire Developer or Outsource?”</p>
+<p><strong>Context:</strong> “Need to build mobile app. Timeline: 3
+months. Budget: $50k.”</p>
+<p><strong>Options:</strong> 1. Hire full-time developer 2. Use
+freelance developers 3. Outsource to agency</p>
+<p><strong>AI Analysis:</strong></p>
+<pre><code>Recommendation: Outsource to Agency
+
+Reasoning:
+- ✅ Fastest timeline (agencies have teams)
+- ✅ Within budget
+- ✅ No long-term commitment
+- ⚠️ Less control over process
+- 💡 Suggestion: Hire developer after app launch</code></pre>
+<hr />
+<h2 data-number="1.9" id="advanced-features"><span class="header-section-number">1.9</span> 🔧 Advanced Features</h2>
+<h3 data-number="1.9.1" id="context-management"><span class="header-section-number">1.9.1</span> Context Management</h3>
+<p>The AI remembers conversation history:</p>
+<pre><code>You: What&#39;s 2+2?
+AI: 4
+
+You: Multiply that by 3
+AI: 12 (remembering previous answer)
+
+You: What was my first question?
+AI: You asked &quot;What&#39;s 2+2?&quot;</code></pre>
+<h3 data-number="1.9.2" id="multi-turn-conversations"><span class="header-section-number">1.9.2</span> Multi-turn Conversations</h3>
+<p>Build on previous responses:</p>
+<pre><code>You: Explain machine learning
+AI: [Detailed explanation]
+
+You: Give me an example
+AI: [Provides example based on previous explanation]
+
+You: How would I implement that?
+AI: [Implementation steps]</code></pre>
+<h3 data-number="1.9.3" id="clear-history"><span class="header-section-number">1.9.3</span> Clear History</h3>
+<p>Start fresh conversation: 1. Click <strong>“Clear History”</strong>
+button 2. All previous messages removed 3. AI forgets context 4. New
+conversation begins</p>
+<hr />
+<h2 data-number="1.10" id="tips-best-practices"><span class="header-section-number">1.10</span> 💡 Tips &amp; Best
+Practices</h2>
+<h3 data-number="1.10.1" id="getting-better-responses"><span class="header-section-number">1.10.1</span> Getting Better
+Responses</h3>
+<h4 data-number="1.10.1.1" id="do"><span class="header-section-number">1.10.1.1</span> ✅ Do:</h4>
+<ul>
+<li><strong>Be specific:</strong> “Find my Q4 sales report” vs “find
+file”</li>
+<li><strong>Provide context:</strong> “I need help with Python code for
+data analysis”</li>
+<li><strong>Ask follow-ups:</strong> Build on previous answers</li>
+<li><strong>Use natural language:</strong> Talk normally, no special
+commands</li>
+</ul>
+<h4 data-number="1.10.1.2" id="dont"><span class="header-section-number">1.10.1.2</span> ❌ Don’t:</h4>
+<ul>
+<li>Avoid vague questions: “help me”</li>
+<li>Don’t ask multiple unrelated questions at once</li>
+<li>Don’t expect real-time data (weather, stocks, etc.)</li>
+<li>Don’t share sensitive personal information</li>
+</ul>
+<h3 data-number="1.10.2" id="document-search-tips"><span class="header-section-number">1.10.2</span> Document Search Tips</h3>
+<ol type="1">
+<li><p><strong>Use descriptive file names:</strong></p>
+<pre><code>✅ Q4_Sales_Report_2024.xlsx
+❌ document1.xlsx</code></pre></li>
+<li><p><strong>Organize by folders:</strong></p>
+<pre><code>Documents/
+  Reports/
+    Sales/
+    Marketing/
+  Projects/</code></pre></li>
+<li><p><strong>Keywords in questions:</strong></p>
+<pre><code>✅ &quot;Find my presentation about marketing strategy&quot;
+✅ &quot;Show me Excel files with budget data&quot;
+❌ &quot;Where&#39;s that thing?&quot;</code></pre></li>
+<li><p><strong>Be specific about location:</strong></p>
+<pre><code>&quot;Find reports on my desktop&quot;
+&quot;Search downloads for PDFs&quot;</code></pre></li>
+</ol>
+<h3 data-number="1.10.3" id="performance-tips"><span class="header-section-number">1.10.3</span> Performance Tips</h3>
+<ol type="1">
+<li><strong>Faster responses:</strong>
+<ul>
+<li>Keep questions concise</li>
+<li>Clear chat history when switching topics</li>
+<li>Close unused browser tabs</li>
+</ul></li>
+<li><strong>Better search results:</strong>
+<ul>
+<li>Organize files in Documents/Desktop/Downloads</li>
+<li>Use meaningful file names</li>
+<li>Keep folder structure shallow (2 levels max)</li>
+</ul></li>
+<li><strong>Network access:</strong>
+<ul>
+<li>For mobile access, use http://YOUR_IP:8000</li>
+<li>Ensure firewall allows port 8000</li>
+<li>Same WiFi network required</li>
+</ul></li>
+</ol>
+<hr />
+<h2 data-number="1.11" id="privacy-security"><span class="header-section-number">1.11</span> 🔐 Privacy &amp; Security</h2>
+<h3 data-number="1.11.1" id="data-handling"><span class="header-section-number">1.11.1</span> Data Handling</h3>
+<ul>
+<li>✅ <strong>Local processing:</strong> Files scanned locally</li>
+<li>✅ <strong>No uploads:</strong> Documents stay on your computer</li>
+<li>✅ <strong>Metadata only:</strong> Only file names/paths sent to
+AI</li>
+<li>⚠️ <strong>Content previews:</strong> Text file previews included in
+prompts</li>
+<li>🔒 <strong>API calls:</strong> Queries sent to Gemini AI for
+processing</li>
+</ul>
+<h3 data-number="1.11.2" id="whats-shared"><span class="header-section-number">1.11.2</span> What’s Shared</h3>
+<p><strong>Sent to AI:</strong> - Your questions/prompts - File names
+and metadata - Text file previews (first 200 chars) - Conversation
+history</p>
+<p><strong>NOT sent to AI:</strong> - Full document contents (PDF,
+Office files) - Your files themselves - File system structure - Other
+private data</p>
+<h3 data-number="1.11.3" id="security-best-practices"><span class="header-section-number">1.11.3</span> Security Best Practices</h3>
+<ol type="1">
+<li><strong>Don’t share:</strong>
+<ul>
+<li>Passwords</li>
+<li>Credit card numbers</li>
+<li>Social security numbers</li>
+<li>Private API keys</li>
+</ul></li>
+<li><strong>Do use:</strong>
+<ul>
+<li>Demo mode for testing</li>
+<li>OAuth for production</li>
+<li>Strong passwords for Google account</li>
+<li>HTTPS in production</li>
+</ul></li>
+</ol>
+<hr />
+<h2 data-number="1.12" id="mobile-usage"><span class="header-section-number">1.12</span> 📱 Mobile Usage</h2>
+<h3 data-number="1.12.1" id="access-from-phonetablet"><span class="header-section-number">1.12.1</span> Access from
+Phone/Tablet</h3>
+<ol type="1">
+<li><p><strong>Find your computer’s IP:</strong></p>
+<ul>
+<li>See SETUP_GUIDE.md for instructions</li>
+</ul></li>
+<li><p><strong>Open browser on mobile device</strong></p></li>
+<li><p><strong>Navigate to:</strong></p>
+<pre><code>http://YOUR_IP:8000
+Example: http://192.168.1.100:8000</code></pre></li>
+<li><p><strong>Use normally:</strong></p>
+<ul>
+<li>Touch-optimized interface</li>
+<li>All features available</li>
+<li>Same functionality</li>
+</ul></li>
+</ol>
+<h3 data-number="1.12.2" id="mobile-tips"><span class="header-section-number">1.12.2</span> Mobile Tips</h3>
+<ul>
+<li>Use <strong>portrait mode</strong> for chat</li>
+<li>Use <strong>landscape mode</strong> for analysis</li>
+<li><strong>Larger buttons</strong> for touch</li>
+<li><strong>Swipe</strong> to scroll through messages</li>
+</ul>
+<hr />
+<h2 data-number="1.13" id="common-questions"><span class="header-section-number">1.13</span> ❓ Common Questions</h2>
+<h3 data-number="1.13.1" id="q-can-i-use-this-offline"><span class="header-section-number">1.13.1</span> Q: Can I use this
+offline?</h3>
+<p><strong>A:</strong> No, internet required for AI API calls.</p>
+<h3 data-number="1.13.2" id="q-does-it-read-my-document-contents"><span class="header-section-number">1.13.2</span> Q: Does it read my document
+contents?</h3>
+<p><strong>A:</strong> Only metadata for PDF/Office files. Text files
+show 200-char preview.</p>
+<h3 data-number="1.13.3" id="q-how-do-i-access-gmaildrive"><span class="header-section-number">1.13.3</span> Q: How do I access
+Gmail/Drive?</h3>
+<p><strong>A:</strong> Set up Google OAuth (see
+GOOGLE_OAUTH_SETUP.md).</p>
+<h3 data-number="1.13.4" id="q-can-i-change-the-port"><span class="header-section-number">1.13.4</span> Q: Can I change the
+port?</h3>
+<p><strong>A:</strong> Yes, edit <code>PORT=8000</code> in
+<code>.env</code> file.</p>
+<h3 data-number="1.13.5" id="q-is-my-data-private"><span class="header-section-number">1.13.5</span> Q: Is my data private?</h3>
+<p><strong>A:</strong> Queries sent to Gemini AI. See Privacy section
+above.</p>
+<h3 data-number="1.13.6" id="q-can-i-customize-responses"><span class="header-section-number">1.13.6</span> Q: Can I customize
+responses?</h3>
+<p><strong>A:</strong> Not directly, but context and phrasing affect
+results.</p>
+<h3 data-number="1.13.7" id="q-does-it-work-on-tablets"><span class="header-section-number">1.13.7</span> Q: Does it work on
+tablets?</h3>
+<p><strong>A:</strong> Yes! Responsive design works on all devices.</p>
+<h3 data-number="1.13.8" id="q-how-do-i-update-the-app"><span class="header-section-number">1.13.8</span> Q: How do I update the
+app?</h3>
+<p><strong>A:</strong> Run <code>git pull</code> and restart the
+server.</p>
+<hr />
+<h2 data-number="1.14" id="troubleshooting"><span class="header-section-number">1.14</span> 🆘 Troubleshooting</h2>
+<h3 data-number="1.14.1" id="ai-not-finding-documents"><span class="header-section-number">1.14.1</span> AI Not Finding
+Documents</h3>
+<ol type="1">
+<li>Check file is in Documents/Desktop/Downloads</li>
+<li>Use specific keywords in question</li>
+<li>Verify file has supported extension</li>
+<li>Try exact file name in question</li>
+</ol>
+<h3 data-number="1.14.2" id="search-too-slow"><span class="header-section-number">1.14.2</span> Search Too Slow</h3>
+<ol type="1">
+<li>Reduce folder depth</li>
+<li>Move files to top-level folders</li>
+<li>Clear browser cache</li>
+<li>Restart server</li>
+</ol>
+<h3 data-number="1.14.3" id="cant-access-from-mobile"><span class="header-section-number">1.14.3</span> Can’t Access from
+Mobile</h3>
+<ol type="1">
+<li>Verify same WiFi network</li>
+<li>Check firewall settings</li>
+<li>Use correct IP address</li>
+<li>Try http://IP:8000 (not https)</li>
+</ol>
+<h3 data-number="1.14.4" id="server-not-starting"><span class="header-section-number">1.14.4</span> Server Not Starting</h3>
+<ol type="1">
+<li>Check <code>.env</code> file exists</li>
+<li>Verify API key is valid</li>
+<li>Ensure port not in use</li>
+<li>Check Python version (3.8+)</li>
+</ol>
+<hr />
+<h2 data-number="1.15" id="additional-resources"><span class="header-section-number">1.15</span> 📚 Additional Resources</h2>
+<ul>
+<li><strong>Setup Guide:</strong> <code>docs/SETUP_GUIDE.md</code></li>
+<li><strong>OAuth Setup:</strong>
+<code>docs/GOOGLE_OAUTH_SETUP.md</code></li>
+<li><strong>Document Search:</strong>
+<code>DOCUMENT_SEARCH_FEATURE.md</code></li>
+<li><strong>Quick Setup:</strong> <code>QUICK_SETUP.md</code></li>
+</ul>
+<hr />
+<h2 data-number="1.16" id="learning-resources"><span class="header-section-number">1.16</span> 🎓 Learning Resources</h2>
+<h3 data-number="1.16.1" id="getting-started-1"><span class="header-section-number">1.16.1</span> Getting Started</h3>
+<ol type="1">
+<li>Start with simple questions</li>
+<li>Try document search with your files</li>
+<li>Experiment with analysis tools</li>
+<li>Test decision support</li>
+</ol>
+<h3 data-number="1.16.2" id="advanced-usage"><span class="header-section-number">1.16.2</span> Advanced Usage</h3>
+<ol type="1">
+<li>Set up Google OAuth</li>
+<li>Configure custom folders</li>
+<li>Integrate with workflows</li>
+<li>Automate with scripts</li>
+</ol>
+<hr />
+<p><strong>Ready to get started? Try asking: “Show me my documents” or
+“Help me analyze sales data”</strong></p>
+<p><strong>Developed by: DSR | Inspired by: LA | Powered by: Gemini
+AI</strong></p>
+</body>
+</html>

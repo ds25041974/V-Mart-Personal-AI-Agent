@@ -9,7 +9,7 @@
     <!-- Program to Run -->
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/local/bin/python3</string>
+        <string>/Library/Frameworks/Python.framework/Versions/3.13/bin/python3</string>
         <string>/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent/main.py</string>
     </array>
     

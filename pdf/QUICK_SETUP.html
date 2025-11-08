@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-11-08" />
+  <title>V-Mart AI Agent: QUICK SETUP</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 5px; margin-top: 30px; }
+            h3 { color: #555; margin-top: 20px; }
+            code {
+                background-color: #f4f4f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+            }
+            pre {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            pre code { background-color: transparent; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }
+            table th {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            table tr:nth-child(even) { background-color: #f9f9f9; }
+            blockquote {
+                border-left: 4px solid #3498db;
+                padding-left: 20px;
+                margin: 20px 0;
+                color: #555;
+            }
+            a { color: #3498db; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #3498db;
+            }
+            @media print {
+                body { margin: 0; padding: 20px; }
+                a { color: #000; }
+            }
+        
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart AI Agent: QUICK SETUP</h1>
+<p class="date">November 08, 2025</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#quick-setup-guide---v-mart-personal-ai-agent" id="toc-quick-setup-guide---v-mart-personal-ai-agent"><span class="toc-section-number">1</span> Quick Setup Guide - V-Mart Personal
+AI Agent</a>
+<ul>
+<li><a href="#get-your-gemini-api-key-required-for-demo-mode" id="toc-get-your-gemini-api-key-required-for-demo-mode"><span class="toc-section-number">1.1</span> ⚡ Get Your Gemini API Key
+(Required for Demo Mode)</a>
+<ul>
+<li><a href="#step-1-get-gemini-api-key" id="toc-step-1-get-gemini-api-key"><span class="toc-section-number">1.1.1</span> Step 1: Get Gemini API
+Key</a></li>
+<li><a href="#step-2-update-.env-file" id="toc-step-2-update-.env-file"><span class="toc-section-number">1.1.2</span> Step 2: Update .env
+File</a></li>
+<li><a href="#step-3-restart-the-server" id="toc-step-3-restart-the-server"><span class="toc-section-number">1.1.3</span> Step 3: Restart the
+Server</a></li>
+</ul></li>
+<li><a href="#full-oauth-setup-for-production---all-v-martlimeroad-users" id="toc-full-oauth-setup-for-production---all-v-martlimeroad-users"><span class="toc-section-number">1.2</span> 🔐 Full OAuth Setup (For
+Production - All V-Mart/Limeroad Users)</a>
+<ul>
+<li><a href="#step-1-google-cloud-console-setup" id="toc-step-1-google-cloud-console-setup"><span class="toc-section-number">1.2.1</span> Step 1: Google Cloud Console
+Setup</a></li>
+<li><a href="#step-2-create-oauth-credentials" id="toc-step-2-create-oauth-credentials"><span class="toc-section-number">1.2.2</span> Step 2: Create OAuth
+Credentials</a></li>
+<li><a href="#step-3-update-.env-file" id="toc-step-3-update-.env-file"><span class="toc-section-number">1.2.3</span> Step 3: Update .env
+File</a></li>
+<li><a href="#step-4-domain-restrictions" id="toc-step-4-domain-restrictions"><span class="toc-section-number">1.2.4</span> Step 4: Domain
+Restrictions</a></li>
+</ul></li>
+<li><a href="#demo-mode-current-setup" id="toc-demo-mode-current-setup"><span class="toc-section-number">1.3</span> 🧪 Demo Mode (Current
+Setup)</a></li>
+<li><a href="#current-configuration-status" id="toc-current-configuration-status"><span class="toc-section-number">1.4</span> 📝 Current Configuration
+Status</a></li>
+<li><a href="#quick-start-minimum-setup" id="toc-quick-start-minimum-setup"><span class="toc-section-number">1.5</span> 🚀 Quick Start (Minimum
+Setup)</a></li>
+<li><a href="#api-key-limits" id="toc-api-key-limits"><span class="toc-section-number">1.6</span> 📚 API Key Limits</a></li>
+<li><a href="#troubleshooting" id="toc-troubleshooting"><span class="toc-section-number">1.7</span> ❓ Troubleshooting</a>
+<ul>
+<li><a href="#api-key-not-valid-error" id="toc-api-key-not-valid-error"><span class="toc-section-number">1.7.1</span> “API key not valid”
+Error</a></li>
+<li><a href="#oauth-login-not-working" id="toc-oauth-login-not-working"><span class="toc-section-number">1.7.2</span> OAuth Login Not Working</a></li>
+<li><a href="#server-wont-start" id="toc-server-wont-start"><span class="toc-section-number">1.7.3</span> Server Won’t Start</a></li>
+</ul></li>
+<li><a href="#useful-links" id="toc-useful-links"><span class="toc-section-number">1.8</span> 🔗 Useful Links</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="quick-setup-guide---v-mart-personal-ai-agent"><span class="header-section-number">1</span> Quick Setup Guide - V-Mart
+Personal AI Agent</h1>
+<h2 data-number="1.1" id="get-your-gemini-api-key-required-for-demo-mode"><span class="header-section-number">1.1</span> ⚡ Get Your Gemini API Key
+(Required for Demo Mode)</h2>
+<h3 data-number="1.1.1" id="step-1-get-gemini-api-key"><span class="header-section-number">1.1.1</span> Step 1: Get Gemini API
+Key</h3>
+<ol type="1">
+<li>Go to <strong><a href="https://makersuite.google.com/app/apikey">Google AI
+Studio</a></strong></li>
+<li>Click <strong>“Get API Key”</strong> or <strong>“Create API
+Key”</strong></li>
+<li>Select or create a Google Cloud project</li>
+<li>Click <strong>“Create API Key in new project”</strong> (or use
+existing project)</li>
+<li><strong>Copy the API key</strong> (starts with
+<code>AIza...</code>)</li>
+</ol>
+<h3 data-number="1.1.2" id="step-2-update-.env-file"><span class="header-section-number">1.1.2</span> Step 2: Update .env File</h3>
+<p>Open the <code>.env</code> file and replace:</p>
+<pre><code>GEMINI_API_KEY=your_gemini_api_key_here</code></pre>
+<p>With your actual API key:</p>
+<pre><code>GEMINI_API_KEY=AIzaSy...your_actual_key...</code></pre>
+<h3 data-number="1.1.3" id="step-3-restart-the-server"><span class="header-section-number">1.1.3</span> Step 3: Restart the
+Server</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop the current server (Ctrl+C)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> main.py</span></code></pre></div>
+<h2 data-number="1.2" id="full-oauth-setup-for-production---all-v-martlimeroad-users"><span class="header-section-number">1.2</span> 🔐 Full OAuth Setup (For
+Production - All V-Mart/Limeroad Users)</h2>
+<p>If you want to enable Google OAuth login for all users from your
+domains:</p>
+<h3 data-number="1.2.1" id="step-1-google-cloud-console-setup"><span class="header-section-number">1.2.1</span> Step 1: Google Cloud Console
+Setup</h3>
+<ol type="1">
+<li>Go to <strong><a href="https://console.cloud.google.com">Google
+Cloud Console</a></strong></li>
+<li>Create a new project or select existing</li>
+<li>Enable <strong>Google+ API</strong> and <strong>Google
+Identity</strong> services</li>
+</ol>
+<h3 data-number="1.2.2" id="step-2-create-oauth-credentials"><span class="header-section-number">1.2.2</span> Step 2: Create OAuth
+Credentials</h3>
+<ol type="1">
+<li>Navigate to <strong>APIs &amp; Services &gt;
+Credentials</strong></li>
+<li>Click <strong>“Create Credentials” &gt; “OAuth 2.0 Client
+ID”</strong></li>
+<li>Configure consent screen:
+<ul>
+<li>User Type: <strong>Internal</strong> (for workspace users) or
+<strong>External</strong></li>
+<li>App name: <strong>V-Mart Personal AI Agent</strong></li>
+<li>Authorized domains: Add <code>vmart.co.in</code>,
+<code>vmartretail.com</code>, <code>limeroad.com</code></li>
+</ul></li>
+<li>Create OAuth Client ID:
+<ul>
+<li>Application type: <strong>Web application</strong></li>
+<li>Authorized redirect URIs:
+<code>http://localhost:8000/auth/authorize</code></li>
+</ul></li>
+<li><strong>Copy Client ID and Client Secret</strong></li>
+</ol>
+<h3 data-number="1.2.3" id="step-3-update-.env-file"><span class="header-section-number">1.2.3</span> Step 3: Update .env File</h3>
+<pre class="env"><code>GOOGLE_CLIENT_ID=your_actual_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_actual_client_secret</code></pre>
+<h3 data-number="1.2.4" id="step-4-domain-restrictions"><span class="header-section-number">1.2.4</span> Step 4: Domain
+Restrictions</h3>
+<p>The app is already configured to only allow users from: -
+<code>vmart.co.in</code> - <code>vmartretail.com</code> -
+<code>limeroad.com</code></p>
+<p>Users from other domains will be rejected automatically.</p>
+<h2 data-number="1.3" id="demo-mode-current-setup"><span class="header-section-number">1.3</span> 🧪 Demo Mode (Current
+Setup)</h2>
+<p><strong>Demo mode is already enabled!</strong> It allows you to test
+the interface without OAuth: - Click <strong>“Enter Demo Mode”</strong>
+on the home page - This bypasses authentication for testing - You can
+use all features once you add the Gemini API key</p>
+<h2 data-number="1.4" id="current-configuration-status"><span class="header-section-number">1.4</span> 📝 Current Configuration
+Status</h2>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 25%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Status</th>
+<th>Required For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GEMINI_API_KEY</td>
+<td>❌ Not Set</td>
+<td><strong>All features - Required!</strong></td>
+</tr>
+<tr>
+<td>GOOGLE_CLIENT_ID</td>
+<td>❌ Not Set</td>
+<td>OAuth login (optional in demo mode)</td>
+</tr>
+<tr>
+<td>GOOGLE_CLIENT_SECRET</td>
+<td>❌ Not Set</td>
+<td>OAuth login (optional in demo mode)</td>
+</tr>
+<tr>
+<td>GITHUB_TOKEN</td>
+<td>❌ Not Set</td>
+<td>GitHub integration (optional)</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="1.5" id="quick-start-minimum-setup"><span class="header-section-number">1.5</span> 🚀 Quick Start (Minimum
+Setup)</h2>
+<p><strong>To get started right now:</strong> 1. Get Gemini API key from
+<a href="https://makersuite.google.com/app/apikey">Google AI Studio</a>
+2. Update <code>GEMINI_API_KEY</code> in <code>.env</code> file 3.
+Restart server: <code>python3 main.py</code> 4. Open browser:
+http://localhost:8000 5. Click <strong>“Enter Demo Mode”</strong> 6.
+Start chatting!</p>
+<h2 data-number="1.6" id="api-key-limits"><span class="header-section-number">1.6</span> 📚 API Key Limits</h2>
+<p><strong>Free Tier (Gemini API):</strong> - 60 requests per minute -
+Perfect for testing and development</p>
+<p><strong>For Production:</strong> - Consider upgrading to paid tier
+for higher limits - Set up proper OAuth for user authentication - Add
+rate limiting in the application</p>
+<h2 data-number="1.7" id="troubleshooting"><span class="header-section-number">1.7</span> ❓ Troubleshooting</h2>
+<h3 data-number="1.7.1" id="api-key-not-valid-error"><span class="header-section-number">1.7.1</span> “API key not valid”
+Error</h3>
+<ul>
+<li>Make sure you copied the entire API key (starts with
+<code>AIza</code>)</li>
+<li>Check for extra spaces or quotes in <code>.env</code> file</li>
+<li>Verify the key is active in <a href="https://makersuite.google.com/app/apikey">Google AI
+Studio</a></li>
+</ul>
+<h3 data-number="1.7.2" id="oauth-login-not-working"><span class="header-section-number">1.7.2</span> OAuth Login Not Working</h3>
+<ul>
+<li>For now, use <strong>Demo Mode</strong> to test</li>
+<li>Full OAuth setup requires Google Cloud Console configuration</li>
+<li>See “Full OAuth Setup” section above</li>
+</ul>
+<h3 data-number="1.7.3" id="server-wont-start"><span class="header-section-number">1.7.3</span> Server Won’t Start</h3>
+<ul>
+<li>Check all dependencies are installed:
+<code>pip install -r requirements.txt</code></li>
+<li>Verify Python version: <code>python3 --version</code> (should be
+3.8+)</li>
+<li>Check port 8000 is not in use: <code>lsof -i :8000</code></li>
+</ul>
+<h2 data-number="1.8" id="useful-links"><span class="header-section-number">1.8</span> 🔗 Useful Links</h2>
+<ul>
+<li><a href="https://makersuite.google.com/app/apikey">Google AI Studio
+(Get API Key)</a></li>
+<li><a href="https://console.cloud.google.com">Google Cloud
+Console</a></li>
+<li><a href="https://ai.google.dev/docs">Gemini API
+Documentation</a></li>
+<li><a href="https://developers.google.com/identity/protocols/oauth2">OAuth 2.0
+Setup Guide</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-11-08" />
+  <title>V-Mart AI Agent: GOOGLE OAUTH SETUP</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 5px; margin-top: 30px; }
+            h3 { color: #555; margin-top: 20px; }
+            code {
+                background-color: #f4f4f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+            }
+            pre {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            pre code { background-color: transparent; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }
+            table th {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            table tr:nth-child(even) { background-color: #f9f9f9; }
+            blockquote {
+                border-left: 4px solid #3498db;
+                padding-left: 20px;
+                margin: 20px 0;
+                color: #555;
+            }
+            a { color: #3498db; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #3498db;
+            }
+            @media print {
+                body { margin: 0; padding: 20px; }
+                a { color: #000; }
+            }
+        
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart AI Agent: GOOGLE OAUTH SETUP</h1>
+<p class="date">November 08, 2025</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#google-oauth-setup-guide" id="toc-google-oauth-setup-guide"><span class="toc-section-number">1</span> 🔐 Google OAuth Setup Guide</a>
+<ul>
+<li><a href="#complete-guide-to-get-google-oauth-credentials" id="toc-complete-guide-to-get-google-oauth-credentials"><span class="toc-section-number">1.1</span> Complete Guide to Get Google OAuth
+Credentials</a></li>
+<li><a href="#prerequisites" id="toc-prerequisites"><span class="toc-section-number">1.2</span> 📋 Prerequisites</a></li>
+<li><a href="#step-by-step-setup" id="toc-step-by-step-setup"><span class="toc-section-number">1.3</span> 🚀 Step-by-Step Setup</a>
+<ul>
+<li><a href="#step-1-access-google-cloud-console" id="toc-step-1-access-google-cloud-console"><span class="toc-section-number">1.3.1</span> Step 1: Access Google Cloud
+Console</a></li>
+<li><a href="#step-2-enable-required-apis" id="toc-step-2-enable-required-apis"><span class="toc-section-number">1.3.2</span> Step 2: Enable Required
+APIs</a></li>
+<li><a href="#step-3-configure-oauth-consent-screen" id="toc-step-3-configure-oauth-consent-screen"><span class="toc-section-number">1.3.3</span> Step 3: Configure OAuth Consent
+Screen</a></li>
+<li><a href="#step-4-create-oauth-client-id" id="toc-step-4-create-oauth-client-id"><span class="toc-section-number">1.3.4</span> Step 4: Create OAuth Client
+ID</a></li>
+<li><a href="#step-5-download-credentials" id="toc-step-5-download-credentials"><span class="toc-section-number">1.3.5</span> Step 5: Download
+Credentials</a></li>
+<li><a href="#step-6-add-credentials-to-your-app" id="toc-step-6-add-credentials-to-your-app"><span class="toc-section-number">1.3.6</span> Step 6: Add Credentials to Your
+App</a></li>
+<li><a href="#step-7-test-oauth-login" id="toc-step-7-test-oauth-login"><span class="toc-section-number">1.3.7</span> Step 7: Test OAuth
+Login</a></li>
+</ul></li>
+<li><a href="#quick-reference" id="toc-quick-reference"><span class="toc-section-number">1.4</span> 🔍 Quick Reference</a>
+<ul>
+<li><a href="#your-project-details" id="toc-your-project-details"><span class="toc-section-number">1.4.1</span> Your Project Details:</a></li>
+<li><a href="#google-cloud-console-links" id="toc-google-cloud-console-links"><span class="toc-section-number">1.4.2</span> Google Cloud Console
+Links:</a></li>
+<li><a href="#required-scopes" id="toc-required-scopes"><span class="toc-section-number">1.4.3</span> Required Scopes:</a></li>
+</ul></li>
+<li><a href="#important-notes" id="toc-important-notes"><span class="toc-section-number">1.5</span> ⚠️ Important Notes</a>
+<ul>
+<li><a href="#testing-phase" id="toc-testing-phase"><span class="toc-section-number">1.5.1</span> Testing Phase:</a></li>
+<li><a href="#publishing-optional---for-production" id="toc-publishing-optional---for-production"><span class="toc-section-number">1.5.2</span> Publishing (Optional - for
+production):</a></li>
+<li><a href="#security-tips" id="toc-security-tips"><span class="toc-section-number">1.5.3</span> Security Tips:</a></li>
+</ul></li>
+<li><a href="#troubleshooting" id="toc-troubleshooting"><span class="toc-section-number">1.6</span> 🐛 Troubleshooting</a>
+<ul>
+<li><a href="#error-redirect_uri_mismatch" id="toc-error-redirect_uri_mismatch"><span class="toc-section-number">1.6.1</span> Error:
+“redirect_uri_mismatch”</a></li>
+<li><a href="#error-access-blocked-this-apps-request-is-invalid" id="toc-error-access-blocked-this-apps-request-is-invalid"><span class="toc-section-number">1.6.2</span> Error: “Access blocked: This
+app’s request is invalid”</a></li>
+<li><a href="#error-this-app-isnt-verified" id="toc-error-this-app-isnt-verified"><span class="toc-section-number">1.6.3</span> Error: “This app isn’t
+verified”</a></li>
+<li><a href="#cant-see-the-project" id="toc-cant-see-the-project"><span class="toc-section-number">1.6.4</span> Can’t see the project</a></li>
+<li><a href="#oauth-consent-screen-missing-scopes" id="toc-oauth-consent-screen-missing-scopes"><span class="toc-section-number">1.6.5</span> OAuth consent screen missing
+scopes</a></li>
+</ul></li>
+<li><a href="#verification-checklist" id="toc-verification-checklist"><span class="toc-section-number">1.7</span> ✅ Verification Checklist</a></li>
+<li><a href="#need-help" id="toc-need-help"><span class="toc-section-number">1.8</span> 📞 Need Help?</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="google-oauth-setup-guide"><span class="header-section-number">1</span> 🔐 Google OAuth Setup Guide</h1>
+<h2 data-number="1.1" id="complete-guide-to-get-google-oauth-credentials"><span class="header-section-number">1.1</span> Complete Guide to Get Google
+OAuth Credentials</h2>
+<p>This guide will help you set up Google OAuth authentication for the
+V-Mart AI Agent to access Gmail, Google Drive, Google Docs, Sheets, and
+Slides.</p>
+<hr />
+<h2 data-number="1.2" id="prerequisites"><span class="header-section-number">1.2</span> 📋 Prerequisites</h2>
+<ul>
+<li>A Google Account (Gmail)</li>
+<li>Access to <a href="https://console.cloud.google.com">Google Cloud
+Console</a></li>
+<li>Your project: <code>gen-lang-client-0157247224</code></li>
+</ul>
+<hr />
+<h2 data-number="1.3" id="step-by-step-setup"><span class="header-section-number">1.3</span> 🚀 Step-by-Step Setup</h2>
+<h3 data-number="1.3.1" id="step-1-access-google-cloud-console"><span class="header-section-number">1.3.1</span> Step 1: Access Google Cloud
+Console</h3>
+<ol type="1">
+<li><p>Go to <a href="https://console.cloud.google.com">Google Cloud
+Console</a></p></li>
+<li><p>Sign in with your Google account</p></li>
+<li><p>Click on the project dropdown at the top</p></li>
+<li><p>Select your project:
+<strong>gen-lang-client-0157247224</strong></p>
+<p>If you don’t see it, click “Select a project” → Find
+<code>gen-lang-client-0157247224</code></p></li>
+</ol>
+<hr />
+<h3 data-number="1.3.2" id="step-2-enable-required-apis"><span class="header-section-number">1.3.2</span> Step 2: Enable Required
+APIs</h3>
+<p>You need to enable these APIs for the AI agent to work:</p>
+<ol type="1">
+<li><p>In the left sidebar, go to <strong>“APIs &amp; Services”</strong>
+→ <strong>“Library”</strong></p></li>
+<li><p>Search for and enable each of these APIs:</p>
+<p><strong>Essential APIs:</strong></p>
+<ul>
+<li>✅ <strong>Gmail API</strong> - For reading/sending emails</li>
+<li>✅ <strong>Google Drive API</strong> - For accessing Drive
+files</li>
+<li>✅ <strong>Google Docs API</strong> - For reading Google Docs</li>
+<li>✅ <strong>Google Sheets API</strong> - For reading
+spreadsheets</li>
+<li>✅ <strong>Google Slides API</strong> - For reading
+presentations</li>
+<li>✅ <strong>Google People API</strong> - For user info</li>
+</ul>
+<p><strong>How to Enable:</strong></p>
+<ul>
+<li>Click on each API name</li>
+<li>Click the blue <strong>“ENABLE”</strong> button</li>
+<li>Wait for it to activate (usually takes a few seconds)</li>
+<li>Repeat for all APIs above</li>
+</ul></li>
+</ol>
+<hr />
+<h3 data-number="1.3.3" id="step-3-configure-oauth-consent-screen"><span class="header-section-number">1.3.3</span> Step 3: Configure OAuth
+Consent Screen</h3>
+<p>This is what users see when they authorize your app.</p>
+<ol type="1">
+<li><p>Go to <strong>“APIs &amp; Services”</strong> → <strong>“OAuth
+consent screen”</strong></p></li>
+<li><p>Choose User Type:</p>
+<ul>
+<li>Select <strong>“External”</strong> (for testing with any Google
+account)</li>
+<li>Click <strong>“CREATE”</strong></li>
+</ul></li>
+<li><p>Fill in App Information:</p>
+<pre><code>App name: V-Mart AI Agent
+User support email: [Your email]
+App logo: (Optional - skip for now)</code></pre></li>
+<li><p>App Domain (Optional for testing):</p>
+<pre><code>Application home page: http://localhost:8000
+Application privacy policy link: (skip for testing)
+Application terms of service link: (skip for testing)</code></pre></li>
+<li><p>Developer Contact Information:</p>
+<pre><code>Email addresses: [Your email]</code></pre></li>
+<li><p>Click <strong>“SAVE AND CONTINUE”</strong></p></li>
+<li><p><strong>Scopes Screen</strong> - Add these scopes:</p>
+<p>Click <strong>“ADD OR REMOVE SCOPES”</strong></p>
+<p>Search for and select:</p>
+<ul>
+<li>✅ <code>https://www.googleapis.com/auth/gmail.readonly</code> -
+Read Gmail</li>
+<li>✅ <code>https://www.googleapis.com/auth/gmail.send</code> - Send
+Gmail</li>
+<li>✅ <code>https://www.googleapis.com/auth/drive.readonly</code> -
+Read Drive files</li>
+<li>✅ <code>https://www.googleapis.com/auth/documents.readonly</code> -
+Read Google Docs</li>
+<li>✅
+<code>https://www.googleapis.com/auth/spreadsheets.readonly</code> -
+Read Sheets</li>
+<li>✅
+<code>https://www.googleapis.com/auth/presentations.readonly</code> -
+Read Slides</li>
+<li>✅ <code>https://www.googleapis.com/auth/userinfo.profile</code> -
+User profile</li>
+<li>✅ <code>https://www.googleapis.com/auth/userinfo.email</code> -
+User email</li>
+</ul>
+<p>Click <strong>“UPDATE”</strong> → <strong>“SAVE AND
+CONTINUE”</strong></p></li>
+<li><p><strong>Test Users</strong> (Important for External apps):</p>
+<p>Click <strong>“ADD USERS”</strong></p>
+<p>Add your Gmail address (the one you’ll use to test)</p>
+<p>Click <strong>“ADD”</strong> → <strong>“SAVE AND
+CONTINUE”</strong></p></li>
+<li><p>Review and click <strong>“BACK TO DASHBOARD”</strong></p></li>
+</ol>
+<hr />
+<h3 data-number="1.3.4" id="step-4-create-oauth-client-id"><span class="header-section-number">1.3.4</span> Step 4: Create OAuth Client
+ID</h3>
+<p>Now create the actual credentials:</p>
+<ol type="1">
+<li><p>Go to <strong>“APIs &amp; Services”</strong> →
+<strong>“Credentials”</strong></p></li>
+<li><p>Click <strong>“+ CREATE CREDENTIALS”</strong> at the top</p></li>
+<li><p>Select <strong>“OAuth client ID”</strong></p></li>
+<li><p>Configure the OAuth client:</p>
+<pre><code>Application type: Web application
+Name: V-Mart AI Agent Web Client</code></pre></li>
+<li><p><strong>Authorized JavaScript origins:</strong></p>
+<p>Click <strong>“+ ADD URI”</strong> and add:</p>
+<pre><code>http://localhost:8000
+http://127.0.0.1:8000</code></pre></li>
+<li><p><strong>Authorized redirect URIs:</strong></p>
+<p>Click <strong>“+ ADD URI”</strong> and add:</p>
+<pre><code>http://localhost:8000/auth/callback
+http://127.0.0.1:8000/auth/callback</code></pre></li>
+<li><p>Click <strong>“CREATE”</strong></p></li>
+</ol>
+<hr />
+<h3 data-number="1.3.5" id="step-5-download-credentials"><span class="header-section-number">1.3.5</span> Step 5: Download
+Credentials</h3>
+<p>After creating, you’ll see a popup with your credentials:</p>
+<ol type="1">
+<li><p><strong>Copy Your Client ID:</strong></p>
+<pre><code>Example: YOUR_CLIENT_ID.apps.googleusercontent.com</code></pre></li>
+<li><p><strong>Copy Your Client Secret:</strong></p>
+<pre><code>Example: GOCSPX-YourSecretHere</code></pre></li>
+<li><p>Click <strong>“DOWNLOAD JSON”</strong> - This downloads
+<code>client_secret_xxxxx.json</code></p></li>
+<li><p><strong>Optional:</strong> Click “OK” to close the popup</p></li>
+</ol>
+<hr />
+<h3 data-number="1.3.6" id="step-6-add-credentials-to-your-app"><span class="header-section-number">1.3.6</span> Step 6: Add Credentials to
+Your App</h3>
+<p>Now update your <code>.env</code> file:</p>
+<ol type="1">
+<li><p>Open the file in your editor:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent&quot;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .env</span></code></pre></div></li>
+<li><p>Add these lines (replace with YOUR actual values):</p>
+<pre class="env"><code># Google OAuth Credentials
+GOOGLE_CLIENT_ID=YOUR_CLIENT_ID_HERE.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=YOUR_CLIENT_SECRET_HERE
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/callback</code></pre></li>
+<li><p>Example with your values:</p>
+<pre class="env"><code># Google OAuth Credentials
+GOOGLE_CLIENT_ID=123456789012-abc123xyz789.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-AbCdEfGhIjKlMnOpQrStUv
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/callback
+
+# Gemini API Key (already configured)
+GEMINI_API_KEY=AIzaSyCZ-XAV_EoRgs-KX429Z5UuKs87XBh1cFw
+
+# Server Config
+HOST=0.0.0.0
+PORT=8000
+SECRET_KEY=37d53f13221533b6d33b4f16dba8bc8b4e1a938759d20980439099b914efe80
+FLASK_DEBUG=True</code></pre></li>
+<li><p>Save the file:</p>
+<ul>
+<li>Press <code>Ctrl + O</code> (save)</li>
+<li>Press <code>Enter</code> (confirm)</li>
+<li>Press <code>Ctrl + X</code> (exit)</li>
+</ul></li>
+</ol>
+<hr />
+<h3 data-number="1.3.7" id="step-7-test-oauth-login"><span class="header-section-number">1.3.7</span> Step 7: Test OAuth Login</h3>
+<ol type="1">
+<li><p><strong>Restart the server:</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;/Users/dineshsrivastava/Ai Chatbot for Gemini LLM/V-Mart Personal AI Agent&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> main.py</span></code></pre></div></li>
+<li><p><strong>Open the app:</strong></p>
+<ul>
+<li>Go to http://localhost:8000</li>
+<li>Click “Login with Google”</li>
+<li>You’ll see a Google consent screen</li>
+</ul></li>
+<li><p><strong>Authorize the app:</strong></p>
+<ul>
+<li>Google may show a warning “This app isn’t verified” - this is normal
+for testing</li>
+<li>Click <strong>“Advanced”</strong> → <strong>“Go to V-Mart AI Agent
+(unsafe)”</strong></li>
+<li>Review the permissions</li>
+<li>Click <strong>“Allow”</strong></li>
+<li>You’ll be redirected back to the app</li>
+</ul></li>
+<li><p><strong>You’re logged in!</strong></p>
+<ul>
+<li>Now the chatbot can access your Gmail, Drive, Docs, Sheets, and
+Slides</li>
+<li>Try asking: “Show me my recent emails” or “Search my Google
+Drive”</li>
+</ul></li>
+</ol>
+<hr />
+<h2 data-number="1.4" id="quick-reference"><span class="header-section-number">1.4</span> 🔍 Quick Reference</h2>
+<h3 data-number="1.4.1" id="your-project-details"><span class="header-section-number">1.4.1</span> Your Project Details:</h3>
+<pre><code>Project ID: gen-lang-client-0157247224
+Gemini API Key: AIzaSyCZ-XAV_EoRgs-KX429Z5UuKs87XBh1cFw (already working)</code></pre>
+<h3 data-number="1.4.2" id="google-cloud-console-links"><span class="header-section-number">1.4.2</span> Google Cloud Console
+Links:</h3>
+<ul>
+<li><strong>Main Console:</strong> https://console.cloud.google.com</li>
+<li><strong>API Library:</strong>
+https://console.cloud.google.com/apis/library</li>
+<li><strong>OAuth Consent:</strong>
+https://console.cloud.google.com/apis/credentials/consent</li>
+<li><strong>Credentials:</strong>
+https://console.cloud.google.com/apis/credentials</li>
+</ul>
+<h3 data-number="1.4.3" id="required-scopes"><span class="header-section-number">1.4.3</span> Required Scopes:</h3>
+<pre><code>gmail.readonly
+gmail.send
+drive.readonly
+documents.readonly
+spreadsheets.readonly
+presentations.readonly
+userinfo.profile
+userinfo.email</code></pre>
+<hr />
+<h2 data-number="1.5" id="important-notes"><span class="header-section-number">1.5</span> ⚠️ Important Notes</h2>
+<h3 data-number="1.5.1" id="testing-phase"><span class="header-section-number">1.5.1</span> Testing Phase:</h3>
+<ul>
+<li>Your OAuth app is in “Testing” mode by default</li>
+<li>Only test users you add can log in</li>
+<li>Maximum 100 test users</li>
+<li>Perfect for development</li>
+</ul>
+<h3 data-number="1.5.2" id="publishing-optional---for-production"><span class="header-section-number">1.5.2</span> Publishing (Optional - for
+production):</h3>
+<ul>
+<li>When ready for public use, go to OAuth consent screen</li>
+<li>Click “PUBLISH APP”</li>
+<li>Google may review your app (can take days/weeks)</li>
+<li>Not needed for personal use</li>
+</ul>
+<h3 data-number="1.5.3" id="security-tips"><span class="header-section-number">1.5.3</span> Security Tips:</h3>
+<ul>
+<li>✅ Never share your Client Secret publicly</li>
+<li>✅ Keep your <code>.env</code> file private (it’s in
+<code>.gitignore</code>)</li>
+<li>✅ Use localhost URIs for development</li>
+<li>✅ Add production domains when deploying</li>
+</ul>
+<hr />
+<h2 data-number="1.6" id="troubleshooting"><span class="header-section-number">1.6</span> 🐛 Troubleshooting</h2>
+<h3 data-number="1.6.1" id="error-redirect_uri_mismatch"><span class="header-section-number">1.6.1</span> Error:
+“redirect_uri_mismatch”</h3>
+<p><strong>Solution:</strong> Make sure the redirect URI in
+<code>.env</code> exactly matches one in Google Console:</p>
+<pre><code>http://localhost:8000/auth/callback</code></pre>
+<h3 data-number="1.6.2" id="error-access-blocked-this-apps-request-is-invalid"><span class="header-section-number">1.6.2</span> Error: “Access blocked: This
+app’s request is invalid”</h3>
+<p><strong>Solution:</strong> Enable all required APIs in Step 2</p>
+<h3 data-number="1.6.3" id="error-this-app-isnt-verified"><span class="header-section-number">1.6.3</span> Error: “This app isn’t
+verified”</h3>
+<p><strong>Solution:</strong> This is normal for testing. Click
+“Advanced” → “Go to V-Mart AI Agent”</p>
+<h3 data-number="1.6.4" id="cant-see-the-project"><span class="header-section-number">1.6.4</span> Can’t see the project</h3>
+<p><strong>Solution:</strong> Make sure you’re signed in with the
+correct Google account</p>
+<h3 data-number="1.6.5" id="oauth-consent-screen-missing-scopes"><span class="header-section-number">1.6.5</span> OAuth consent screen missing
+scopes</h3>
+<p><strong>Solution:</strong> Go back to OAuth consent screen → Scopes →
+Add the missing scopes</p>
+<hr />
+<h2 data-number="1.7" id="verification-checklist"><span class="header-section-number">1.7</span> ✅ Verification Checklist</h2>
+<p>Before testing, verify:</p>
+<ul class="task-list">
+<li><label><input type="checkbox"></input>All 6 APIs are enabled (Gmail,
+Drive, Docs, Sheets, Slides, People)</label></li>
+<li><label><input type="checkbox"></input>OAuth consent screen is
+configured</label></li>
+<li><label><input type="checkbox"></input>Your email is added as a test
+user</label></li>
+<li><label><input type="checkbox"></input>OAuth Client ID is created (Web
+application type)</label></li>
+<li><label><input type="checkbox"></input>Redirect URIs include
+<code>http://localhost:8000/auth/callback</code></label></li>
+<li><label><input type="checkbox"></input><code>.env</code> file has
+GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET</label></li>
+<li><label><input type="checkbox"></input>Server is restarted after updating
+<code>.env</code></label></li>
+</ul>
+<hr />
+<h2 data-number="1.8" id="need-help"><span class="header-section-number">1.8</span> 📞 Need Help?</h2>
+<p>If you encounter issues:</p>
+<ol type="1">
+<li>Check the browser console for errors (F12 → Console tab)</li>
+<li>Check the terminal where the server is running for error
+messages</li>
+<li>Verify all credentials are copied correctly (no extra spaces)</li>
+<li>Make sure you’re using the same Google account you added as a test
+user</li>
+</ol>
+<hr />
+<p><strong>Developed by: DSR | Inspired by: LA | Powered by: Gemini
+AI</strong></p>
+</body>
+</html>

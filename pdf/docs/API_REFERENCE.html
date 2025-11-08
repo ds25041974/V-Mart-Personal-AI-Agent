@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-11-08" />
+  <title>V-Mart AI Agent: API REFERENCE</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 5px; margin-top: 30px; }
+            h3 { color: #555; margin-top: 20px; }
+            code {
+                background-color: #f4f4f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+            }
+            pre {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            pre code { background-color: transparent; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }
+            table th {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            table tr:nth-child(even) { background-color: #f9f9f9; }
+            blockquote {
+                border-left: 4px solid #3498db;
+                padding-left: 20px;
+                margin: 20px 0;
+                color: #555;
+            }
+            a { color: #3498db; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #3498db;
+            }
+            @media print {
+                body { margin: 0; padding: 20px; }
+                a { color: #000; }
+            }
+        
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart AI Agent: API REFERENCE</h1>
+<p class="date">November 08, 2025</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#v-mart-ai-agent---api-reference" id="toc-v-mart-ai-agent---api-reference"><span class="toc-section-number">1</span> V-Mart AI Agent - API Reference</a>
+<ul>
+<li><a href="#table-of-contents" id="toc-table-of-contents"><span class="toc-section-number">1.1</span> Table of Contents</a></li>
+<li><a href="#base-url" id="toc-base-url"><span class="toc-section-number">1.2</span> Base URL</a></li>
+<li><a href="#authentication" id="toc-authentication"><span class="toc-section-number">1.3</span> Authentication</a>
+<ul>
+<li><a href="#login-flow" id="toc-login-flow"><span class="toc-section-number">1.3.1</span> Login Flow</a></li>
+</ul></li>
+<li><a href="#chat-endpoints" id="toc-chat-endpoints"><span class="toc-section-number">1.4</span> Chat Endpoints</a>
+<ul>
+<li><a href="#ask-question" id="toc-ask-question"><span class="toc-section-number">1.4.1</span> Ask Question</a></li>
+<li><a href="#clear-conversation-history" id="toc-clear-conversation-history"><span class="toc-section-number">1.4.2</span> Clear Conversation
+History</a></li>
+</ul></li>
+<li><a href="#analysis-endpoints" id="toc-analysis-endpoints"><span class="toc-section-number">1.5</span> Analysis Endpoints</a>
+<ul>
+<li><a href="#analyze-data" id="toc-analyze-data"><span class="toc-section-number">1.5.1</span> Analyze Data</a></li>
+<li><a href="#reasoning-task" id="toc-reasoning-task"><span class="toc-section-number">1.5.2</span> Reasoning Task</a></li>
+<li><a href="#summarize-document" id="toc-summarize-document"><span class="toc-section-number">1.5.3</span> Summarize Document</a></li>
+<li><a href="#decision-support" id="toc-decision-support"><span class="toc-section-number">1.5.4</span> Decision Support</a></li>
+</ul></li>
+<li><a href="#file-management-endpoints" id="toc-file-management-endpoints"><span class="toc-section-number">1.6</span> File Management Endpoints</a>
+<ul>
+<li><a href="#list-files" id="toc-list-files"><span class="toc-section-number">1.6.1</span> List Files</a></li>
+<li><a href="#search-files" id="toc-search-files"><span class="toc-section-number">1.6.2</span> Search Files</a></li>
+<li><a href="#read-file" id="toc-read-file"><span class="toc-section-number">1.6.3</span> Read File</a></li>
+</ul></li>
+<li><a href="#scheduler-endpoints" id="toc-scheduler-endpoints"><span class="toc-section-number">1.7</span> Scheduler Endpoints</a>
+<ul>
+<li><a href="#list-scheduled-tasks" id="toc-list-scheduled-tasks"><span class="toc-section-number">1.7.1</span> List Scheduled Tasks</a></li>
+</ul></li>
+<li><a href="#utility-endpoints" id="toc-utility-endpoints"><span class="toc-section-number">1.8</span> Utility Endpoints</a>
+<ul>
+<li><a href="#health-check" id="toc-health-check"><span class="toc-section-number">1.8.1</span> Health Check</a></li>
+<li><a href="#home-page" id="toc-home-page"><span class="toc-section-number">1.8.2</span> Home Page</a></li>
+</ul></li>
+<li><a href="#error-handling" id="toc-error-handling"><span class="toc-section-number">1.9</span> Error Handling</a>
+<ul>
+<li><a href="#error-response-format" id="toc-error-response-format"><span class="toc-section-number">1.9.1</span> Error Response Format</a></li>
+<li><a href="#http-status-codes" id="toc-http-status-codes"><span class="toc-section-number">1.9.2</span> HTTP Status Codes</a></li>
+<li><a href="#example-error-responses" id="toc-example-error-responses"><span class="toc-section-number">1.9.3</span> Example Error Responses</a></li>
+</ul></li>
+<li><a href="#rate-limits" id="toc-rate-limits"><span class="toc-section-number">1.10</span> Rate Limits</a>
+<ul>
+<li><a href="#current-limits" id="toc-current-limits"><span class="toc-section-number">1.10.1</span> Current Limits</a></li>
+<li><a href="#gemini-api-limits" id="toc-gemini-api-limits"><span class="toc-section-number">1.10.2</span> Gemini API Limits</a></li>
+</ul></li>
+<li><a href="#example-usage" id="toc-example-usage"><span class="toc-section-number">1.11</span> Example Usage</a>
+<ul>
+<li><a href="#javascript-fetch-api" id="toc-javascript-fetch-api"><span class="toc-section-number">1.11.1</span> JavaScript (Fetch API)</a></li>
+<li><a href="#python-requests" id="toc-python-requests"><span class="toc-section-number">1.11.2</span> Python (Requests)</a></li>
+<li><a href="#curl" id="toc-curl"><span class="toc-section-number">1.11.3</span> cURL</a></li>
+</ul></li>
+<li><a href="#webhooks-future" id="toc-webhooks-future"><span class="toc-section-number">1.12</span> Webhooks (Future)</a></li>
+<li><a href="#versioning" id="toc-versioning"><span class="toc-section-number">1.13</span> Versioning</a></li>
+<li><a href="#support" id="toc-support"><span class="toc-section-number">1.14</span> Support</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="v-mart-ai-agent---api-reference"><span class="header-section-number">1</span> V-Mart AI Agent - API
+Reference</h1>
+<p>Complete documentation for the V-Mart Personal AI Agent REST API.</p>
+<h2 data-number="1.1" id="table-of-contents"><span class="header-section-number">1.1</span> Table of Contents</h2>
+<ol type="1">
+<li><a href="#authentication">Authentication</a></li>
+<li><a href="#chat-endpoints">Chat Endpoints</a></li>
+<li><a href="#analysis-endpoints">Analysis Endpoints</a></li>
+<li><a href="#file-management-endpoints">File Management
+Endpoints</a></li>
+<li><a href="#scheduler-endpoints">Scheduler Endpoints</a></li>
+<li><a href="#utility-endpoints">Utility Endpoints</a></li>
+<li><a href="#error-handling">Error Handling</a></li>
+<li><a href="#rate-limits">Rate Limits</a></li>
+</ol>
+<hr />
+<h2 data-number="1.2" id="base-url"><span class="header-section-number">1.2</span> Base URL</h2>
+<pre><code>http://localhost:5000</code></pre>
+<p>For production deployments, replace with your actual domain.</p>
+<hr />
+<h2 data-number="1.3" id="authentication"><span class="header-section-number">1.3</span> Authentication</h2>
+<p>All API endpoints (except <code>/login</code>,
+<code>/authorize</code>, <code>/logout</code>) require authentication
+via session cookies.</p>
+<h3 data-number="1.3.1" id="login-flow"><span class="header-section-number">1.3.1</span> Login Flow</h3>
+<h4 data-number="1.3.1.1" id="initiate-login"><span class="header-section-number">1.3.1.1</span> 1. Initiate Login</h4>
+<pre class="http"><code>GET /login</code></pre>
+<p><strong>Response</strong>: Redirects to Google OAuth consent
+screen</p>
+<hr />
+<h4 data-number="1.3.1.2" id="oauth-callback"><span class="header-section-number">1.3.1.2</span> 2. OAuth Callback</h4>
+<pre class="http"><code>GET /authorize?code={authorization_code}&amp;state={state}</code></pre>
+<p><strong>Parameters</strong>: - <code>code</code> (string):
+Authorization code from Google - <code>state</code> (string): CSRF
+protection token</p>
+<p><strong>Response</strong>: Redirects to <code>/</code> with session
+cookie set</p>
+<p><strong>Error Responses</strong>: - <code>403 Forbidden</code>:
+Domain not in allowed list - <code>401 Unauthorized</code>:
+Authentication failed</p>
+<hr />
+<h4 data-number="1.3.1.3" id="logout"><span class="header-section-number">1.3.1.3</span> 3. Logout</h4>
+<pre class="http"><code>GET /logout</code></pre>
+<p><strong>Response</strong>: Redirects to <code>/</code> with session
+cleared</p>
+<hr />
+<h2 data-number="1.4" id="chat-endpoints"><span class="header-section-number">1.4</span> Chat Endpoints</h2>
+<h3 data-number="1.4.1" id="ask-question"><span class="header-section-number">1.4.1</span> Ask Question</h3>
+<p>Send a question or prompt to the AI agent.</p>
+<pre class="http"><code>POST /ask
+Content-Type: application/json</code></pre>
+<p><strong>Request Body</strong>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;What are the key sales trends for Q4?&quot;</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;context&quot;</span><span class="fu">:</span> <span class="st">&quot;Looking at retail data&quot;</span> <span class="er">//</span> <span class="er">Optional</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;response&quot;</span><span class="fu">:</span> <span class="st">&quot;Based on the Q4 data analysis, here are the key trends:</span><span class="ch">\n</span><span class="st">1. Electronics sales increased by 23%</span><span class="ch">\n</span><span class="st">2. Fashion saw a 15% decline</span><span class="ch">\n</span><span class="st">3. Home goods remained stable...&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>401 Unauthorized</code>: Not logged in -
+<code>500 Internal Server Error</code>: Processing error</p>
+<p><strong>Example</strong>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fetch</span>(<span class="st">&#39;/ask&#39;</span><span class="op">,</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">headers</span><span class="op">:</span> { <span class="st">&#39;Content-Type&#39;</span><span class="op">:</span> <span class="st">&#39;application/json&#39;</span> }<span class="op">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">body</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>({</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">message</span><span class="op">:</span> <span class="st">&quot;Summarize our inventory status&quot;</span><span class="op">,</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">context</span><span class="op">:</span> <span class="st">&quot;Focus on high-value items&quot;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">then</span>(res <span class="kw">=&gt;</span> res<span class="op">.</span><span class="fu">json</span>())</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">then</span>(data <span class="kw">=&gt;</span> <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(data<span class="op">.</span><span class="at">response</span>))<span class="op">;</span></span></code></pre></div>
+<hr />
+<h3 data-number="1.4.2" id="clear-conversation-history"><span class="header-section-number">1.4.2</span> Clear Conversation
+History</h3>
+<p>Clear the conversation history for the current session.</p>
+<pre class="http"><code>POST /clear-history</code></pre>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;success&quot;</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;Conversation history cleared&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>401 Unauthorized</code>: Not logged in</p>
+<hr />
+<h2 data-number="1.5" id="analysis-endpoints"><span class="header-section-number">1.5</span> Analysis Endpoints</h2>
+<h3 data-number="1.5.1" id="analyze-data"><span class="header-section-number">1.5.1</span> Analyze Data</h3>
+<p>Perform AI-powered data analysis.</p>
+<pre class="http"><code>POST /analyze
+Content-Type: application/json</code></pre>
+<p><strong>Request Body</strong>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="st">&quot;Product,Sales,Profit</span><span class="ch">\n</span><span class="st">Laptop,150000,45000</span><span class="ch">\n</span><span class="st">Mouse,5000,2000&quot;</span><span class="fu">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;analysis_type&quot;</span><span class="fu">:</span> <span class="st">&quot;financial&quot;</span> <span class="er">//</span> <span class="er">Options:</span> <span class="er">general</span><span class="fu">,</span> <span class="er">financial,</span> <span class="er">sales,</span> <span class="er">inventory</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;analysis&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;insights&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Laptops show high profitability with 30% margin&quot;</span><span class="ot">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Mice have a 40% margin but lower absolute profit&quot;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;recommendations&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Increase laptop inventory for upcoming season&quot;</span><span class="ot">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Bundle accessories with high-margin items&quot;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;key_metrics&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;total_sales&quot;</span><span class="fu">:</span> <span class="st">&quot;155000&quot;</span><span class="fu">,</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;total_profit&quot;</span><span class="fu">:</span> <span class="st">&quot;47000&quot;</span><span class="fu">,</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;average_margin&quot;</span><span class="fu">:</span> <span class="st">&quot;30.3%&quot;</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Analysis Types</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>general</code></td>
+<td>Overall insights and patterns</td>
+</tr>
+<tr>
+<td><code>financial</code></td>
+<td>Profitability, trends, financial health</td>
+</tr>
+<tr>
+<td><code>sales</code></td>
+<td>Sales patterns, trends, forecasts</td>
+</tr>
+<tr>
+<td><code>inventory</code></td>
+<td>Stock levels, turnover analysis</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>400 Bad Request</code>: Missing or invalid data -
+<code>401 Unauthorized</code>: Not logged in -
+<code>500 Internal Server Error</code>: Analysis error</p>
+<hr />
+<h3 data-number="1.5.2" id="reasoning-task"><span class="header-section-number">1.5.2</span> Reasoning Task</h3>
+<p>Get step-by-step reasoning for complex problems.</p>
+<pre class="http"><code>POST /reasoning
+Content-Type: application/json</code></pre>
+<p><strong>Request Body</strong>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;task&quot;</span><span class="fu">:</span> <span class="st">&quot;How should we optimize our supply chain to reduce costs by 15%?&quot;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;reasoning&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;steps&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Analyze current supply chain costs&quot;</span><span class="ot">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Identify high-cost areas (transportation, warehousing, inventory)&quot;</span><span class="ot">,</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Evaluate vendor contracts and negotiate better rates&quot;</span><span class="ot">,</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Consider consolidation of shipments&quot;</span><span class="ot">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Implement just-in-time inventory practices&quot;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;conclusion&quot;</span><span class="fu">:</span> <span class="st">&quot;By renegotiating vendor contracts (5% savings), consolidating shipments (7% savings), and optimizing inventory (3% savings), you can achieve a 15% cost reduction.&quot;</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>400 Bad Request</code>: Missing task description -
+<code>401 Unauthorized</code>: Not logged in</p>
+<hr />
+<h3 data-number="1.5.3" id="summarize-document"><span class="header-section-number">1.5.3</span> Summarize Document</h3>
+<p>Create summaries of documents or text.</p>
+<pre class="http"><code>POST /summarize
+Content-Type: application/json</code></pre>
+<p><strong>Request Body</strong>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;text&quot;</span><span class="fu">:</span> <span class="st">&quot;Long document text here...&quot;</span><span class="fu">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;summary_type&quot;</span><span class="fu">:</span> <span class="st">&quot;executive&quot;</span> <span class="er">//</span> <span class="er">Options:</span> <span class="er">brief</span><span class="fu">,</span> <span class="er">detailed,</span> <span class="er">executive</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;summary&quot;</span><span class="fu">:</span> <span class="st">&quot;Executive Summary:</span><span class="ch">\n\n</span><span class="st">Key Points:</span><span class="ch">\n</span><span class="st">- Revenue increased 12% YoY</span><span class="ch">\n</span><span class="st">- Customer acquisition cost decreased by 8%</span><span class="ch">\n</span><span class="st">- New markets show promising growth</span><span class="ch">\n\n</span><span class="st">Recommendations:</span><span class="ch">\n</span><span class="st">- Continue expansion in tier-2 cities</span><span class="ch">\n</span><span class="st">- Invest in digital marketing&quot;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Summary Types</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>brief</code></td>
+<td>2-3 sentences</td>
+</tr>
+<tr>
+<td><code>detailed</code></td>
+<td>Comprehensive summary</td>
+</tr>
+<tr>
+<td><code>executive</code></td>
+<td>Executive summary with key points</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>400 Bad Request</code>: Missing text -
+<code>401 Unauthorized</code>: Not logged in</p>
+<hr />
+<h3 data-number="1.5.4" id="decision-support"><span class="header-section-number">1.5.4</span> Decision Support</h3>
+<p>Get AI-powered decision analysis with pros/cons.</p>
+<pre class="http"><code>POST /decision-support
+Content-Type: application/json</code></pre>
+<p><strong>Request Body</strong>:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;Should we expand to Tier-3 cities?&quot;</span><span class="fu">,</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;context&quot;</span><span class="fu">:</span> <span class="st">&quot;We&#39;re considering opening 50 new stores in tier-3 cities over the next year. Current presence is primarily in tier-1 and tier-2 cities.&quot;</span><span class="fu">,</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;options&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Aggressive expansion (50 stores in 6 months)&quot;</span><span class="ot">,</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Conservative approach (20 stores in 12 months)&quot;</span><span class="ot">,</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Franchise model (40 stores with local partners)&quot;</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;analysis&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;option_1&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Aggressive expansion (50 stores in 6 months)&quot;</span><span class="fu">,</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;pros&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Quick market capture&quot;</span><span class="ot">,</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Economies of scale faster&quot;</span><span class="ot">,</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Brand presence establishment&quot;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;cons&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;High upfront capital requirement&quot;</span><span class="ot">,</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Operational challenges&quot;</span><span class="ot">,</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Risk of overextension&quot;</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;risk_level&quot;</span><span class="fu">:</span> <span class="st">&quot;High&quot;</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;option_2&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Conservative approach (20 stores in 12 months)&quot;</span><span class="fu">,</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;pros&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Lower financial risk&quot;</span><span class="ot">,</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Time to learn market dynamics&quot;</span><span class="ot">,</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Better quality control&quot;</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;cons&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Slower market penetration&quot;</span><span class="ot">,</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Competitors may capture market&quot;</span><span class="ot">,</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Delayed ROI&quot;</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;risk_level&quot;</span><span class="fu">:</span> <span class="st">&quot;Low&quot;</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;option_3&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Franchise model (40 stores with local partners)&quot;</span><span class="fu">,</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;pros&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Reduced capital requirement&quot;</span><span class="ot">,</span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Local market expertise&quot;</span><span class="ot">,</span></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Shared risk with partners&quot;</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;cons&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Less control over operations&quot;</span><span class="ot">,</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Profit sharing&quot;</span><span class="ot">,</span></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Brand consistency challenges&quot;</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;risk_level&quot;</span><span class="fu">:</span> <span class="st">&quot;Medium&quot;</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;recommendation&quot;</span><span class="fu">:</span> <span class="st">&quot;Consider Option 3 (Franchise model) as it balances growth speed with risk management. Start with pilot franchises in 5 cities, measure performance, then scale.&quot;</span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>400 Bad Request</code>: Missing required fields -
+<code>401 Unauthorized</code>: Not logged in</p>
+<hr />
+<h2 data-number="1.6" id="file-management-endpoints"><span class="header-section-number">1.6</span> File Management Endpoints</h2>
+<h3 data-number="1.6.1" id="list-files"><span class="header-section-number">1.6.1</span> List Files</h3>
+<p>List files from local filesystem.</p>
+<pre class="http"><code>GET /files/list?directory=/path/to/dir&amp;extension=.pdf</code></pre>
+<p><strong>Query Parameters</strong>: - <code>directory</code> (string,
+optional): Directory path (default: current directory) -
+<code>extension</code> (string, optional): Filter by file extension
+(e.g., <code>.pdf</code>, <code>.txt</code>)</p>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;files&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Q4_Report.pdf&quot;</span><span class="fu">,</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;/Users/john/Documents/Q4_Report.pdf&quot;</span><span class="fu">,</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;size&quot;</span><span class="fu">:</span> <span class="dv">245678</span><span class="fu">,</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;modified&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-01-15T10:30:00&quot;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Sales_Data.xlsx&quot;</span><span class="fu">,</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;/Users/john/Documents/Sales_Data.xlsx&quot;</span><span class="fu">,</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;size&quot;</span><span class="fu">:</span> <span class="dv">89012</span><span class="fu">,</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;modified&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-01-16T14:20:00&quot;</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>401 Unauthorized</code>: Not logged in -
+<code>404 Not Found</code>: Directory doesn’t exist</p>
+<hr />
+<h3 data-number="1.6.2" id="search-files"><span class="header-section-number">1.6.2</span> Search Files</h3>
+<p>Search for files by name.</p>
+<pre class="http"><code>GET /files/search?directory=/path/to/dir&amp;filename=sales</code></pre>
+<p><strong>Query Parameters</strong>: - <code>directory</code> (string,
+optional): Search directory - <code>filename</code> (string, required):
+Filename to search for (partial match)</p>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;files&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/Users/john/Documents/sales_report.pdf&quot;</span><span class="ot">,</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/Users/john/Documents/Q4/sales_data.xlsx&quot;</span><span class="ot">,</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;/Users/john/Downloads/sales_forecast.docx&quot;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>400 Bad Request</code>: Missing filename parameter -
+<code>401 Unauthorized</code>: Not logged in</p>
+<hr />
+<h3 data-number="1.6.3" id="read-file"><span class="header-section-number">1.6.3</span> Read File</h3>
+<p>Read the contents of a file.</p>
+<pre class="http"><code>POST /files/read
+Content-Type: application/json</code></pre>
+<p><strong>Request Body</strong>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;/Users/john/Documents/report.txt&quot;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;content&quot;</span><span class="fu">:</span> <span class="st">&quot;Q4 Sales Report</span><span class="ch">\n\n</span><span class="st">Total Revenue: $2.5M</span><span class="ch">\n</span><span class="st">Profit: $750K</span><span class="ch">\n</span><span class="st">...&quot;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>400 Bad Request</code>: Missing path -
+<code>401 Unauthorized</code>: Not logged in -
+<code>404 Not Found</code>: File doesn’t exist -
+<code>500 Internal Server Error</code>: Unable to read file</p>
+<p><strong>Supported File Types</strong>: - Text files
+(<code>.txt</code>, <code>.md</code>, <code>.csv</code>) - Code files
+(<code>.py</code>, <code>.js</code>, <code>.java</code>, etc.) - JSON
+files - Log files</p>
+<hr />
+<h2 data-number="1.7" id="scheduler-endpoints"><span class="header-section-number">1.7</span> Scheduler Endpoints</h2>
+<h3 data-number="1.7.1" id="list-scheduled-tasks"><span class="header-section-number">1.7.1</span> List Scheduled Tasks</h3>
+<p>Get all scheduled tasks.</p>
+<pre class="http"><code>GET /scheduler/tasks</code></pre>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;tasks&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Daily Sales Report&quot;</span><span class="fu">,</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;next_run&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-01-17T09:00:00&quot;</span><span class="fu">,</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;daily&quot;</span><span class="fu">,</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;interval&quot;</span><span class="fu">:</span> <span class="st">&quot;09:00&quot;</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Weekly Inventory Check&quot;</span><span class="fu">,</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;next_run&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-01-20T10:00:00&quot;</span><span class="fu">,</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;weekly&quot;</span><span class="fu">,</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;interval&quot;</span><span class="fu">:</span> <span class="st">&quot;Monday 10:00&quot;</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Email Reminder&quot;</span><span class="fu">,</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;next_run&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-01-16T16:45:00&quot;</span><span class="fu">,</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;interval&quot;</span><span class="fu">,</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;interval&quot;</span><span class="fu">:</span> <span class="st">&quot;3600 seconds&quot;</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Success -
+<code>401 Unauthorized</code>: Not logged in</p>
+<hr />
+<h2 data-number="1.8" id="utility-endpoints"><span class="header-section-number">1.8</span> Utility Endpoints</h2>
+<h3 data-number="1.8.1" id="health-check"><span class="header-section-number">1.8.1</span> Health Check</h3>
+<p>Check if the service is running.</p>
+<pre class="http"><code>GET /health</code></pre>
+<p><strong>Response</strong>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;healthy&quot;</span><span class="fu">,</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;1.0.0&quot;</span><span class="fu">,</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;2024-01-16T15:30:00Z&quot;</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Status Codes</strong>: - <code>200 OK</code>: Service is
+healthy - <code>503 Service Unavailable</code>: Service is down</p>
+<hr />
+<h3 data-number="1.8.2" id="home-page"><span class="header-section-number">1.8.2</span> Home Page</h3>
+<p>Serve the main web interface.</p>
+<pre class="http"><code>GET /</code></pre>
+<p><strong>Response</strong>: HTML page (if authenticated) or redirect
+to <code>/login</code></p>
+<hr />
+<h2 data-number="1.9" id="error-handling"><span class="header-section-number">1.9</span> Error Handling</h2>
+<h3 data-number="1.9.1" id="error-response-format"><span class="header-section-number">1.9.1</span> Error Response Format</h3>
+<p>All errors return JSON with the following structure:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;Error message here&quot;</span><span class="fu">,</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;details&quot;</span><span class="fu">:</span> <span class="st">&quot;Additional context (optional)&quot;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 data-number="1.9.2" id="http-status-codes"><span class="header-section-number">1.9.2</span> HTTP Status Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>200</code></td>
+<td>Success</td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request - Invalid input</td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized - Not logged in</td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden - Domain restriction</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td>Not Found - Resource doesn’t exist</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Internal Server Error - Server-side error</td>
+</tr>
+<tr>
+<td><code>503</code></td>
+<td>Service Unavailable - Service is down</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.9.3" id="example-error-responses"><span class="header-section-number">1.9.3</span> Example Error Responses</h3>
+<p><strong>401 Unauthorized</strong>:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;Please log in to access this resource&quot;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>400 Bad Request</strong>:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;Missing required field: message&quot;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>403 Forbidden</strong>:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;Your domain is not authorized to use this service&quot;</span><span class="fu">,</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;details&quot;</span><span class="fu">:</span> <span class="st">&quot;Only vmart.co.in, vmartretail.com, and limeroad.com are allowed&quot;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>500 Internal Server Error</strong>:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;Failed to process request&quot;</span><span class="fu">,</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;details&quot;</span><span class="fu">:</span> <span class="st">&quot;Gemini API temporarily unavailable&quot;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<hr />
+<h2 data-number="1.10" id="rate-limits"><span class="header-section-number">1.10</span> Rate Limits</h2>
+<h3 data-number="1.10.1" id="current-limits"><span class="header-section-number">1.10.1</span> Current Limits</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Limit</th>
+<th>Window</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/ask</code></td>
+<td>60 requests</td>
+<td>1 minute</td>
+</tr>
+<tr>
+<td><code>/analyze</code></td>
+<td>30 requests</td>
+<td>1 minute</td>
+</tr>
+<tr>
+<td><code>/files/*</code></td>
+<td>100 requests</td>
+<td>1 minute</td>
+</tr>
+<tr>
+<td>All others</td>
+<td>120 requests</td>
+<td>1 minute</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Rate limits are managed by external services (Gemini API,
+Google APIs). No application-level rate limiting is currently
+implemented.</em></p>
+<h3 data-number="1.10.2" id="gemini-api-limits"><span class="header-section-number">1.10.2</span> Gemini API Limits</h3>
+<p>Free tier limits: - 60 requests per minute - 1,500 requests per
+day</p>
+<p>For higher limits, upgrade your Gemini API plan.</p>
+<hr />
+<h2 data-number="1.11" id="example-usage"><span class="header-section-number">1.11</span> Example Usage</h2>
+<h3 data-number="1.11.1" id="javascript-fetch-api"><span class="header-section-number">1.11.1</span> JavaScript (Fetch API)</h3>
+<div class="sourceCode" id="cb40"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Chat with the agent</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">askAgent</span>(question) {</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="st">&#39;/ask&#39;</span><span class="op">,</span> {</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">headers</span><span class="op">:</span> { <span class="st">&#39;Content-Type&#39;</span><span class="op">:</span> <span class="st">&#39;application/json&#39;</span> }<span class="op">,</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">body</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>({ <span class="dt">message</span><span class="op">:</span> question })</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">json</span>()<span class="op">;</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> data<span class="op">.</span><span class="at">response</span><span class="op">;</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Analyze data</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">analyzeData</span>(csvData<span class="op">,</span> type) {</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="st">&#39;/analyze&#39;</span><span class="op">,</span> {</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">headers</span><span class="op">:</span> { <span class="st">&#39;Content-Type&#39;</span><span class="op">:</span> <span class="st">&#39;application/json&#39;</span> }<span class="op">,</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">body</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>({</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">data</span><span class="op">:</span> csvData<span class="op">,</span></span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">analysis_type</span><span class="op">:</span> type</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">json</span>()<span class="op">;</span></span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="co">// Read a file</span></span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">readFile</span>(filePath) {</span>
+<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(<span class="st">&#39;/files/read&#39;</span><span class="op">,</span> {</span>
+<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;POST&#39;</span><span class="op">,</span></span>
+<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>    <span class="dt">headers</span><span class="op">:</span> { <span class="st">&#39;Content-Type&#39;</span><span class="op">:</span> <span class="st">&#39;application/json&#39;</span> }<span class="op">,</span></span>
+<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>    <span class="dt">body</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>({ <span class="dt">path</span><span class="op">:</span> filePath })</span>
+<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> <span class="cf">await</span> response<span class="op">.</span><span class="fu">json</span>()<span class="op">;</span></span>
+<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> data<span class="op">.</span><span class="at">content</span><span class="op">;</span></span>
+<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 data-number="1.11.2" id="python-requests"><span class="header-section-number">1.11.2</span> Python (Requests)</h3>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>BASE_URL <span class="op">=</span> <span class="st">&quot;http://localhost:5000&quot;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>session <span class="op">=</span> requests.Session()</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Login (manual - opens browser)</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># User must complete OAuth flow in browser</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Ask question</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ask_question(message, context<span class="op">=</span><span class="st">&quot;&quot;</span>):</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> session.post(</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f&quot;</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/ask&quot;</span>,</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>        json<span class="op">=</span>{<span class="st">&quot;message&quot;</span>: message, <span class="st">&quot;context&quot;</span>: context}</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response.json()[<span class="st">&quot;response&quot;</span>]</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze data</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_data(data, analysis_type<span class="op">=</span><span class="st">&quot;general&quot;</span>):</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> session.post(</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f&quot;</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/analyze&quot;</span>,</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>        json<span class="op">=</span>{<span class="st">&quot;data&quot;</span>: data, <span class="st">&quot;analysis_type&quot;</span>: analysis_type}</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response.json()[<span class="st">&quot;analysis&quot;</span>]</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a><span class="co"># List files</span></span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> list_files(directory<span class="op">=</span><span class="st">&quot;.&quot;</span>, extension<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> {<span class="st">&quot;directory&quot;</span>: directory}</span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> extension:</span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>        params[<span class="st">&quot;extension&quot;</span>] <span class="op">=</span> extension</span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> session.get(<span class="ss">f&quot;</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/files/list&quot;</span>, params<span class="op">=</span>params)</span>
+<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response.json()[<span class="st">&quot;files&quot;</span>]</span>
+<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage</span></span>
+<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a>answer <span class="op">=</span> ask_question(<span class="st">&quot;What are the top 3 sales trends?&quot;</span>)</span>
+<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(answer)</span></code></pre></div>
+<h3 data-number="1.11.3" id="curl"><span class="header-section-number">1.11.3</span> cURL</h3>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ask a question</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://localhost:5000/ask <span class="dt">\</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&quot;Content-Type: application/json&quot;</span> <span class="dt">\</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;message&quot;: &quot;Analyze our Q4 performance&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--cookie</span> <span class="st">&quot;session=your_session_cookie&quot;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze data</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://localhost:5000/analyze <span class="dt">\</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&quot;Content-Type: application/json&quot;</span> <span class="dt">\</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &quot;data&quot;: &quot;Product,Sales\nLaptop,50000\nMouse,2000&quot;,</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="st">    &quot;analysis_type&quot;: &quot;sales&quot;</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="st">  }&#39;</span> <span class="dt">\</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">--cookie</span> <span class="st">&quot;session=your_session_cookie&quot;</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="co"># List files</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://localhost:5000/files/list<span class="pp">?</span>directory=/Documents <span class="dt">\</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">--cookie</span> <span class="st">&quot;session=your_session_cookie&quot;</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Health check</span></span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://localhost:5000/health</span></code></pre></div>
+<hr />
+<h2 data-number="1.12" id="webhooks-future"><span class="header-section-number">1.12</span> Webhooks (Future)</h2>
+<p><em>Webhook support is planned for future releases to enable:</em> -
+Real-time notifications - Event-driven automation - Integration with
+external systems</p>
+<hr />
+<h2 data-number="1.13" id="versioning"><span class="header-section-number">1.13</span> Versioning</h2>
+<p>Current API version: <strong>v1.0</strong></p>
+<p>The API follows semantic versioning. Breaking changes will increment
+the major version.</p>
+<hr />
+<h2 data-number="1.14" id="support"><span class="header-section-number">1.14</span> Support</h2>
+<p>For API support, contact: - <strong>Email</strong>:
+api-support@vmartretail.com - <strong>Internal Slack</strong>:
+#ai-agent-api</p>
+<hr />
+<p><strong>API Version</strong>: 1.0<br />
+<strong>Last Updated</strong>: 2024<br />
+<strong>Maintained by</strong>: V-Mart IT Department</p>
+</body>
+</html>

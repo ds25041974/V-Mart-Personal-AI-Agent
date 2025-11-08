@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-11-08" />
+  <title>V-Mart AI Agent: DOCUMENT SEARCH FEATURE</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 5px; margin-top: 30px; }
+            h3 { color: #555; margin-top: 20px; }
+            code {
+                background-color: #f4f4f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+            }
+            pre {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            pre code { background-color: transparent; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }
+            table th {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            table tr:nth-child(even) { background-color: #f9f9f9; }
+            blockquote {
+                border-left: 4px solid #3498db;
+                padding-left: 20px;
+                margin: 20px 0;
+                color: #555;
+            }
+            a { color: #3498db; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #3498db;
+            }
+            @media print {
+                body { margin: 0; padding: 20px; }
+                a { color: #000; }
+            }
+        
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart AI Agent: DOCUMENT SEARCH FEATURE</h1>
+<p class="date">November 08, 2025</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#document-search-feature---v-mart-ai-agent" id="toc-document-search-feature---v-mart-ai-agent"><span class="toc-section-number">1</span> 📚 Document Search Feature - V-Mart
+AI Agent</a>
+<ul>
+<li><a href="#whats-new" id="toc-whats-new"><span class="toc-section-number">1.1</span> ✅ What’s New</a></li>
+<li><a href="#how-it-works" id="toc-how-it-works"><span class="toc-section-number">1.2</span> 🎯 How It Works</a>
+<ul>
+<li><a href="#automatic-document-detection" id="toc-automatic-document-detection"><span class="toc-section-number">1.2.1</span> Automatic Document
+Detection</a></li>
+<li><a href="#search-locations" id="toc-search-locations"><span class="toc-section-number">1.2.2</span> Search Locations</a></li>
+<li><a href="#supported-file-types" id="toc-supported-file-types"><span class="toc-section-number">1.2.3</span> Supported File Types</a></li>
+</ul></li>
+<li><a href="#example-questions-you-can-ask" id="toc-example-questions-you-can-ask"><span class="toc-section-number">1.3</span> 💬 Example Questions You Can
+Ask</a>
+<ul>
+<li><a href="#basic-document-queries" id="toc-basic-document-queries"><span class="toc-section-number">1.3.1</span> Basic Document Queries</a></li>
+<li><a href="#progress-related-questions" id="toc-progress-related-questions"><span class="toc-section-number">1.3.2</span> Progress-Related
+Questions</a></li>
+<li><a href="#location-specific-queries" id="toc-location-specific-queries"><span class="toc-section-number">1.3.3</span> Location-Specific
+Queries</a></li>
+</ul></li>
+<li><a href="#what-the-chatbot-returns" id="toc-what-the-chatbot-returns"><span class="toc-section-number">1.4</span> 🔍 What the Chatbot
+Returns</a></li>
+<li><a href="#technical-details" id="toc-technical-details"><span class="toc-section-number">1.5</span> ⚙️ Technical Details</a>
+<ul>
+<li><a href="#search-configuration" id="toc-search-configuration"><span class="toc-section-number">1.5.1</span> Search Configuration</a></li>
+<li><a href="#smart-features" id="toc-smart-features"><span class="toc-section-number">1.5.2</span> Smart Features</a></li>
+</ul></li>
+<li><a href="#gmail-and-google-drive-support" id="toc-gmail-and-google-drive-support"><span class="toc-section-number">1.6</span> 📧 Gmail and Google Drive
+Support</a>
+<ul>
+<li><a href="#current-status" id="toc-current-status"><span class="toc-section-number">1.6.1</span> Current Status</a></li>
+<li><a href="#to-enable-gmaildrive-optional" id="toc-to-enable-gmaildrive-optional"><span class="toc-section-number">1.6.2</span> To Enable Gmail/Drive
+(Optional)</a></li>
+</ul></li>
+<li><a href="#try-it-now" id="toc-try-it-now"><span class="toc-section-number">1.7</span> 🚀 Try It Now!</a></li>
+<li><a href="#example-interaction" id="toc-example-interaction"><span class="toc-section-number">1.8</span> 📝 Example Interaction</a></li>
+<li><a href="#files-modified" id="toc-files-modified"><span class="toc-section-number">1.9</span> 🔧 Files Modified</a></li>
+<li><a href="#performance-notes" id="toc-performance-notes"><span class="toc-section-number">1.10</span> 📊 Performance Notes</a></li>
+<li><a href="#summary" id="toc-summary"><span class="toc-section-number">1.11</span> 🎉 Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="document-search-feature---v-mart-ai-agent"><span class="header-section-number">1</span> 📚 Document Search Feature -
+V-Mart AI Agent</h1>
+<h2 data-number="1.1" id="whats-new"><span class="header-section-number">1.1</span> ✅ What’s New</h2>
+<p>Your chatbot can now <strong>search and analyze documents</strong>
+from your local system to answer questions about progress reports,
+spreadsheets, presentations, and more!</p>
+<h2 data-number="1.2" id="how-it-works"><span class="header-section-number">1.2</span> 🎯 How It Works</h2>
+<h3 data-number="1.2.1" id="automatic-document-detection"><span class="header-section-number">1.2.1</span> Automatic Document
+Detection</h3>
+<p>The chatbot automatically searches for documents when you use
+keywords like:</p>
+<ul>
+<li><strong>Document keywords</strong>: <code>document</code>,
+<code>doc</code>, <code>file</code>, <code>sheet</code>,
+<code>slide</code>, <code>presentation</code>, <code>pdf</code>,
+<code>excel</code>, <code>word</code>, <code>ppt</code></li>
+<li><strong>Location keywords</strong>: <code>local</code>,
+<code>computer</code>, <code>system</code>, <code>folder</code>,
+<code>desktop</code>, <code>documents</code>,
+<code>downloads</code></li>
+<li><strong>Progress keywords</strong>: <code>progress</code>,
+<code>report</code>, <code>status</code>, <code>result</code>,
+<code>metric</code>, <code>data</code>, <code>analysis</code></li>
+</ul>
+<h3 data-number="1.2.2" id="search-locations"><span class="header-section-number">1.2.2</span> Search Locations</h3>
+<p>The chatbot scans these folders on your Mac: - 📁
+<code>~/Documents</code> - 🖥️ <code>~/Desktop</code> - ⬇️
+<code>~/Downloads</code></p>
+<h3 data-number="1.2.3" id="supported-file-types"><span class="header-section-number">1.2.3</span> Supported File Types</h3>
+<p>✅ PDF files (<code>.pdf</code>) ✅ Word documents
+(<code>.doc</code>, <code>.docx</code>) ✅ Excel spreadsheets
+(<code>.xlsx</code>, <code>.xls</code>) ✅ PowerPoint presentations
+(<code>.ppt</code>, <code>.pptx</code>) ✅ Text files
+(<code>.txt</code>, <code>.md</code>, <code>.csv</code>,
+<code>.rtf</code>)</p>
+<h2 data-number="1.3" id="example-questions-you-can-ask"><span class="header-section-number">1.3</span> 💬 Example Questions You Can
+Ask</h2>
+<h3 data-number="1.3.1" id="basic-document-queries"><span class="header-section-number">1.3.1</span> Basic Document Queries</h3>
+<pre><code>&quot;Show me my progress report&quot;
+&quot;What documents do I have about sales?&quot;
+&quot;Find my presentation files&quot;
+&quot;What&#39;s in my spreadsheet about Q4 results?&quot;</code></pre>
+<h3 data-number="1.3.2" id="progress-related-questions"><span class="header-section-number">1.3.2</span> Progress-Related
+Questions</h3>
+<pre><code>&quot;Summarize my progress reports&quot;
+&quot;What are the key metrics in my data files?&quot;
+&quot;Analyze the results from my documents&quot;
+&quot;Show me status updates from my files&quot;</code></pre>
+<h3 data-number="1.3.3" id="location-specific-queries"><span class="header-section-number">1.3.3</span> Location-Specific
+Queries</h3>
+<pre><code>&quot;What documents are on my desktop?&quot;
+&quot;Find files in my downloads folder&quot;
+&quot;Search my local computer for reports&quot;</code></pre>
+<h2 data-number="1.4" id="what-the-chatbot-returns"><span class="header-section-number">1.4</span> 🔍 What the Chatbot
+Returns</h2>
+<p>When documents are found, you’ll see:</p>
+<ol type="1">
+<li><strong>📚 Source Attribution</strong>: “Sources: Found X documents
+in local system”</li>
+<li><strong>📁 Document List</strong>: Up to 8 most recent matching
+files with:
+<ul>
+<li>File name</li>
+<li>Location (Documents/Desktop/Downloads)</li>
+<li>File size in KB</li>
+<li>Directory path</li>
+<li>Content preview (for text files)</li>
+</ul></li>
+<li><strong>🤖 AI Analysis</strong>: The chatbot will analyze the
+documents and answer your question based on the available
+information</li>
+</ol>
+<h2 data-number="1.5" id="technical-details"><span class="header-section-number">1.5</span> ⚙️ Technical Details</h2>
+<h3 data-number="1.5.1" id="search-configuration"><span class="header-section-number">1.5.1</span> Search Configuration</h3>
+<ul>
+<li><strong>Max depth</strong>: 2 levels deep in folders</li>
+<li><strong>Max documents shown</strong>: 8 most recent files</li>
+<li><strong>Content preview</strong>: First 200 characters for text
+files</li>
+<li><strong>Sorting</strong>: By modification date (newest first)</li>
+</ul>
+<h3 data-number="1.5.2" id="smart-features"><span class="header-section-number">1.5.2</span> Smart Features</h3>
+<ul>
+<li>✅ Skips hidden files and folders (starting with
+<code>.</code>)</li>
+<li>✅ Extracts search terms from your question (words longer than 4
+characters)</li>
+<li>✅ Shows file metadata (size, location, path)</li>
+<li>✅ Reads text file previews (.txt, .md, .csv)</li>
+<li>✅ Performance optimized with depth limits</li>
+</ul>
+<h2 data-number="1.6" id="gmail-and-google-drive-support"><span class="header-section-number">1.6</span> 📧 Gmail and Google Drive
+Support</h2>
+<h3 data-number="1.6.1" id="current-status"><span class="header-section-number">1.6.1</span> Current Status</h3>
+<p>The chatbot will inform you that Gmail and Google Drive search
+requires OAuth authentication:</p>
+<pre><code>📧 Note: Gmail search requires Google OAuth authentication (currently in demo mode).
+☁️ Note: Google Drive search requires OAuth authentication (currently in demo mode).</code></pre>
+<h3 data-number="1.6.2" id="to-enable-gmaildrive-optional"><span class="header-section-number">1.6.2</span> To Enable Gmail/Drive
+(Optional)</h3>
+<p>If you want to search Gmail and Google Drive: 1. Set up Google OAuth
+credentials in <code>.env</code> 2. Configure
+<code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> 3.
+Remove demo mode by using regular login</p>
+<h2 data-number="1.7" id="try-it-now"><span class="header-section-number">1.7</span> 🚀 Try It Now!</h2>
+<ol type="1">
+<li><strong>Open the chatbot</strong>: http://localhost:8000</li>
+<li><strong>Ask a question</strong>: “Show me my progress reports”</li>
+<li><strong>See the results</strong>: The chatbot will find documents
+and provide analysis</li>
+</ol>
+<h2 data-number="1.8" id="example-interaction"><span class="header-section-number">1.8</span> 📝 Example Interaction</h2>
+<p><strong>You</strong>: “What documents do I have about progress?”</p>
+<p><strong>Chatbot</strong>:</p>
+<pre><code>📚 Sources: Found 5 documents in local system
+
+📁 AVAILABLE DOCUMENTS:
+============================================================
+
+1. Q4_Progress_Report.pdf
+   Location: Documents
+   Size: 245.3 KB
+   Path: /Users/yourname/Documents/Reports
+
+2. Sales_Progress_2024.xlsx
+   Location: Desktop
+   Size: 89.7 KB
+   Path: /Users/yourname/Desktop
+
+3. Project_Status.docx
+   Location: Documents
+   Size: 52.1 KB
+   Path: /Users/yourname/Documents/Work
+
+============================================================
+
+Based on the documents found, I can see you have:
+- A Q4 Progress Report in PDF format
+- A Sales Progress spreadsheet for 2024
+- A Project Status document
+
+Would you like me to help you analyze any specific document?</code></pre>
+<h2 data-number="1.9" id="files-modified"><span class="header-section-number">1.9</span> 🔧 Files Modified</h2>
+<ul>
+<li><code>src/web/app.py</code> - Enhanced <code>/ask</code> endpoint
+with document search</li>
+<li><code>src/web/app_backup.py</code> - Backup of previous version (for
+safety)</li>
+</ul>
+<h2 data-number="1.10" id="performance-notes"><span class="header-section-number">1.10</span> 📊 Performance Notes</h2>
+<ul>
+<li>Fast scanning (limited to 2-level depth)</li>
+<li>No impact on basic chat queries (only searches when keywords
+detected)</li>
+<li>Handles large directories efficiently</li>
+<li>Graceful error handling if folders don’t exist</li>
+</ul>
+<h2 data-number="1.11" id="summary"><span class="header-section-number">1.11</span> 🎉 Summary</h2>
+<p>Your chatbot is now <strong>document-aware</strong> and can help you
+find, analyze, and summarize information from your local files! Ask
+questions naturally, and it will search your Documents, Desktop, and
+Downloads folders automatically.</p>
+<hr />
+<p><strong>Server Status</strong>: ✅ Running on http://localhost:8000
+<strong>Model</strong>: gemini-2.0-flash (FREE tier)
+<strong>Authentication</strong>: Demo mode active</p>
+</body>
+</html>

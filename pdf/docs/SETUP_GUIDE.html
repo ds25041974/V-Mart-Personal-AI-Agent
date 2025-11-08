@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2025-11-08" />
+  <title>V-Mart AI Agent: SETUP GUIDE</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } 
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.at { color: #204a87; } 
+code span.bn { color: #0000cf; } 
+code span.cf { color: #204a87; font-weight: bold; } 
+code span.ch { color: #4e9a06; } 
+code span.cn { color: #8f5902; } 
+code span.co { color: #8f5902; font-style: italic; } 
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.dt { color: #204a87; } 
+code span.dv { color: #0000cf; } 
+code span.er { color: #a40000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #0000cf; } 
+code span.fu { color: #204a87; font-weight: bold; } 
+code span.im { } 
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } 
+code span.kw { color: #204a87; font-weight: bold; } 
+code span.op { color: #ce5c00; font-weight: bold; } 
+code span.ot { color: #8f5902; } 
+code span.pp { color: #8f5902; font-style: italic; } 
+code span.sc { color: #ce5c00; font-weight: bold; } 
+code span.ss { color: #4e9a06; } 
+code span.st { color: #4e9a06; } 
+code span.va { color: #000000; } 
+code span.vs { color: #4e9a06; } 
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 900px;
+                margin: 40px auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 5px; margin-top: 30px; }
+            h3 { color: #555; margin-top: 20px; }
+            code {
+                background-color: #f4f4f4;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+            }
+            pre {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+            }
+            pre code { background-color: transparent; padding: 0; }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+            }
+            table th {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            table tr:nth-child(even) { background-color: #f9f9f9; }
+            blockquote {
+                border-left: 4px solid #3498db;
+                padding-left: 20px;
+                margin: 20px 0;
+                color: #555;
+            }
+            a { color: #3498db; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #3498db;
+            }
+            @media print {
+                body { margin: 0; padding: 20px; }
+                a { color: #000; }
+            }
+        
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart AI Agent: SETUP GUIDE</h1>
+<p class="date">November 08, 2025</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#v-mart-ai-agent---complete-setup-guide" id="toc-v-mart-ai-agent---complete-setup-guide"><span class="toc-section-number">1</span> 🚀 V-Mart AI Agent - Complete Setup
+Guide</a>
+<ul>
+<li><a href="#table-of-contents" id="toc-table-of-contents"><span class="toc-section-number">1.1</span> 📋 Table of Contents</a></li>
+<li><a href="#system-requirements" id="toc-system-requirements"><span class="toc-section-number">1.2</span> 💻 System Requirements</a>
+<ul>
+<li><a href="#minimum-requirements" id="toc-minimum-requirements"><span class="toc-section-number">1.2.1</span> Minimum Requirements</a></li>
+<li><a href="#recommended-specifications" id="toc-recommended-specifications"><span class="toc-section-number">1.2.2</span> Recommended
+Specifications</a></li>
+</ul></li>
+<li><a href="#platform-specific-setup" id="toc-platform-specific-setup"><span class="toc-section-number">1.3</span> 🪟 Platform-Specific Setup</a>
+<ul>
+<li><a href="#windows-setup" id="toc-windows-setup"><span class="toc-section-number">1.3.1</span> Windows Setup</a></li>
+<li><a href="#macos-setup" id="toc-macos-setup"><span class="toc-section-number">1.3.2</span> macOS Setup</a></li>
+<li><a href="#linux-setup" id="toc-linux-setup"><span class="toc-section-number">1.3.3</span> Linux Setup</a></li>
+</ul></li>
+<li><a href="#google-cloud-configuration" id="toc-google-cloud-configuration"><span class="toc-section-number">1.4</span> 🔐 Google Cloud
+Configuration</a></li>
+<li><a href="#environment-configuration" id="toc-environment-configuration"><span class="toc-section-number">1.5</span> ⚙️ Environment Configuration</a>
+<ul>
+<li><a href="#step-1-create-.env-file" id="toc-step-1-create-.env-file"><span class="toc-section-number">1.5.1</span> Step 1: Create .env
+File</a></li>
+<li><a href="#step-2-get-gemini-api-key" id="toc-step-2-get-gemini-api-key"><span class="toc-section-number">1.5.2</span> Step 2: Get Gemini API
+Key</a></li>
+<li><a href="#step-3-edit-.env-file" id="toc-step-3-edit-.env-file"><span class="toc-section-number">1.5.3</span> Step 3: Edit .env File</a></li>
+<li><a href="#step-4-add-configuration" id="toc-step-4-add-configuration"><span class="toc-section-number">1.5.4</span> Step 4: Add
+Configuration</a></li>
+<li><a href="#step-5-generate-secret_key" id="toc-step-5-generate-secret_key"><span class="toc-section-number">1.5.5</span> Step 5: Generate
+SECRET_KEY</a></li>
+</ul></li>
+<li><a href="#running-the-application" id="toc-running-the-application"><span class="toc-section-number">1.6</span> ▶️ Running the Application</a>
+<ul>
+<li><a href="#first-run" id="toc-first-run"><span class="toc-section-number">1.6.1</span> First Run</a></li>
+<li><a href="#access-the-application" id="toc-access-the-application"><span class="toc-section-number">1.6.2</span> Access the Application</a></li>
+<li><a href="#stop-the-server" id="toc-stop-the-server"><span class="toc-section-number">1.6.3</span> Stop the Server</a></li>
+</ul></li>
+<li><a href="#network-access" id="toc-network-access"><span class="toc-section-number">1.7</span> 🌐 Network Access</a>
+<ul>
+<li><a href="#find-your-ip-address" id="toc-find-your-ip-address"><span class="toc-section-number">1.7.1</span> Find Your IP Address</a></li>
+<li><a href="#configure-firewall" id="toc-configure-firewall"><span class="toc-section-number">1.7.2</span> Configure Firewall</a></li>
+<li><a href="#access-from-other-devices" id="toc-access-from-other-devices"><span class="toc-section-number">1.7.3</span> Access from Other
+Devices</a></li>
+</ul></li>
+<li><a href="#auto-start-configuration" id="toc-auto-start-configuration"><span class="toc-section-number">1.8</span> 🔄 Auto-Start Configuration</a>
+<ul>
+<li><a href="#windows---task-scheduler" id="toc-windows---task-scheduler"><span class="toc-section-number">1.8.1</span> Windows - Task
+Scheduler</a></li>
+<li><a href="#macos---launchagent" id="toc-macos---launchagent"><span class="toc-section-number">1.8.2</span> macOS - LaunchAgent</a></li>
+<li><a href="#linux---systemd-service" id="toc-linux---systemd-service"><span class="toc-section-number">1.8.3</span> Linux - systemd Service</a></li>
+</ul></li>
+<li><a href="#troubleshooting" id="toc-troubleshooting"><span class="toc-section-number">1.9</span> 🔧 Troubleshooting</a>
+<ul>
+<li><a href="#common-issues-and-solutions" id="toc-common-issues-and-solutions"><span class="toc-section-number">1.9.1</span> Common Issues and
+Solutions</a></li>
+<li><a href="#platform-specific-issues" id="toc-platform-specific-issues"><span class="toc-section-number">1.9.2</span> Platform-Specific
+Issues</a></li>
+<li><a href="#diagnostic-commands" id="toc-diagnostic-commands"><span class="toc-section-number">1.9.3</span> 📊 Diagnostic Commands</a></li>
+</ul></li>
+<li><a href="#additional-resources" id="toc-additional-resources"><span class="toc-section-number">1.10</span> 📚 Additional Resources</a>
+<ul>
+<li><a href="#documentation-files" id="toc-documentation-files"><span class="toc-section-number">1.10.1</span> Documentation Files</a></li>
+<li><a href="#external-resources" id="toc-external-resources"><span class="toc-section-number">1.10.2</span> External Resources</a></li>
+</ul></li>
+<li><a href="#getting-help" id="toc-getting-help"><span class="toc-section-number">1.11</span> 🆘 Getting Help</a>
+<ul>
+<li><a href="#before-asking-for-help" id="toc-before-asking-for-help"><span class="toc-section-number">1.11.1</span> Before Asking for Help</a></li>
+<li><a href="#information-to-provide" id="toc-information-to-provide"><span class="toc-section-number">1.11.2</span> Information to Provide</a></li>
+</ul></li>
+<li><a href="#post-setup-checklist" id="toc-post-setup-checklist"><span class="toc-section-number">1.12</span> ✅ Post-Setup Checklist</a></li>
+<li><a href="#quick-reference" id="toc-quick-reference"><span class="toc-section-number">1.13</span> 🎯 Quick Reference</a>
+<ul>
+<li><a href="#essential-commands" id="toc-essential-commands"><span class="toc-section-number">1.13.1</span> Essential Commands</a></li>
+</ul></li>
+<li><a href="#next-steps" id="toc-next-steps"><span class="toc-section-number">1.14</span> 🎓 Next Steps</a></li>
+<li><a href="#getting-help-1" id="toc-getting-help-1"><span class="toc-section-number">1.15</span> Getting Help</a>
+<ul>
+<li><a href="#internal-support" id="toc-internal-support"><span class="toc-section-number">1.15.1</span> Internal Support</a></li>
+<li><a href="#documentation" id="toc-documentation"><span class="toc-section-number">1.15.2</span> Documentation</a></li>
+<li><a href="#logs-location" id="toc-logs-location"><span class="toc-section-number">1.15.3</span> Logs Location</a></li>
+</ul></li>
+<li><a href="#next-steps-1" id="toc-next-steps-1"><span class="toc-section-number">1.16</span> Next Steps</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="v-mart-ai-agent---complete-setup-guide"><span class="header-section-number">1</span> 🚀 V-Mart AI Agent - Complete
+Setup Guide</h1>
+<p><strong>Developed by: DSR | Inspired by: LA | Powered by: Gemini
+AI</strong></p>
+<p>This comprehensive guide walks you through setting up the V-Mart
+Personal AI Agent on <strong>Windows</strong>, <strong>macOS</strong>,
+and <strong>Linux</strong>.</p>
+<hr />
+<h2 data-number="1.1" id="table-of-contents"><span class="header-section-number">1.1</span> 📋 Table of Contents</h2>
+<ol type="1">
+<li><a href="#system-requirements">System Requirements</a></li>
+<li><a href="#platform-specific-setup">Platform-Specific Setup</a>
+<ul>
+<li><a href="#windows-setup">Windows Setup</a></li>
+<li><a href="#macos-setup">macOS Setup</a></li>
+<li><a href="#linux-setup">Linux Setup</a></li>
+</ul></li>
+<li><a href="#google-cloud-configuration">Google Cloud
+Configuration</a></li>
+<li><a href="#environment-configuration">Environment
+Configuration</a></li>
+<li><a href="#running-the-application">Running the Application</a></li>
+<li><a href="#network-access">Network Access</a></li>
+<li><a href="#auto-start-configuration">Auto-Start
+Configuration</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+</ol>
+<hr />
+<h2 data-number="1.2" id="system-requirements"><span class="header-section-number">1.2</span> 💻 System Requirements</h2>
+<h3 data-number="1.2.1" id="minimum-requirements"><span class="header-section-number">1.2.1</span> Minimum Requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OS</strong></td>
+<td>Windows 10+, macOS 10.15+, Ubuntu 20.04+</td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>3.8 or higher</td>
+</tr>
+<tr>
+<td><strong>RAM</strong></td>
+<td>4 GB</td>
+</tr>
+<tr>
+<td><strong>Storage</strong></td>
+<td>500 MB free space</td>
+</tr>
+<tr>
+<td><strong>Network</strong></td>
+<td>Internet connection</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.2.2" id="recommended-specifications"><span class="header-section-number">1.2.2</span> Recommended
+Specifications</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OS</strong></td>
+<td>Windows 11, macOS 13+, Ubuntu 22.04+</td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>3.11 (latest stable)</td>
+</tr>
+<tr>
+<td><strong>RAM</strong></td>
+<td>8 GB or more</td>
+</tr>
+<tr>
+<td><strong>Storage</strong></td>
+<td>1 GB free space</td>
+</tr>
+<tr>
+<td><strong>Network</strong></td>
+<td>Broadband connection</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.3" id="platform-specific-setup"><span class="header-section-number">1.3</span> 🪟 Platform-Specific Setup</h2>
+<p>Choose your operating system below:</p>
+<hr />
+<h3 data-number="1.3.1" id="windows-setup"><span class="header-section-number">1.3.1</span> Windows Setup</h3>
+<h4 data-number="1.3.1.1" id="step-1-install-python"><span class="header-section-number">1.3.1.1</span> Step 1: Install Python</h4>
+<ol type="1">
+<li><p><strong>Download Python:</strong></p>
+<ul>
+<li>Visit <a href="https://www.python.org/downloads/">python.org/downloads</a></li>
+<li>Download Python 3.11 (or latest 3.x)</li>
+</ul></li>
+<li><p><strong>Run the installer:</strong></p>
+<ul>
+<li>✅ Check <strong>“Add Python to PATH”</strong> (IMPORTANT!)</li>
+<li>Click <strong>“Install Now”</strong></li>
+<li>Wait for installation to complete</li>
+<li>Click <strong>“Close”</strong></li>
+</ul></li>
+<li><p><strong>Verify installation:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>python <span class="op">--</span>version</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Should show: Python 3.11.x</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pip <span class="op">--</span>version</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Should show: pip 23.x.x</span></span></code></pre></div></li>
+</ol>
+<h4 data-number="1.3.1.2" id="step-2-install-git-optional"><span class="header-section-number">1.3.1.2</span> Step 2: Install Git
+(Optional)</h4>
+<ol type="1">
+<li>Download from <a href="https://git-scm.com/download/win">git-scm.com</a></li>
+<li>Run installer with default options</li>
+<li>Verify: <code>git --version</code></li>
+</ol>
+<h4 data-number="1.3.1.3" id="step-3-download-the-project"><span class="header-section-number">1.3.1.3</span> Step 3: Download the
+Project</h4>
+<p><strong>Option A: Using Git</strong> (Recommended)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> C<span class="op">:</span>\Users\YourUsername\Documents</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">://</span>github<span class="op">.</span><span class="fu">com</span><span class="op">/</span>YOUR_REPO<span class="op">/</span>V-Mart-AI-Agent<span class="op">.</span><span class="fu">git</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> V-Mart-AI-Agent</span></code></pre></div>
+<p><strong>Option B: Download ZIP</strong> 1. Download ZIP from
+repository 2. Extract to
+<code>C:\Users\YourUsername\Documents\V-Mart-AI-Agent</code> 3. Open
+PowerShell in that folder</p>
+<h4 data-number="1.3.1.4" id="step-4-create-virtual-environment"><span class="header-section-number">1.3.1.4</span> Step 4: Create Virtual
+Environment</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to project folder</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> <span class="st">&quot;C:\Users\YourUsername\Documents\V-Mart-AI-Agent&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create virtual environment</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m venv venv</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate virtual environment</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\venv\Scripts\Activate<span class="op">.</span><span class="fu">ps1</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Your prompt should now show (venv)</span></span></code></pre></div>
+<p><strong>If you get an error about execution policy:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-ExecutionPolicy</span> <span class="op">-</span>ExecutionPolicy RemoteSigned <span class="op">-</span>Scope CurrentUser</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Then try activating again</span></span></code></pre></div>
+<h4 data-number="1.3.1.5" id="step-5-install-dependencies"><span class="header-section-number">1.3.1.5</span> Step 5: Install
+Dependencies</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure venv is activated (you should see (venv) in prompt)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m pip install <span class="op">--</span>upgrade pip</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pip install <span class="op">-</span>r requirements<span class="op">.</span><span class="fu">txt</span></span></code></pre></div>
+<p>This installs: - Flask 3.0.0 (web framework) - google-generativeai
+(Gemini AI) - google-auth, google-api-python-client - authlib, requests
+- All other dependencies</p>
+<p><strong>Continue to <a href="#environment-configuration">Environment
+Configuration</a></strong></p>
+<hr />
+<h3 data-number="1.3.2" id="macos-setup"><span class="header-section-number">1.3.2</span> macOS Setup</h3>
+<h4 data-number="1.3.2.1" id="step-1-install-homebrew-recommended"><span class="header-section-number">1.3.2.1</span> Step 1: Install Homebrew
+(Recommended)</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Homebrew if you don&#39;t have it</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/bin/bash</span> <span class="at">-c</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Follow the post-installation instructions to add brew to PATH</span></span></code></pre></div>
+<h4 data-number="1.3.2.2" id="step-2-install-python"><span class="header-section-number">1.3.2.2</span> Step 2: Install Python</h4>
+<p><strong>Option A: Using Homebrew</strong> (Recommended)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Python 3.11</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install python@3.11</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify installation</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Should show: Python 3.11.x</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> <span class="at">--version</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Should show: pip 23.x.x</span></span></code></pre></div>
+<p><strong>Option B: Official Installer</strong> 1. Download from <a href="https://www.python.org/downloads/macos/">python.org</a> 2. Run the
+<code>.pkg</code> installer 3. Follow installation wizard</p>
+<h4 data-number="1.3.2.3" id="step-3-install-git"><span class="header-section-number">1.3.2.3</span> Step 3: Install Git</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Git comes with Xcode Command Line Tools</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">--install</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or install via Homebrew</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code></pre></div>
+<h4 data-number="1.3.2.4" id="step-4-download-the-project"><span class="header-section-number">1.3.2.4</span> Step 4: Download the
+Project</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to Documents</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Clone repository</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/YOUR_REPO/V-Mart-AI-Agent.git</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> V-Mart-AI-Agent</span></code></pre></div>
+<h4 data-number="1.3.2.5" id="step-5-create-virtual-environment"><span class="header-section-number">1.3.2.5</span> Step 5: Create Virtual
+Environment</h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create virtual environment</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv venv</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate virtual environment</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Your prompt should now show (venv)</span></span></code></pre></div>
+<h4 data-number="1.3.2.6" id="step-6-install-dependencies"><span class="header-section-number">1.3.2.6</span> Step 6: Install
+Dependencies</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Upgrade pip</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> pip</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Install requirements</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<p><strong>Common macOS Issue: pandas/numpy errors</strong></p>
+<p>If you see errors installing pandas or numpy:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Xcode Command Line Tools first</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">--install</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Then try again</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<p><strong>Continue to <a href="#environment-configuration">Environment
+Configuration</a></strong></p>
+<hr />
+<h3 data-number="1.3.3" id="linux-setup"><span class="header-section-number">1.3.3</span> Linux Setup</h3>
+<p>Instructions for <strong>Ubuntu/Debian</strong>,
+<strong>Fedora/RHEL</strong>, and <strong>Arch Linux</strong>.</p>
+<h4 data-number="1.3.3.1" id="ubuntudebian-setup"><span class="header-section-number">1.3.3.1</span> Ubuntu/Debian Setup</h4>
+<p><strong>Step 1: Update System</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span></code></pre></div>
+<p><strong>Step 2: Install Python and Dependencies</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Python 3.11 (or latest available)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install python3.11 python3.11-venv python3-pip git <span class="at">-y</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify installation</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> <span class="at">--version</span></span></code></pre></div>
+<p><strong>Step 3: Download Project</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/YOUR_REPO/V-Mart-AI-Agent.git</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> V-Mart-AI-Agent</span></code></pre></div>
+<p><strong>Step 4: Create Virtual Environment</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv venv</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span></code></pre></div>
+<p><strong>Step 5: Install Dependencies</strong></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> pip</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<h4 data-number="1.3.3.2" id="fedorarhelcentos-setup"><span class="header-section-number">1.3.3.2</span> Fedora/RHEL/CentOS
+Setup</h4>
+<p><strong>Step 1: Update System</strong></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf update <span class="at">-y</span></span></code></pre></div>
+<p><strong>Step 2: Install Python</strong></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install python3.11 python3-pip git <span class="at">-y</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> <span class="at">--version</span></span></code></pre></div>
+<p><strong>Step 3-5: Same as Ubuntu</strong> Follow steps 3-5 from
+Ubuntu section above.</p>
+<h4 data-number="1.3.3.3" id="arch-linux-setup"><span class="header-section-number">1.3.3.3</span> Arch Linux Setup</h4>
+<p><strong>Step 1: Update System</strong></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-Syu</span></span></code></pre></div>
+<p><strong>Step 2: Install Python</strong></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-S</span> python python-pip git</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">--version</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> <span class="at">--version</span></span></code></pre></div>
+<p><strong>Step 3: Download and Setup</strong></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/YOUR_REPO/V-Mart-AI-Agent.git</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> V-Mart-AI-Agent</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv venv</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> pip</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<p><strong>Continue to <a href="#environment-configuration">Environment
+Configuration</a></strong></p>
+<hr />
+<h2 data-number="1.4" id="google-cloud-configuration"><span class="header-section-number">1.4</span> 🔐 Google Cloud
+Configuration</h2>
+<p><strong>(Optional - Required only for Gmail, Google Drive, Docs,
+Sheets, Slides integration)</strong></p>
+<p>For local document search only, skip to <a href="#environment-configuration">Environment Configuration</a>.</p>
+<p>For complete setup with Google services integration, see: 📄
+<strong><a href="./GOOGLE_OAUTH_SETUP.md">GOOGLE_OAUTH_SETUP.md</a></strong> -
+Complete OAuth setup guide</p>
+<p><strong>Quick Overview:</strong> 1. Create Google Cloud project 2.
+Enable APIs (Gmail, Drive, Docs, Sheets, Slides) 3. Configure OAuth
+consent screen 4. Create OAuth 2.0 credentials 5. Add credentials to
+<code>.env</code> file</p>
+<hr />
+<h2 data-number="1.5" id="environment-configuration"><span class="header-section-number">1.5</span> ⚙️ Environment
+Configuration</h2>
+<h3 data-number="1.5.1" id="step-1-create-.env-file"><span class="header-section-number">1.5.1</span> Step 1: Create .env File</h3>
+<p><strong>All Platforms:</strong></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the example file</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or create manually</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> .env</span></code></pre></div>
+<h3 data-number="1.5.2" id="step-2-get-gemini-api-key"><span class="header-section-number">1.5.2</span> Step 2: Get Gemini API
+Key</h3>
+<ol type="1">
+<li>Visit <a href="https://aistudio.google.com/app/apikey">Google AI
+Studio</a></li>
+<li>Sign in with your Google account</li>
+<li>Click <strong>“Create API Key”</strong></li>
+<li>Copy the key (starts with <code>AIza...</code>)</li>
+</ol>
+<h3 data-number="1.5.3" id="step-3-edit-.env-file"><span class="header-section-number">1.5.3</span> Step 3: Edit .env File</h3>
+<p>Open <code>.env</code> in your text editor:</p>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>notepad <span class="op">.</span><span class="fu">env</span></span></code></pre></div>
+<p><strong>macOS/Linux:</strong></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .env</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ex">code</span> .env  <span class="co"># if using VS Code</span></span></code></pre></div>
+<h3 data-number="1.5.4" id="step-4-add-configuration"><span class="header-section-number">1.5.4</span> Step 4: Add
+Configuration</h3>
+<p><strong>Minimum Configuration</strong> (for local document
+search):</p>
+<pre class="env"><code># Gemini API Key (REQUIRED)
+GEMINI_API_KEY=AIzaSy...your_actual_key_here
+
+# Flask Configuration
+SECRET_KEY=your_random_secret_key_here
+FLASK_ENV=production
+HOST=0.0.0.0
+PORT=8000
+DEBUG=False</code></pre>
+<p><strong>Full Configuration</strong> (with Google OAuth):</p>
+<pre class="env"><code># Gemini API Key (REQUIRED)
+GEMINI_API_KEY=AIzaSy...your_actual_key_here
+
+# Google OAuth (Optional - for Gmail, Drive, etc.)
+GOOGLE_CLIENT_ID=your_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_client_secret
+
+# GitHub Integration (Optional)
+GITHUB_TOKEN=ghp_your_github_token
+
+# Flask Configuration
+SECRET_KEY=your_random_secret_key_here
+FLASK_ENV=production
+HOST=0.0.0.0
+PORT=8000
+DEBUG=False
+
+# Domain Restrictions (Optional)
+ALLOWED_DOMAINS=example.com,company.com</code></pre>
+<h3 data-number="1.5.5" id="step-5-generate-secret_key"><span class="header-section-number">1.5.5</span> Step 5: Generate
+SECRET_KEY</h3>
+<p><strong>Any Platform:</strong></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-c</span> <span class="st">&quot;import secrets; print(secrets.token_hex(32))&quot;</span></span></code></pre></div>
+<p>Copy the output and paste as <code>SECRET_KEY</code> in
+<code>.env</code></p>
+<p><strong>Example Output:</strong></p>
+<pre><code>a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2</code></pre>
+<hr />
+<h2 data-number="1.6" id="running-the-application"><span class="header-section-number">1.6</span> ▶️ Running the Application</h2>
+<h3 data-number="1.6.1" id="first-run"><span class="header-section-number">1.6.1</span> First Run</h3>
+<p><strong>All Platforms (with venv activated):</strong></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py</span></code></pre></div>
+<p>You should see:</p>
+<pre><code>╔══════════════════════════════════════════════════════════╗
+║        V-Mart Personal AI Agent Starting...              ║
+║      Developed by: DSR | Inspired by: LA                 ║
+║      Powered by: Gemini AI                               ║
+╚══════════════════════════════════════════════════════════╝
+
+🚀 Server running on http://0.0.0.0:8000
+🌐 Access locally: http://localhost:8000
+📱 Access from network: http://YOUR_IP:8000</code></pre>
+<h3 data-number="1.6.2" id="access-the-application"><span class="header-section-number">1.6.2</span> Access the Application</h3>
+<ol type="1">
+<li><strong>Open browser</strong></li>
+<li><strong>Navigate to:</strong> http://localhost:8000</li>
+<li><strong>Login:</strong>
+<ul>
+<li><strong>Demo Mode:</strong> Click “Demo Login” (no setup
+required)</li>
+<li><strong>Full Mode:</strong> Click “Login with Google” (requires
+OAuth setup)</li>
+</ul></li>
+</ol>
+<h3 data-number="1.6.3" id="stop-the-server"><span class="header-section-number">1.6.3</span> Stop the Server</h3>
+<p>Press <code>Ctrl + C</code> in the terminal</p>
+<hr />
+<h2 data-number="1.7" id="network-access"><span class="header-section-number">1.7</span> 🌐 Network Access</h2>
+<p>Access the agent from other devices on your network (phones, tablets,
+other computers).</p>
+<h3 data-number="1.7.1" id="find-your-ip-address"><span class="header-section-number">1.7.1</span> Find Your IP Address</h3>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>ipconfig</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Look for &quot;IPv4 Address&quot; under your active network adapter</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: 192.168.1.100</span></span></code></pre></div>
+<p><strong>macOS:</strong></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ifconfig</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;inet &quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> 127.0.0.1</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use the GUI: System Preferences → Network</span></span></code></pre></div>
+<p><strong>Linux:</strong></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hostname</span> <span class="at">-I</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ip</span> addr show</span></code></pre></div>
+<h3 data-number="1.7.2" id="configure-firewall"><span class="header-section-number">1.7.2</span> Configure Firewall</h3>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Allow port 8000 through firewall</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>netsh advfirewall firewall add rule name<span class="op">=</span><span class="st">&quot;V-Mart AI Agent&quot;</span> <span class="fu">dir</span><span class="op">=</span><span class="kw">in</span> action<span class="op">=</span>allow protocol<span class="op">=</span>TCP localport<span class="op">=</span><span class="dv">8000</span></span></code></pre></div>
+<p><strong>macOS:</strong></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># System Preferences → Security &amp; Privacy → Firewall</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Click &quot;Firewall Options&quot; → Add Python/your app</span></span></code></pre></div>
+<p><strong>Linux (ufw):</strong></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ufw allow 8000/tcp</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ufw reload</span></code></pre></div>
+<p><strong>Linux (firewalld):</strong></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> firewall-cmd <span class="at">--permanent</span> <span class="at">--add-port</span><span class="op">=</span>8000/tcp</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> firewall-cmd <span class="at">--reload</span></span></code></pre></div>
+<h3 data-number="1.7.3" id="access-from-other-devices"><span class="header-section-number">1.7.3</span> Access from Other
+Devices</h3>
+<ol type="1">
+<li>Make sure devices are on <strong>same WiFi network</strong></li>
+<li>Open browser on other device</li>
+<li>Navigate to: <code>http://YOUR_IP:8000</code>
+<ul>
+<li>Example: <code>http://192.168.1.100:8000</code></li>
+</ul></li>
+</ol>
+<hr />
+<h2 data-number="1.8" id="auto-start-configuration"><span class="header-section-number">1.8</span> 🔄 Auto-Start
+Configuration</h2>
+<p>Configure the agent to start automatically on system boot.</p>
+<h3 data-number="1.8.1" id="windows---task-scheduler"><span class="header-section-number">1.8.1</span> Windows - Task Scheduler</h3>
+<p><strong>Method 1: GUI Method</strong></p>
+<ol type="1">
+<li>Press <code>Win + R</code>, type <code>taskschd.msc</code>, press
+Enter</li>
+<li>Click <strong>“Create Task”</strong></li>
+<li><strong>General Tab:</strong>
+<ul>
+<li>Name: <code>V-Mart AI Agent</code></li>
+<li>Description: <code>Auto-start V-Mart AI Agent</code></li>
+<li>✅ Check: “Run whether user is logged on or not”</li>
+<li>✅ Check: “Run with highest privileges”</li>
+</ul></li>
+<li><strong>Triggers Tab:</strong>
+<ul>
+<li>Click <strong>“New”</strong></li>
+<li>Begin the task: <strong>“At startup”</strong></li>
+<li>Click <strong>“OK”</strong></li>
+</ul></li>
+<li><strong>Actions Tab:</strong>
+<ul>
+<li>Click <strong>“New”</strong></li>
+<li>Action: <strong>“Start a program”</strong></li>
+<li>Program/script: <code>C:\Path\To\Python\python.exe</code></li>
+<li>Arguments: <code>&quot;C:\Path\To\V-Mart-AI-Agent\main.py&quot;</code></li>
+<li>Start in: <code>C:\Path\To\V-Mart-AI-Agent</code></li>
+<li>Click <strong>“OK”</strong></li>
+</ul></li>
+<li><strong>Conditions Tab:</strong>
+<ul>
+<li>❌ Uncheck: “Start only if on AC power”</li>
+</ul></li>
+<li><strong>Settings Tab:</strong>
+<ul>
+<li>✅ Check: “Allow task to be run on demand”</li>
+<li>✅ Check: “If task fails, restart every 1 minute”</li>
+<li>Set attempts: <strong>3 times</strong></li>
+</ul></li>
+<li>Click <strong>“OK”</strong></li>
+</ol>
+<p><strong>Method 2: PowerShell Script</strong></p>
+<p>Save as <code>install-autostart.ps1</code>:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="va">$taskName</span> <span class="op">=</span> <span class="st">&quot;V-Mart AI Agent&quot;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="va">$pythonPath</span> <span class="op">=</span> <span class="op">(</span><span class="fu">Get-Command</span> python<span class="op">).</span><span class="fu">Path</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="va">$scriptPath</span> <span class="op">=</span> <span class="fu">Join-Path</span> <span class="va">$PSScriptRoot</span> <span class="st">&quot;main.py&quot;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="va">$action</span> <span class="op">=</span> New-ScheduledTaskAction <span class="op">-</span>Execute <span class="va">$pythonPath</span> <span class="op">-</span>Argument <span class="st">&quot;</span><span class="ch">`&quot;</span><span class="va">$scriptPath</span><span class="ch">`&quot;</span><span class="st">&quot;</span> <span class="op">-</span>WorkingDirectory <span class="va">$PSScriptRoot</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="va">$trigger</span> <span class="op">=</span> New-ScheduledTaskTrigger <span class="op">-</span>AtStartup</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="va">$principal</span> <span class="op">=</span> New-ScheduledTaskPrincipal <span class="op">-</span>UserId <span class="st">&quot;SYSTEM&quot;</span> <span class="op">-</span>LogonType ServiceAccount <span class="op">-</span>RunLevel Highest</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="va">$settings</span> <span class="op">=</span> New-ScheduledTaskSettingsSet <span class="op">-</span>AllowStartIfOnBatteries <span class="op">-</span>DontStopIfGoingOnBatteries <span class="op">-</span>RestartCount <span class="dv">3</span> <span class="op">-</span>RestartInterval <span class="op">(</span><span class="fu">New-TimeSpan</span> <span class="op">-</span>Minutes <span class="dv">1</span><span class="op">)</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>Register-ScheduledTask <span class="op">-</span>TaskName <span class="va">$taskName</span> <span class="op">-</span>Action <span class="va">$action</span> <span class="op">-</span>Trigger <span class="va">$trigger</span> <span class="op">-</span>Principal <span class="va">$principal</span> <span class="op">-</span>Settings <span class="va">$settings</span> <span class="op">-</span>Force</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="fu">Write-Host</span> <span class="st">&quot;Task &#39;</span><span class="va">$taskName</span><span class="st">&#39; registered successfully!&quot;</span> <span class="op">-</span>ForegroundColor Green</span></code></pre></div>
+<p>Run as Administrator:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> <span class="st">&quot;C:\Path\To\V-Mart-AI-Agent&quot;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\install-autostart<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div>
+<h3 data-number="1.8.2" id="macos---launchagent"><span class="header-section-number">1.8.2</span> macOS - LaunchAgent</h3>
+<ol type="1">
+<li><strong>Create plist file:</strong></li>
+</ol>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/Library/LaunchAgents/com.vmart.aiagent.plist</span></code></pre></div>
+<ol start="2" type="1">
+<li><strong>Add content</strong> (replace YOUR_USERNAME):</li>
+</ol>
+<div class="sourceCode" id="cb42"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span> <span class="ot">encoding=</span><span class="st">&quot;UTF-8&quot;</span><span class="fu">?&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> <span class="dt">plist</span> PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;<span class="dt">&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">plist</span> <span class="ot">version=</span><span class="st">&quot;1.0&quot;</span>&gt;</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">dict</span>&gt;</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;Label&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">string</span>&gt;com.vmart.aiagent&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;ProgramArguments&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">array</span>&gt;</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">string</span>&gt;/Users/YOUR_USERNAME/Documents/V-Mart-AI-Agent/venv/bin/python&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">string</span>&gt;/Users/YOUR_USERNAME/Documents/V-Mart-AI-Agent/main.py&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">array</span>&gt;</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;WorkingDirectory&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">string</span>&gt;/Users/YOUR_USERNAME/Documents/V-Mart-AI-Agent&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;RunAtLoad&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">true</span>/&gt;</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;KeepAlive&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">dict</span>&gt;</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">key</span>&gt;SuccessfulExit&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">false</span>/&gt;</span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">dict</span>&gt;</span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;StandardOutPath&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">string</span>&gt;/tmp/vmart-agent.log&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;StandardErrorPath&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">string</span>&gt;/tmp/vmart-agent-error.log&lt;/<span class="kw">string</span>&gt;</span>
+<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">key</span>&gt;ThrottleInterval&lt;/<span class="kw">key</span>&gt;</span>
+<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">integer</span>&gt;30&lt;/<span class="kw">integer</span>&gt;</span>
+<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">dict</span>&gt;</span>
+<span id="cb42-35"><a href="#cb42-35" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">plist</span>&gt;</span></code></pre></div>
+<ol start="3" type="1">
+<li><strong>Load and start:</strong></li>
+</ol>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the agent</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> load ~/Library/LaunchAgents/com.vmart.aiagent.plist</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Start immediately</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> start com.vmart.aiagent</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify it&#39;s running</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> list <span class="kw">|</span> <span class="fu">grep</span> vmart</span></code></pre></div>
+<p><strong>Management Commands:</strong></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> stop com.vmart.aiagent</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Unload (disable auto-start)</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> unload ~/Library/LaunchAgents/com.vmart.aiagent.plist</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="co"># View logs</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> /tmp/vmart-agent.log</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> /tmp/vmart-agent-error.log</span></code></pre></div>
+<h3 data-number="1.8.3" id="linux---systemd-service"><span class="header-section-number">1.8.3</span> Linux - systemd Service</h3>
+<ol type="1">
+<li><strong>Create service file:</strong></li>
+</ol>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> nano /etc/systemd/system/vmart-agent.service</span></code></pre></div>
+<ol start="2" type="1">
+<li><strong>Add content</strong> (replace YOUR_USERNAME and paths):</li>
+</ol>
+<div class="sourceCode" id="cb46"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[Unit]</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="dt">Description</span><span class="ot">=</span><span class="st">V-Mart Personal AI Agent</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="dt">After</span><span class="ot">=</span><span class="st">network-online.target</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="dt">Wants</span><span class="ot">=</span><span class="st">network-online.target</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="kw">[Service]</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="dt">Type</span><span class="ot">=</span><span class="st">simple</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="dt">User</span><span class="ot">=</span><span class="st">YOUR_USERNAME</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="dt">Group</span><span class="ot">=</span><span class="st">YOUR_USERNAME</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="dt">WorkingDirectory</span><span class="ot">=</span><span class="st">/home/YOUR_USERNAME/Documents/V-Mart-AI-Agent</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="dt">ExecStart</span><span class="ot">=</span><span class="st">/home/YOUR_USERNAME/Documents/V-Mart-AI-Agent/venv/bin/python main.py</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="dt">Restart</span><span class="ot">=</span><span class="st">always</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="dt">RestartSec</span><span class="ot">=</span><span class="dv">10</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="dt">StandardOutput</span><span class="ot">=</span><span class="st">journal</span></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="dt">StandardError</span><span class="ot">=</span><span class="st">journal</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="dt">SyslogIdentifier</span><span class="ot">=</span><span class="st">vmart-agent</span></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Environment</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a><span class="dt">Environment</span><span class="ot">=</span><span class="st">&quot;PATH=/home/YOUR_USERNAME/Documents/V-Mart-AI-Agent/venv/bin:/usr/local/bin:/usr/bin:/bin&quot;</span></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Security</span></span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="dt">NoNewPrivileges</span><span class="ot">=</span><span class="kw">true</span></span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="dt">PrivateTmp</span><span class="ot">=</span><span class="kw">true</span></span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectSystem</span><span class="ot">=</span><span class="st">strict</span></span>
+<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a><span class="dt">ProtectHome</span><span class="ot">=</span><span class="st">read-only</span></span>
+<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a><span class="dt">ReadWritePaths</span><span class="ot">=</span><span class="st">/home/YOUR_USERNAME/Documents/V-Mart-AI-Agent</span></span>
+<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a><span class="kw">[Install]</span></span>
+<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a><span class="dt">WantedBy</span><span class="ot">=</span><span class="st">multi-user.target</span></span></code></pre></div>
+<ol start="3" type="1">
+<li><strong>Enable and start:</strong></li>
+</ol>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reload systemd</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl daemon-reload</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable auto-start on boot</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl enable vmart-agent.service</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Start now</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl start vmart-agent.service</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Check status</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl status vmart-agent.service</span></code></pre></div>
+<p><strong>Management Commands:</strong></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl stop vmart-agent.service</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Restart</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl restart vmart-agent.service</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Disable auto-start</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl disable vmart-agent.service</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="co"># View logs (live)</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> vmart-agent.service <span class="at">-f</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="co"># View recent logs</span></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> vmart-agent.service <span class="at">-n</span> 50</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a><span class="co"># View logs since boot</span></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> vmart-agent.service <span class="at">-b</span></span></code></pre></div>
+<hr />
+<h2 data-number="1.9" id="troubleshooting"><span class="header-section-number">1.9</span> 🔧 Troubleshooting</h2>
+<h3 data-number="1.9.1" id="common-issues-and-solutions"><span class="header-section-number">1.9.1</span> Common Issues and
+Solutions</h3>
+<h4 data-number="1.9.1.1" id="module-not-found-or-import-errors"><span class="header-section-number">1.9.1.1</span> ❌ “Module not found” or
+Import Errors</h4>
+<p><strong>Symptoms:</strong></p>
+<pre><code>ModuleNotFoundError: No module named &#39;flask&#39;
+ModuleNotFoundError: No module named &#39;google&#39;</code></pre>
+<p><strong>Solution:</strong></p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Make sure virtual environment is activated</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You should see (venv) in your prompt</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span><span class="dt">\v</span>env<span class="dt">\S</span>cripts<span class="dt">\A</span>ctivate.ps1</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS/Linux</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Reinstall dependencies</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> pip</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<hr />
+<h4 data-number="1.9.1.2" id="api-key-errors"><span class="header-section-number">1.9.1.2</span> ❌ API Key Errors</h4>
+<p><strong>Symptoms:</strong></p>
+<pre><code>Invalid API key
+API_KEY_INVALID
+Gemini API error</code></pre>
+<p><strong>Solution:</strong> 1. Check <code>.env</code> file exists in
+project root 2. Verify <code>GEMINI_API_KEY=AIza...</code> is correct
+(no spaces, quotes) 3. Get new key from <a href="https://aistudio.google.com/app/apikey">Google AI Studio</a> 4.
+Restart the server after editing <code>.env</code></p>
+<hr />
+<h4 data-number="1.9.1.3" id="port-already-in-use"><span class="header-section-number">1.9.1.3</span> ❌ Port Already in Use</h4>
+<p><strong>Symptoms:</strong></p>
+<pre><code>OSError: [Errno 48] Address already in use
+Port 8000 is already in use</code></pre>
+<p><strong>Solution Option 1: Change Port</strong></p>
+<pre class="env"><code># Edit .env file
+PORT=8001  # or any port between 8000-9000</code></pre>
+<p><strong>Solution Option 2: Kill Process Using Port</strong></p>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find process using port 8000</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>netstat <span class="op">-</span>ano <span class="op">|</span> findstr <span class="op">:</span><span class="dv">8000</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Kill the process (replace PID with actual number)</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>taskkill <span class="op">/</span>PID <span class="op">&lt;</span>PID<span class="op">&gt;</span> <span class="op">/</span>F</span></code></pre></div>
+<p><strong>macOS/Linux:</strong></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find and kill process using port 8000</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lsof</span> <span class="at">-ti:8000</span> <span class="kw">|</span> <span class="fu">xargs</span> kill <span class="at">-9</span></span></code></pre></div>
+<hr />
+<h4 data-number="1.9.1.4" id="permission-denied-errors"><span class="header-section-number">1.9.1.4</span> ❌ Permission Denied
+Errors</h4>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run PowerShell as Administrator, then:</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-ExecutionPolicy</span> <span class="op">-</span>ExecutionPolicy RemoteSigned <span class="op">-</span>Scope CurrentUser</span></code></pre></div>
+<p><strong>macOS/Linux:</strong></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix file permissions</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x main.py</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> <span class="at">-R</span> 755 .</span></code></pre></div>
+<hr />
+<h4 data-number="1.9.1.5" id="virtual-environment-activation-fails"><span class="header-section-number">1.9.1.5</span> ❌ Virtual Environment
+Activation Fails</h4>
+<p><strong>Windows PowerShell:</strong></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If &quot;cannot be loaded because running scripts is disabled&quot;</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-ExecutionPolicy</span> <span class="op">-</span>ExecutionPolicy RemoteSigned <span class="op">-</span>Scope CurrentUser</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Then activate again</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\venv\Scripts\Activate<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div>
+<p><strong>macOS/Linux:</strong></p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If activation script not found</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv venv <span class="at">--clear</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span></code></pre></div>
+<hr />
+<h4 data-number="1.9.1.6" id="document-search-not-finding-files"><span class="header-section-number">1.9.1.6</span> ❌ Document Search Not
+Finding Files</h4>
+<p><strong>Symptoms:</strong> - “No documents found” - Files exist but
+not showing up</p>
+<p><strong>Solution:</strong> 1. <strong>Check file locations:</strong>
+- Windows: <code>C:\Users\YourName\Documents</code>,
+<code>Desktop</code>, <code>Downloads</code> - macOS/Linux:
+<code>~/Documents</code>, <code>~/Desktop</code>,
+<code>~/Downloads</code></p>
+<ol start="2" type="1">
+<li><p><strong>Verify file extensions:</strong></p>
+<ul>
+<li>Supported: .pdf, .doc, .docx, .xlsx, .xls, .ppt, .pptx, .txt, .csv,
+.md</li>
+</ul></li>
+<li><p><strong>Use specific keywords:</strong></p>
+<pre><code>Instead of: &quot;find files&quot;
+Try: &quot;find my Excel spreadsheets&quot;
+Try: &quot;show me PDF reports on desktop&quot;</code></pre></li>
+<li><p><strong>Check file permissions:</strong></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS/Linux</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> ~/Documents</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span> <span class="st">&quot;C:\Users\YourName\Documents&quot;</span></span></code></pre></div></li>
+</ol>
+<hr />
+<h4 data-number="1.9.1.7" id="oauth-google-login-errors"><span class="header-section-number">1.9.1.7</span> ❌ OAuth / Google Login
+Errors</h4>
+<p><strong>Symptoms:</strong></p>
+<pre><code>redirect_uri_mismatch
+invalid_client
+API has not been used</code></pre>
+<p><strong>Solution:</strong> 1. <strong>Verify redirect URI:</strong> -
+In Google Cloud Console, check Authorized redirect URIs - Must match
+exactly: <code>http://localhost:8000/auth/callback</code> - If you
+changed port, update OAuth settings</p>
+<ol start="2" type="1">
+<li><p><strong>Enable APIs:</strong></p>
+<ul>
+<li>Go to Google Cloud Console → APIs &amp; Services → Library</li>
+<li>Enable: Gmail API, Drive API, Docs API, Sheets API, Slides API</li>
+<li>Wait 1-2 minutes for propagation</li>
+</ul></li>
+<li><p><strong>Check credentials in .env:</strong></p>
+<pre class="env"><code>GOOGLE_CLIENT_ID=...apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=...</code></pre></li>
+<li><p><strong>See detailed guide:</strong></p>
+<ul>
+<li>Read <code>docs/GOOGLE_OAUTH_SETUP.md</code></li>
+</ul></li>
+</ol>
+<hr />
+<h4 data-number="1.9.1.8" id="network-access-issues"><span class="header-section-number">1.9.1.8</span> ❌ Network Access
+Issues</h4>
+<p><strong>Can’t access from other devices</strong></p>
+<p><strong>Solution:</strong></p>
+<ol type="1">
+<li><p><strong>Verify same WiFi network</strong></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find your IP address</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="ex">ipconfig</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="ex">ifconfig</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;inet &quot;</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Linux</span></span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a><span class="fu">hostname</span> <span class="at">-I</span></span></code></pre></div></li>
+<li><p><strong>Configure firewall:</strong></p>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>netsh advfirewall firewall add rule name<span class="op">=</span><span class="st">&quot;V-Mart Agent&quot;</span> <span class="fu">dir</span><span class="op">=</span><span class="kw">in</span> action<span class="op">=</span>allow protocol<span class="op">=</span>TCP localport<span class="op">=</span><span class="dv">8000</span></span></code></pre></div>
+<p><strong>macOS:</strong></p>
+<ul>
+<li>System Preferences → Security &amp; Privacy → Firewall</li>
+<li>Firewall Options → Add Python</li>
+</ul>
+<p><strong>Linux:</strong></p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ufw allow 8000/tcp</span></code></pre></div></li>
+<li><p><strong>Check HOST in .env:</strong></p>
+<pre class="env"><code>HOST=0.0.0.0  # Not 127.0.0.1 or localhost
+PORT=8000</code></pre></li>
+</ol>
+<hr />
+<h4 data-number="1.9.1.9" id="server-crashes-or-stops"><span class="header-section-number">1.9.1.9</span> ❌ Server Crashes or
+Stops</h4>
+<p><strong>Check logs:</strong></p>
+<p><strong>Windows (Task Scheduler):</strong> - Task Scheduler → Task
+Scheduler Library - Right-click “V-Mart AI Agent” → Properties →
+History</p>
+<p><strong>macOS:</strong></p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> /tmp/vmart-agent-error.log</span></code></pre></div>
+<p><strong>Linux:</strong></p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> vmart-agent.service <span class="at">-n</span> 100</span></code></pre></div>
+<p><strong>Common fixes:</strong></p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Restart server</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows Task Scheduler</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Right-click task → Run</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS</span></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> stop com.vmart.aiagent</span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> start com.vmart.aiagent</span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Linux</span></span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl restart vmart-agent.service</span></code></pre></div>
+<hr />
+<h4 data-number="1.9.1.10" id="high-cpumemory-usage"><span class="header-section-number">1.9.1.10</span> ❌ High CPU/Memory
+Usage</h4>
+<p><strong>Solution:</strong> 1. <strong>Restart server
+regularly</strong> 2. <strong>Clear conversation history</strong> in web
+interface 3. <strong>Check for large files</strong> being scanned 4.
+<strong>Limit document search depth</strong></p>
+<hr />
+<h4 data-number="1.9.1.11" id="slow-response-times"><span class="header-section-number">1.9.1.11</span> ❌ Slow Response
+Times</h4>
+<p><strong>Causes:</strong> - Large number of documents - Slow internet
+connection - API rate limits</p>
+<p><strong>Solution:</strong> 1. <strong>Organize files:</strong> - Keep
+folder structure shallow (max 2 levels) - Move rarely used files to
+non-scanned locations</p>
+<ol start="2" type="1">
+<li><strong>Check internet speed:</strong>
+<ul>
+<li>Minimum recommended: 10 Mbps</li>
+</ul></li>
+<li><strong>Monitor API usage:</strong>
+<ul>
+<li>Visit <a href="https://aistudio.google.com/">Google AI
+Studio</a></li>
+<li>Check quota limits</li>
+</ul></li>
+</ol>
+<hr />
+<h3 data-number="1.9.2" id="platform-specific-issues"><span class="header-section-number">1.9.2</span> Platform-Specific Issues</h3>
+<h4 data-number="1.9.2.1" id="windows"><span class="header-section-number">1.9.2.1</span> Windows</h4>
+<p><strong>Issue: Python not found</strong></p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Python to PATH</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Reinstall Python and CHECK &quot;Add Python to PATH&quot;</span></span></code></pre></div>
+<p><strong>Issue: pip not recognized</strong></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m pip install <span class="op">--</span>upgrade pip</span></code></pre></div>
+<h4 data-number="1.9.2.2" id="macos"><span class="header-section-number">1.9.2.2</span> macOS</h4>
+<p><strong>Issue: SSL Certificate errors</strong></p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install certificates</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/Applications/Python\ 3.11/Install\ Certificates.command</span></span></code></pre></div>
+<p><strong>Issue: pandas/numpy installation fails</strong></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Xcode Command Line Tools</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">--install</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Then reinstall requirements</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<p><strong>Issue: Port 8000 used by AirPlay</strong></p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Disable AirPlay Receiver</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="co"># System Preferences → Sharing → Uncheck &quot;AirPlay Receiver&quot;</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use different port in .env</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="va">PORT</span><span class="op">=</span>8001</span></code></pre></div>
+<h4 data-number="1.9.2.3" id="linux"><span class="header-section-number">1.9.2.3</span> Linux</h4>
+<p><strong>Issue: python3-venv not found</strong></p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ubuntu/Debian</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install python3-venv python3-pip</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fedora</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install python3-virtualenv</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Arch</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-S</span> python-virtualenv</span></code></pre></div>
+<p><strong>Issue: Permission denied for systemd</strong></p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix permissions</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> chown YOUR_USERNAME:YOUR_USERNAME /home/YOUR_USERNAME/Documents/V-Mart-AI-Agent <span class="at">-R</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Then restart service</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl restart vmart-agent.service</span></code></pre></div>
+<hr />
+<h3 data-number="1.9.3" id="diagnostic-commands"><span class="header-section-number">1.9.3</span> 📊 Diagnostic Commands</h3>
+<p><strong>Check Python installation:</strong></p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">--version</span>  <span class="co"># or python3 --version</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> <span class="at">--version</span>     <span class="co"># or pip3 --version</span></span></code></pre></div>
+<p><strong>Check virtual environment:</strong></p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Should show (venv) in prompt when activated</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span><span class="dt">\v</span>env<span class="dt">\S</span>cripts<span class="dt">\A</span>ctivate.ps1</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS/Linux</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span></code></pre></div>
+<p><strong>Check installed packages:</strong></p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> list</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> show flask</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> show google-generativeai</span></code></pre></div>
+<p><strong>Test API key:</strong></p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-c</span> <span class="st">&quot;import os; from dotenv import load_dotenv; load_dotenv(); print(&#39;API Key:&#39;, os.getenv(&#39;GEMINI_API_KEY&#39;)[:10] + &#39;...&#39;)&quot;</span></span></code></pre></div>
+<p><strong>Check server status:</strong></p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See if port is in use</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="fu">netstat</span> <span class="at">-ano</span> <span class="kw">|</span> <span class="ex">findstr</span> :8000</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS/Linux</span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a><span class="ex">lsof</span> <span class="at">-i</span> :8000</span></code></pre></div>
+<p><strong>Test network connectivity:</strong></p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ping your own IP from another device</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ping</span> YOUR_IP_ADDRESS</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use curl</span></span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://YOUR_IP:8000</span></code></pre></div>
+<hr />
+<h2 data-number="1.10" id="additional-resources"><span class="header-section-number">1.10</span> 📚 Additional Resources</h2>
+<h3 data-number="1.10.1" id="documentation-files"><span class="header-section-number">1.10.1</span> Documentation Files</h3>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>USER_GUIDE.md</strong></td>
+<td>Complete user manual for using the agent</td>
+</tr>
+<tr>
+<td><strong>GOOGLE_OAUTH_SETUP.md</strong></td>
+<td>Step-by-step OAuth configuration</td>
+</tr>
+<tr>
+<td><strong>DOCUMENT_SEARCH_FEATURE.md</strong></td>
+<td>Document search functionality details</td>
+</tr>
+<tr>
+<td><strong>QUICK_SETUP.md</strong></td>
+<td>Quick start guide (5 minutes)</td>
+</tr>
+<tr>
+<td><strong>README.md</strong></td>
+<td>Project overview and features</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.10.2" id="external-resources"><span class="header-section-number">1.10.2</span> External Resources</h3>
+<ul>
+<li><strong>Python Documentation:</strong> <a href="https://docs.python.org/3/">docs.python.org</a></li>
+<li><strong>Flask Documentation:</strong> <a href="https://flask.palletsprojects.com/">flask.palletsprojects.com</a></li>
+<li><strong>Gemini API Docs:</strong> <a href="https://ai.google.dev/">ai.google.dev</a></li>
+<li><strong>Google Cloud Console:</strong> <a href="https://console.cloud.google.com/">console.cloud.google.com</a></li>
+<li><strong>Google AI Studio:</strong> <a href="https://aistudio.google.com/">aistudio.google.com</a></li>
+</ul>
+<hr />
+<h2 data-number="1.11" id="getting-help"><span class="header-section-number">1.11</span> 🆘 Getting Help</h2>
+<h3 data-number="1.11.1" id="before-asking-for-help"><span class="header-section-number">1.11.1</span> Before Asking for Help</h3>
+<ol type="1">
+<li>✅ Check this troubleshooting section</li>
+<li>✅ Read error messages carefully</li>
+<li>✅ Search documentation files</li>
+<li>✅ Try basic fixes (restart, check .env, check logs)</li>
+<li>✅ Verify Python and dependencies installed</li>
+</ol>
+<h3 data-number="1.11.2" id="information-to-provide"><span class="header-section-number">1.11.2</span> Information to Provide</h3>
+<p>When reporting issues, include:</p>
+<ol type="1">
+<li><strong>Operating System:</strong> Windows/macOS/Linux version</li>
+<li><strong>Python Version:</strong> <code>python --version</code></li>
+<li><strong>Error Message:</strong> Full text or screenshot</li>
+<li><strong>Steps to Reproduce:</strong> What you did before error</li>
+<li><strong>Log Files:</strong> Recent logs from terminal or system</li>
+<li><strong>Configuration:</strong> Anonymized .env file (hide API
+keys!)</li>
+</ol>
+<p><strong>Example Issue Report:</strong></p>
+<pre><code>OS: macOS 13.2
+Python: 3.11.5
+Error: ModuleNotFoundError: No module named &#39;google.generativeai&#39;
+
+Steps:
+1. Activated venv
+2. Ran python main.py
+3. Got error above
+
+Logs:
+[full error traceback here]
+
+.env config:
+GEMINI_API_KEY=AIza... (hidden)
+PORT=8000
+DEBUG=False</code></pre>
+<hr />
+<h2 data-number="1.12" id="post-setup-checklist"><span class="header-section-number">1.12</span> ✅ Post-Setup Checklist</h2>
+<p>After completing setup, verify:</p>
+<ul class="task-list">
+<li><label><input type="checkbox"></input>Python 3.8+ installed</label></li>
+<li><label><input type="checkbox"></input>Virtual environment created and
+activated</label></li>
+<li><label><input type="checkbox"></input>Dependencies installed
+(<code>pip list</code> shows packages)</label></li>
+<li><label><input type="checkbox"></input><code>.env</code> file exists with
+API key</label></li>
+<li><label><input type="checkbox"></input>Server starts without
+errors</label></li>
+<li><label><input type="checkbox"></input>Can access
+http://localhost:8000</label></li>
+<li><label><input type="checkbox"></input>Demo login works</label></li>
+<li><label><input type="checkbox"></input>Document search finds local
+files</label></li>
+<li><label><input type="checkbox"></input>(Optional) Google OAuth
+configured</label></li>
+<li><label><input type="checkbox"></input>(Optional) Auto-start
+configured</label></li>
+<li><label><input type="checkbox"></input>(Optional) Firewall configured for
+network access</label></li>
+</ul>
+<hr />
+<h2 data-number="1.13" id="quick-reference"><span class="header-section-number">1.13</span> 🎯 Quick Reference</h2>
+<h3 data-number="1.13.1" id="essential-commands"><span class="header-section-number">1.13.1</span> Essential Commands</h3>
+<p><strong>Start Server:</strong></p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate venv first, then:</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py</span></code></pre></div>
+<p><strong>Update Application:</strong></p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> <span class="at">-r</span> requirements.txt</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py</span></code></pre></div>
+<p><strong>Restart Auto-Start Service:</strong></p>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task Scheduler → Right-click task → End → Run</span></span></code></pre></div>
+<p><strong>macOS:</strong></p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> stop com.vmart.aiagent <span class="kw">&amp;&amp;</span> <span class="ex">launchctl</span> start com.vmart.aiagent</span></code></pre></div>
+<p><strong>Linux:</strong></p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl restart vmart-agent.service</span></code></pre></div>
+<p><strong>View Logs:</strong></p>
+<p><strong>macOS:</strong></p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> /tmp/vmart-agent.log</span></code></pre></div>
+<p><strong>Linux:</strong></p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> journalctl <span class="at">-u</span> vmart-agent.service <span class="at">-f</span></span></code></pre></div>
+<hr />
+<h2 data-number="1.14" id="next-steps"><span class="header-section-number">1.14</span> 🎓 Next Steps</h2>
+<p>After successful setup:</p>
+<ol type="1">
+<li>📖 <strong>Read USER_GUIDE.md</strong> - Learn all features</li>
+<li>🧪 <strong>Test document search</strong> - Add files and search</li>
+<li>⚙️ <strong>Configure OAuth</strong> (optional) - For Gmail, Drive
+access</li>
+<li>🔄 <strong>Set up auto-start</strong> - Launch on boot</li>
+<li>📱 <strong>Enable network access</strong> - Use from other
+devices</li>
+<li>🎨 <strong>Customize responses</strong> - Train for your use
+case</li>
+</ol>
+<hr />
+<p><strong>Setup complete! 🎉</strong></p>
+<p><strong>Access your AI agent at: http://localhost:8000</strong></p>
+<p><strong>Developed by: DSR | Inspired by: LA | Powered by: Gemini
+AI</strong></p>
+<hr />
+<p><em>Last Updated: January 2025</em><br />
+<em>Version: 2.0</em><br />
+<em>Platforms: Windows 10+, macOS 10.15+, Ubuntu 20.04+</em></p>
+<h2 data-number="1.15" id="getting-help-1"><span class="header-section-number">1.15</span> Getting Help</h2>
+<h3 data-number="1.15.1" id="internal-support"><span class="header-section-number">1.15.1</span> Internal Support</h3>
+<ul>
+<li><strong>Email</strong>: support@vmartretail.com</li>
+<li><strong>Slack</strong>: #ai-agent-support</li>
+<li><strong>IT Helpdesk</strong>: ext. 1234</li>
+</ul>
+<h3 data-number="1.15.2" id="documentation"><span class="header-section-number">1.15.2</span> Documentation</h3>
+<ul>
+<li>Check <code>docs/architecture.md</code> for system design</li>
+<li>Review <code>README.md</code> for feature overview</li>
+</ul>
+<h3 data-number="1.15.3" id="logs-location"><span class="header-section-number">1.15.3</span> Logs Location</h3>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Log Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>Task Scheduler → History</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code>/tmp/vmart-agent.log</code> and
+<code>/tmp/vmart-agent-error.log</code></td>
+</tr>
+<tr>
+<td>Linux</td>
+<td><code>sudo journalctl -u vmart-agent.service</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.16" id="next-steps-1"><span class="header-section-number">1.16</span> Next Steps</h2>
+<p>After successful setup:</p>
+<ol type="1">
+<li>✅ Test all features (chat, analysis, file management)</li>
+<li>✅ Configure scheduled tasks</li>
+<li>✅ Set up email templates</li>
+<li>✅ Connect GitHub repositories</li>
+<li>✅ Customize agent responses for your department</li>
+<li>✅ Train team members on usage</li>
+</ol>
+<hr />
+<p><strong>Setup Version</strong>: 1.0<br />
+<strong>Last Updated</strong>: 2024<br />
+<strong>Maintained by</strong>: V-Mart IT Department</p>
+</body>
+</html>
