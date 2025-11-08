@@ -325,7 +325,7 @@ def get_stats():
 
 @app.route("/api/connections", methods=["GET"])
 @require_api_key
-@require_permission(Permission.DB_READ)
+@require_permission(Permission.DATASOURCE_READ)
 def list_connections():
     """List all database connections"""
     connections = config_manager.list_database_connections()
@@ -334,7 +334,7 @@ def list_connections():
 
 @app.route("/api/connections", methods=["POST"])
 @require_api_key
-@require_permission(Permission.DB_ADMIN)
+@require_permission(Permission.DATASOURCE_ADMIN)
 def create_connection():
     """Create a new database connection"""
     data = request.get_json() or {}
@@ -374,7 +374,7 @@ def delete_connection(name):
 
 @app.route("/api/query", methods=["POST"])
 @require_api_key
-@require_permission(Permission.DB_READ)
+@require_permission(Permission.DB_QUERY)
 def execute_query():
     """Execute a database query"""
     data = request.get_json() or {}
@@ -398,7 +398,7 @@ def execute_query():
 
 @app.route("/api/schema/<connection_name>", methods=["GET"])
 @require_api_key
-@require_permission(Permission.DB_READ)
+@require_permission(Permission.DB_QUERY)
 def get_schema(connection_name):
     """Get schema information for a database"""
     try:
@@ -430,7 +430,7 @@ def get_ai_insights_engine():
 
 @app.route("/api/ai/analyze", methods=["POST"])
 @require_api_key
-@require_permission(Permission.AI_INSIGHTS)
+@require_permission(Permission.AI_ANALYZE)
 def analyze_data():
     """Analyze data with AI insights"""
     data = request.get_json() or {}
@@ -458,7 +458,7 @@ def analyze_data():
 
 @app.route("/api/ai/recommend", methods=["POST"])
 @require_api_key
-@require_permission(Permission.AI_INSIGHTS)
+@require_permission(Permission.AI_RECOMMEND)
 def get_recommendations():
     """Get recommendations based on data"""
     data = request.get_json() or {}
@@ -490,7 +490,7 @@ def get_recommendations():
 
 @app.route("/api/users", methods=["GET"])
 @require_api_key
-@require_permission(Permission.USER_ADMIN)
+@require_permission(Permission.USER_READ)
 def list_users():
     """List all users"""
     # This would list users from RBAC system
@@ -502,7 +502,7 @@ def list_users():
 
 @app.route("/api/users", methods=["POST"])
 @require_api_key
-@require_permission(Permission.USER_ADMIN)
+@require_permission(Permission.USER_WRITE)
 def create_user():
     """Create a new user (API key)"""
     data = request.get_json() or {}
