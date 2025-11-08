@@ -11,6 +11,18 @@
 
 A comprehensive personal AI agent powered by Google's Gemini AI, featuring document search, Gmail/Drive integration, and multi-platform support.
 
+## 📚 Documentation
+
+### 🔴 **HIGH PRIORITY - START HERE**
+- **[System Architecture](docs/ARCHITECTURE.md)** - Complete system design, flowcharts, and objectives ⭐
+- **[Setup Guide](docs/SETUP_GUIDE.md)** - Platform-specific installation (Windows/macOS/Linux)
+- **[User Guide](docs/USER_GUIDE.md)** - Complete usage manual
+
+### Additional Resources
+- **[OAuth Setup](docs/GOOGLE_OAUTH_SETUP.md)** - Google authentication guide
+- **[Quick Setup](QUICK_SETUP.md)** - 5-minute quick start
+- **[API Reference](docs/API_REFERENCE.md)** - API documentation
+
 ## 🌟 Features
 
 ### Core Capabilities
