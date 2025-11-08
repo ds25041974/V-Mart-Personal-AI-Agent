@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>V-Mart Installation Guide</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">V-Mart Installation Guide</h1>
+</header>
+<h1 id="v-mart-personal-ai-agent---user-installation-setup">🚀 V-Mart
+Personal AI Agent - User Installation Setup</h1>
+<p><strong>Complete automated installation packages for Windows, macOS,
+and Linux</strong></p>
+<hr />
+<h2 id="overview">📋 Overview</h2>
+<p>Welcome to the V-Mart Personal AI Agent installation guide! This
+document provides automated installers for all major operating systems
+with one-click setup that includes:</p>
+<p>✅ <strong>Automated Dependency Installation</strong> - Python, pip,
+and all required packages<br />
+✅ <strong>24x7 Service Setup</strong> - Auto-start on boot and network
+availability<br />
+✅ <strong>Environment Configuration</strong> - Pre-configured .env
+templates<br />
+✅ <strong>Web Interface</strong> - Full 4-tab chatbot interface<br />
+✅ <strong>API Integrations</strong> - Google Workspace (Gmail, Drive),
+GitHub, Gemini AI<br />
+✅ <strong>Management Scripts</strong> - Start, stop, restart, status,
+logs<br />
+✅ <strong>Complete Documentation</strong> - User guides, API reference,
+setup guides</p>
+<hr />
+<h2 id="download-installation-packages">📥 Download Installation
+Packages</h2>
+<p>Choose your operating system below:</p>
+<h3 id="windows-1011">Windows (10/11)</h3>
+<p><strong>📦 Package</strong>: <a href="installers/windows/INSTALL.bat"><code>installers/windows/INSTALL.bat</code></a></p>
+<p><strong>Download Links</strong>: - <strong>Direct Download</strong>:
+<a href="https://github.com/ds25041974/V-Mart-Personal-AI-Agent/raw/main/installers/windows/INSTALL.bat">INSTALL.bat</a>
+- <strong>PowerShell Script</strong>: <a href="https://github.com/ds25041974/V-Mart-Personal-AI-Agent/raw/main/installers/windows/install.ps1">install.ps1</a></p>
+<p><strong>Requirements</strong>: - Windows 10 or Windows 11 - 4 GB RAM
+minimum (8 GB recommended) - 500 MB free disk space - Internet
+connection</p>
+<h3 id="macos-10.15">macOS (10.15+)</h3>
+<p><strong>📦 Package</strong>: <a href="installers/macos/install.sh"><code>installers/macos/install.sh</code></a></p>
+<p><strong>Download Link</strong>: - <strong>Direct Download</strong>:
+<a href="https://github.com/ds25041974/V-Mart-Personal-AI-Agent/raw/main/installers/macos/install.sh">install.sh</a></p>
+<p><strong>Requirements</strong>: - macOS 10.15 (Catalina) or later - 4
+GB RAM minimum (8 GB recommended) - 500 MB free disk space - Internet
+connection</p>
+<h3 id="linux-ubuntu-20.04-debian-fedora-centos">Linux (Ubuntu 20.04+,
+Debian, Fedora, CentOS)</h3>
+<p><strong>📦 Package</strong>: <a href="installers/linux/install.sh"><code>installers/linux/install.sh</code></a></p>
+<p><strong>Download Link</strong>: - <strong>Direct Download</strong>:
+<a href="https://github.com/ds25041974/V-Mart-Personal-AI-Agent/raw/main/installers/linux/install.sh">install.sh</a></p>
+<p><strong>Requirements</strong>: - Ubuntu 20.04+, Debian 10+, Fedora
+34+, or CentOS 8+ - 4 GB RAM minimum (8 GB recommended) - 500 MB free
+disk space - Internet connection</p>
+<hr />
+<h2 id="windows-installation">🪟 Windows Installation</h2>
+<h3 id="quick-start">Quick Start</h3>
+<ol type="1">
+<li><strong>Download</strong> the installer:
+<ul>
+<li>Download <a href="https://github.com/ds25041974/V-Mart-Personal-AI-Agent/raw/main/installers/windows/INSTALL.bat"><code>INSTALL.bat</code></a></li>
+<li>Save to your <code>Downloads</code> folder</li>
+</ul></li>
+<li><strong>Run</strong> the installer:
+<ul>
+<li>Double-click <code>INSTALL.bat</code></li>
+<li>Or right-click → “Run as Administrator” (recommended)</li>
+</ul></li>
+<li><strong>Follow</strong> the installation wizard:
+<ul>
+<li>Python version check</li>
+<li>Download V-Mart AI Agent</li>
+<li>Create virtual environment</li>
+<li>Install dependencies</li>
+<li>Configure environment</li>
+<li>Setup auto-start service</li>
+</ul></li>
+<li><strong>Configure</strong> API keys:
+<ul>
+<li>Edit <code>.env</code> file (location shown in installer)</li>
+<li>Add your <code>GEMINI_API_KEY</code> (required)</li>
+<li>Add Google OAuth and GitHub tokens (optional)</li>
+</ul></li>
+<li><strong>Start</strong> the application:
+<ul>
+<li>Double-click “V-Mart AI Agent” desktop shortcut</li>
+<li>Or run <code>start_vmart.bat</code> in installation directory</li>
+<li>Or wait for auto-start on next login</li>
+</ul></li>
+<li><strong>Access</strong> the web interface:
+<ul>
+<li>Open browser: http://localhost:5000</li>
+<li>Or custom domain: http://vmartai:5000</li>
+</ul></li>
+</ol>
+<h3 id="what-gets-installed">What Gets Installed</h3>
+<ul>
+<li><strong>Location</strong>:
+<code>C:\Users\YourUsername\Documents\V-Mart-AI-Agent</code></li>
+<li><strong>Python Environment</strong>: Isolated virtual environment
+with all dependencies</li>
+<li><strong>Auto-Start Service</strong>: Windows Task Scheduler task
+(runs at login)</li>
+<li><strong>Desktop Shortcut</strong>: Quick access to start the
+application</li>
+<li><strong>Management Scripts</strong>:
+<ul>
+<li><code>start_vmart.bat</code> - Start the application</li>
+<li><code>start_vmart_hidden.bat</code> - Start without console
+window</li>
+</ul></li>
+<li><strong>Logs</strong>: <code>logs\</code> directory</li>
+</ul>
+<h3 id="manual-installation-alternative">Manual Installation
+(Alternative)</h3>
+<p>If the automated installer doesn’t work:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Install Python 3.11+ from python.org (check &quot;Add to PATH&quot;)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Download and extract V-Mart AI Agent</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">://</span>github<span class="op">.</span><span class="fu">com</span><span class="op">/</span>ds25041974<span class="op">/</span>V-Mart-Personal-AI-Agent<span class="op">.</span><span class="fu">git</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> V-Mart-Personal-AI-Agent</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Create virtual environment</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m venv venv</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>venv\Scripts\activate</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Install dependencies</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>pip install <span class="op">-</span>r requirements<span class="op">.</span><span class="fu">txt</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Configure .env file</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">copy</span> <span class="op">.</span><span class="fu">env</span><span class="op">.</span><span class="fu">example</span> <span class="op">.</span><span class="fu">env</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>notepad <span class="op">.</span><span class="fu">env</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Run the application</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>python main<span class="op">.</span><span class="fu">py</span></span></code></pre></div>
+<hr />
+<h2 id="macos-installation">🍎 macOS Installation</h2>
+<h3 id="quick-start-1">Quick Start</h3>
+<ol type="1">
+<li><p><strong>Download</strong> the installer:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-O</span> https://github.com/ds25041974/V-Mart-Personal-AI-Agent/raw/main/installers/macos/install.sh</span></code></pre></div></li>
+<li><p><strong>Make executable</strong>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x install.sh</span></code></pre></div></li>
+<li><p><strong>Run</strong> the installer:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./install.sh</span></span></code></pre></div></li>
+<li><p><strong>Follow</strong> the prompts:</p>
+<ul>
+<li>Python version check</li>
+<li>Clone repository</li>
+<li>Create virtual environment</li>
+<li>Install dependencies</li>
+<li>Configure LaunchAgent</li>
+<li>Start service</li>
+</ul></li>
+<li><p><strong>Configure</strong> API keys:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/Applications/V-Mart-AI-Agent/.env</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Add your GEMINI_API_KEY</span></span></code></pre></div></li>
+<li><p><strong>Restart</strong> the service:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/Applications/V-Mart-AI-Agent/restart.sh</span></span></code></pre></div></li>
+<li><p><strong>Access</strong> the web interface:</p>
+<ul>
+<li>Browser: http://localhost:5000</li>
+</ul></li>
+</ol>
+<h3 id="what-gets-installed-1">What Gets Installed</h3>
+<ul>
+<li><strong>Location</strong>:
+<code>~/Applications/V-Mart-AI-Agent</code></li>
+<li><strong>Python Environment</strong>: Isolated virtual
+environment</li>
+<li><strong>LaunchAgent</strong>:
+<code>~/Library/LaunchAgents/com.vmart.aiagent.plist</code></li>
+<li><strong>Auto-Start</strong>: Starts at login and network
+availability</li>
+<li><strong>Management Scripts</strong>:
+<ul>
+<li><code>start.sh</code> - Start the service</li>
+<li><code>stop.sh</code> - Stop the service</li>
+<li><code>restart.sh</code> - Restart the service</li>
+<li><code>status.sh</code> - Check service status</li>
+<li><code>uninstall.sh</code> - Remove the service</li>
+</ul></li>
+<li><strong>Logs</strong>: <code>logs/</code> directory</li>
+</ul>
+<h3 id="manual-installation-alternative-1">Manual Installation
+(Alternative)</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Install Homebrew (if not installed)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/bin/bash</span> <span class="at">-c</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">curl</span> <span class="at">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Install Python 3.11</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install python@3.11</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Clone repository</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ds25041974/V-Mart-Personal-AI-Agent.git</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> V-Mart-Personal-AI-Agent</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Create virtual environment</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv venv</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Install dependencies</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Configure .env file</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .env</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. Run the application</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py</span></code></pre></div>
+<hr />
+<h2 id="linux-installation">🐧 Linux Installation</h2>
+<h3 id="quick-start-ubuntudebianfedoracentos">Quick Start
+(Ubuntu/Debian/Fedora/CentOS)</h3>
+<ol type="1">
+<li><p><strong>Download</strong> the installer:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://github.com/ds25041974/V-Mart-Personal-AI-Agent/raw/main/installers/linux/install.sh</span></code></pre></div>
+<p>Or using curl:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-O</span> https://github.com/ds25041974/V-Mart-Personal-AI-Agent/raw/main/installers/linux/install.sh</span></code></pre></div></li>
+<li><p><strong>Make executable</strong>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x install.sh</span></code></pre></div></li>
+<li><p><strong>Run</strong> the installer:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./install.sh</span></span></code></pre></div></li>
+<li><p><strong>Follow</strong> the prompts:</p>
+<ul>
+<li>Python version check</li>
+<li>Install system dependencies (requires sudo)</li>
+<li>Clone repository</li>
+<li>Create virtual environment</li>
+<li>Install Python dependencies</li>
+<li>Configure systemd service</li>
+<li>Start service</li>
+</ul></li>
+<li><p><strong>Configure</strong> API keys:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> ~/opt/V-Mart-AI-Agent/.env</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Add your GEMINI_API_KEY</span></span></code></pre></div></li>
+<li><p><strong>Restart</strong> the service:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/restart.sh</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: systemctl --user restart vmart-aiagent</span></span></code></pre></div></li>
+<li><p><strong>Access</strong> the web interface:</p>
+<ul>
+<li>Browser: http://localhost:5000</li>
+</ul></li>
+</ol>
+<h3 id="what-gets-installed-2">What Gets Installed</h3>
+<ul>
+<li><strong>Location</strong>: <code>~/opt/V-Mart-AI-Agent</code></li>
+<li><strong>Python Environment</strong>: Isolated virtual
+environment</li>
+<li><strong>Systemd Service</strong>:
+<code>~/.config/systemd/user/vmart-aiagent.service</code></li>
+<li><strong>Auto-Start</strong>: Starts at boot and after network is
+online</li>
+<li><strong>Management Scripts</strong>:
+<ul>
+<li><code>start.sh</code> - Start the service</li>
+<li><code>stop.sh</code> - Stop the service</li>
+<li><code>restart.sh</code> - Restart the service</li>
+<li><code>status.sh</code> - Check service status</li>
+<li><code>logs.sh</code> - View live logs</li>
+<li><code>uninstall.sh</code> - Remove the service</li>
+</ul></li>
+<li><strong>Logs</strong>: <code>logs/</code> directory and
+<code>journalctl</code></li>
+</ul>
+<h3 id="distribution-specific-notes">Distribution-Specific Notes</h3>
+<h4 id="ubuntudebian">Ubuntu/Debian</h4>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The installer will automatically run:</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install python3.11 python3.11-venv python3-pip build-essential git</span></code></pre></div>
+<h4 id="fedora">Fedora</h4>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The installer will automatically run:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install python3.11 python3-pip @development-tools git</span></code></pre></div>
+<h4 id="centosrhel">CentOS/RHEL</h4>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The installer will automatically run:</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> yum install python3.11 python3-pip groupinstall <span class="st">&quot;Development Tools&quot;</span> git</span></code></pre></div>
+<h3 id="manual-installation-alternative-2">Manual Installation
+(Alternative)</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Install Python 3.11 and dependencies</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update  <span class="co"># Ubuntu/Debian</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install python3.11 python3.11-venv python3-pip git</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Clone repository</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/ds25041974/V-Mart-Personal-AI-Agent.git</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> V-Mart-Personal-AI-Agent</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Create virtual environment</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="ex">python3.11</span> <span class="at">-m</span> venv venv</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Install dependencies</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Configure .env file</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> .env.example .env</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> .env</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Run the application</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py</span></code></pre></div>
+<hr />
+<h2 id="post-installation-configuration">⚙️ Post-Installation
+Configuration</h2>
+<h3 id="required-gemini-api-key">Required: Gemini API Key</h3>
+<ol type="1">
+<li><p><strong>Get API Key</strong>:</p>
+<ul>
+<li>Visit https://aistudio.google.com/app/apikey</li>
+<li>Sign in with Google account</li>
+<li>Click “Create API Key”</li>
+<li>Copy the generated key</li>
+</ul></li>
+<li><p><strong>Add to .env file</strong>:</p>
+<p><strong>Windows</strong>:</p>
+<pre><code>Edit: C:\Users\YourUsername\Documents\V-Mart-AI-Agent\.env</code></pre>
+<p><strong>macOS</strong>:</p>
+<pre><code>Edit: ~/Applications/V-Mart-AI-Agent/.env</code></pre>
+<p><strong>Linux</strong>:</p>
+<pre><code>Edit: ~/opt/V-Mart-AI-Agent/.env</code></pre>
+<p>Add this line:</p>
+<pre><code>GEMINI_API_KEY=AIzaSyYourActualAPIKeyHere</code></pre></li>
+<li><p><strong>Restart the service</strong>:</p>
+<ul>
+<li>Windows: Restart from Task Scheduler or reboot</li>
+<li>macOS: <code>~/Applications/V-Mart-AI-Agent/restart.sh</code></li>
+<li>Linux: <code>~/opt/V-Mart-AI-Agent/restart.sh</code></li>
+</ul></li>
+</ol>
+<h3 id="optional-google-oauth-gmaildrive-integration">Optional: Google
+OAuth (Gmail/Drive Integration)</h3>
+<ol type="1">
+<li><p><strong>Create OAuth Credentials</strong>:</p>
+<ul>
+<li>Follow guide: <a href="docs/GOOGLE_OAUTH_SETUP.md">GOOGLE_OAUTH_SETUP.md</a></li>
+</ul></li>
+<li><p><strong>Add to .env file</strong>:</p>
+<pre><code>GOOGLE_CLIENT_ID=your_client_id_here
+GOOGLE_CLIENT_SECRET=your_client_secret_here</code></pre></li>
+<li><p><strong>Restart service</strong></p></li>
+</ol>
+<h3 id="optional-github-integration">Optional: GitHub Integration</h3>
+<ol type="1">
+<li><p><strong>Create GitHub Token</strong>:</p>
+<ul>
+<li>Visit https://github.com/settings/tokens</li>
+<li>Generate new token (classic)</li>
+<li>Select scopes: <code>repo</code>, <code>read:org</code></li>
+</ul></li>
+<li><p><strong>Add to .env file</strong>:</p>
+<pre><code>GITHUB_TOKEN=ghp_YourTokenHere</code></pre></li>
+<li><p><strong>Restart service</strong></p></li>
+</ol>
+<h3 id="optional-custom-domain-vmartai">Optional: Custom Domain
+(vmartai)</h3>
+<p><strong>Windows</strong>:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run as Administrator</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Add-Content</span> <span class="op">-</span>Path C<span class="op">:</span>\Windows\System32\drivers\etc\hosts <span class="op">-</span>Value <span class="st">&quot;127.0.0.1 vmartai&quot;</span></span></code></pre></div>
+<p><strong>macOS/Linux</strong>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> sh <span class="at">-c</span> <span class="st">&#39;echo &quot;127.0.0.1 vmartai&quot; &gt;&gt; /etc/hosts&#39;</span></span></code></pre></div>
+<p><strong>Access</strong>: - http://vmartai:5000</p>
+<hr />
+<h2 id="verification-testing">🎯 Verification &amp; Testing</h2>
+<h3 id="check-installation">Check Installation</h3>
+<ol type="1">
+<li><p><strong>Verify service is running</strong>:</p>
+<p><strong>Windows</strong>:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check Task Scheduler</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>Get-ScheduledTask <span class="op">-</span>TaskName <span class="st">&quot;V-Mart AI Agent&quot;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or check if process is running</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-Process</span> <span class="op">-</span>Name pythonw <span class="op">|</span> <span class="fu">Where-Object</span> <span class="op">{</span><span class="va">$_</span><span class="op">.</span><span class="fu">Path</span> <span class="op">-like</span> <span class="st">&quot;*V-Mart-AI-Agent*&quot;</span><span class="op">}</span></span></code></pre></div>
+<p><strong>macOS</strong>:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/Applications/V-Mart-AI-Agent/status.sh</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="ex">launchctl</span> list <span class="kw">|</span> <span class="fu">grep</span> com.vmart.aiagent</span></code></pre></div>
+<p><strong>Linux</strong>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/status.sh</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="ex">systemctl</span> <span class="at">--user</span> status vmart-aiagent</span></code></pre></div></li>
+<li><p><strong>Test web interface</strong>:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> http://localhost:5000/health</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Should return: {&quot;status&quot;: &quot;ok&quot;}</span></span></code></pre></div></li>
+<li><p><strong>Open in browser</strong>:</p>
+<ul>
+<li>Navigate to http://localhost:5000</li>
+<li>You should see the 4-tab interface:
+<ul>
+<li>💬 Chat</li>
+<li>📊 Analysis</li>
+<li>📁 Files</li>
+<li>🎯 Decision</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Test Gemini AI</strong>:</p>
+<ul>
+<li>Go to Chat tab</li>
+<li>Type: “Hello”</li>
+<li>Should get AI response</li>
+</ul></li>
+</ol>
+<h3 id="view-logs">View Logs</h3>
+<p><strong>Windows</strong>:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> C<span class="op">:</span>\Users\YourUsername\Documents\V-Mart-AI-Agent\logs</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">type</span> stdout<span class="op">.</span><span class="fu">log</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">type</span> stderr<span class="op">.</span><span class="fu">log</span></span></code></pre></div>
+<p><strong>macOS</strong>:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> ~/Applications/V-Mart-AI-Agent/logs/stdout.log</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> ~/Applications/V-Mart-AI-Agent/logs/stderr.log</span></code></pre></div>
+<p><strong>Linux</strong>:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Live logs</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/logs.sh</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or using journalctl</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="ex">journalctl</span> <span class="at">--user</span> <span class="at">-u</span> vmart-aiagent <span class="at">-f</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Log files</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> ~/opt/V-Mart-AI-Agent/logs/stdout.log</span></code></pre></div>
+<hr />
+<h2 id="management-commands">🔧 Management Commands</h2>
+<h3 id="windows">Windows</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>C<span class="op">:</span>\Users\YourUsername\Documents\V-Mart-AI-Agent\start_vmart<span class="op">.</span><span class="fu">bat</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Start hidden (no console window)</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>C<span class="op">:</span>\Users\YourUsername\Documents\V-Mart-AI-Agent\start_vmart_hidden<span class="op">.</span><span class="fu">bat</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use Task Scheduler</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>Start-ScheduledTask <span class="op">-</span>TaskName <span class="st">&quot;V-Mart AI Agent&quot;</span></span></code></pre></div>
+<h3 id="macos">macOS</h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/Applications/V-Mart-AI-Agent/start.sh</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="ex">~/Applications/V-Mart-AI-Agent/stop.sh</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Restart</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="ex">~/Applications/V-Mart-AI-Agent/restart.sh</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Status</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="ex">~/Applications/V-Mart-AI-Agent/status.sh</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Uninstall</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="ex">~/Applications/V-Mart-AI-Agent/uninstall.sh</span></span></code></pre></div>
+<h3 id="linux">Linux</h3>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/start.sh</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: systemctl --user start vmart-aiagent</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/stop.sh</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: systemctl --user stop vmart-aiagent</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Restart</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/restart.sh</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: systemctl --user restart vmart-aiagent</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Status</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/status.sh</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: systemctl --user status vmart-aiagent</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Logs</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/logs.sh</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: journalctl --user -u vmart-aiagent -f</span></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Uninstall</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="ex">~/opt/V-Mart-AI-Agent/uninstall.sh</span></span></code></pre></div>
+<hr />
+<h2 id="troubleshooting">🚨 Troubleshooting</h2>
+<h3 id="installation-issues">Installation Issues</h3>
+<h4 id="python-not-found">“Python not found”</h4>
+<ul>
+<li><strong>Windows</strong>: Download from python.org, check “Add to
+PATH”</li>
+<li><strong>macOS</strong>: Install via Homebrew:
+<code>brew install python@3.11</code></li>
+<li><strong>Linux</strong>: <code>sudo apt install python3.11</code>
+(Ubuntu/Debian)</li>
+</ul>
+<h4 id="pip-not-found">“pip not found”</h4>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ensurepip <span class="at">--upgrade</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS/Linux</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> ensurepip <span class="at">--upgrade</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: sudo apt install python3-pip</span></span></code></pre></div>
+<h4 id="permission-denied">“Permission denied”</h4>
+<ul>
+<li><strong>Windows</strong>: Right-click installer → “Run as
+Administrator”</li>
+<li><strong>macOS/Linux</strong>: <code>chmod +x install.sh</code></li>
+</ul>
+<h3 id="runtime-issues">Runtime Issues</h3>
+<h4 id="api-key-error">“API Key error”</h4>
+<ul>
+<li>Edit <code>.env</code> file</li>
+<li>Add valid <code>GEMINI_API_KEY=...</code></li>
+<li>Restart service</li>
+</ul>
+<h4 id="port-5000-already-in-use">“Port 5000 already in use”</h4>
+<ul>
+<li>Edit <code>.env</code> file</li>
+<li>Change <code>PORT=5001</code> (or any available port)</li>
+<li>Restart service</li>
+</ul>
+<h4 id="service-not-starting">“Service not starting”</h4>
+<p><strong>Windows</strong>:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check Task Scheduler logs</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>Get-ScheduledTaskInfo <span class="op">-</span>TaskName <span class="st">&quot;V-Mart AI Agent&quot;</span></span></code></pre></div>
+<p><strong>macOS</strong>:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check logs</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-f</span> ~/Applications/V-Mart-AI-Agent/logs/stderr.log</span></code></pre></div>
+<p><strong>Linux</strong>:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check service status</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="ex">systemctl</span> <span class="at">--user</span> status vmart-aiagent</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="ex">journalctl</span> <span class="at">--user</span> <span class="at">-u</span> vmart-aiagent <span class="at">-n</span> 50</span></code></pre></div>
+<h4 id="connection-refused">“Connection refused”</h4>
+<ol type="1">
+<li><p>Check if service is running (see verification section)</p></li>
+<li><p>Check logs for errors</p></li>
+<li><p>Verify <code>.env</code> configuration</p></li>
+<li><p>Try manual start to see errors:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate venv and run manually</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate  <span class="co"># macOS/Linux</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: venv\Scripts\activate  (Windows)</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> main.py</span></code></pre></div></li>
+</ol>
+<h3 id="network-issues">Network Issues</h3>
+<h4 id="cannot-access-from-other-devices">“Cannot access from other
+devices”</h4>
+<ul>
+<li>Edit <code>.env</code> file</li>
+<li>Change <code>HOST=0.0.0.0</code> (allow all connections)</li>
+<li>Configure firewall to allow port 5000</li>
+<li>Restart service</li>
+</ul>
+<h4 id="custom-domain-not-working">“Custom domain not working”</h4>
+<ul>
+<li>Verify hosts file entry</li>
+<li>Flush DNS cache:
+<ul>
+<li><strong>Windows</strong>: <code>ipconfig /flushdns</code></li>
+<li><strong>macOS</strong>:
+<code>sudo dscacheutil -flushcache</code></li>
+<li><strong>Linux</strong>:
+<code>sudo systemd-resolve --flush-caches</code></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="documentation">📚 Documentation</h2>
+<p>All documentation is included in the installation:</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 39%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Document</th>
+<th>Description</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>USER_GUIDE.md</strong></td>
+<td>Complete user guide with feature walkthroughs</td>
+<td><code>docs/USER_GUIDE.md</code></td>
+</tr>
+<tr>
+<td><strong>SETUP_GUIDE.md</strong></td>
+<td>Detailed setup instructions for all platforms</td>
+<td><code>docs/SETUP_GUIDE.md</code></td>
+</tr>
+<tr>
+<td><strong>SERVICE_24x7_SETUP.md</strong></td>
+<td>24x7 service configuration and management</td>
+<td><code>docs/SERVICE_24x7_SETUP.md</code></td>
+</tr>
+<tr>
+<td><strong>API_REFERENCE.md</strong></td>
+<td>API endpoints and integration guide</td>
+<td><code>docs/API_REFERENCE.md</code></td>
+</tr>
+<tr>
+<td><strong>GOOGLE_OAUTH_SETUP.md</strong></td>
+<td>Google OAuth setup for Gmail/Drive</td>
+<td><code>docs/GOOGLE_OAUTH_SETUP.md</code></td>
+</tr>
+<tr>
+<td><strong>DEPENDENCIES.md</strong></td>
+<td>Complete library documentation</td>
+<td><code>docs/DEPENDENCIES.md</code></td>
+</tr>
+<tr>
+<td><strong>ARCHITECTURE.md</strong></td>
+<td>System architecture and design</td>
+<td><code>docs/ARCHITECTURE.md</code></td>
+</tr>
+<tr>
+<td><strong>CHATBOT_INTERFACE_GUIDE.md</strong></td>
+<td>Web interface detailed guide</td>
+<td><code>docs/CHATBOT_INTERFACE_GUIDE.md</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>View Online</strong>:
+https://github.com/ds25041974/V-Mart-Personal-AI-Agent/tree/main/docs</p>
+<hr />
+<h2 id="updates-upgrades">🔄 Updates &amp; Upgrades</h2>
+<h3 id="update-to-latest-version">Update to Latest Version</h3>
+<p><strong>Using Git</strong> (Recommended):</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="op">&lt;</span>installation-directory<span class="op">&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> venv/bin/activate  <span class="co"># macOS/Linux</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: venv\Scripts\activate  (Windows)</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt <span class="at">--upgrade</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Restart service</span></span></code></pre></div>
+<p><strong>Manual Update</strong>: 1. Download latest release 2. Backup
+<code>.env</code> file 3. Replace all files except <code>.env</code> 4.
+Reinstall dependencies 5. Restart service</p>
+<hr />
+<h2 id="support-help">❓ Support &amp; Help</h2>
+<h3 id="getting-help">Getting Help</h3>
+<ol type="1">
+<li><strong>Documentation</strong>: Check the docs folder</li>
+<li><strong>GitHub Issues</strong>:
+https://github.com/ds25041974/V-Mart-Personal-AI-Agent/issues</li>
+<li><strong>Repository</strong>:
+https://github.com/ds25041974/V-Mart-Personal-AI-Agent</li>
+</ol>
+<h3 id="reporting-issues">Reporting Issues</h3>
+<p>When reporting issues, include: - Operating system and version -
+Python version (<code>python --version</code>) - Error messages from
+logs - Steps to reproduce - <code>.env</code> configuration (without API
+keys!)</p>
+<hr />
+<h2 id="system-requirements-summary">📊 System Requirements Summary</h2>
+<h3 id="minimum-requirements">Minimum Requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OS</strong></td>
+<td>Windows 10+, macOS 10.15+, Ubuntu 20.04+</td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>3.8 or higher</td>
+</tr>
+<tr>
+<td><strong>RAM</strong></td>
+<td>4 GB</td>
+</tr>
+<tr>
+<td><strong>Disk</strong></td>
+<td>500 MB free</td>
+</tr>
+<tr>
+<td><strong>Network</strong></td>
+<td>Internet connection</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recommended-specifications">Recommended Specifications</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OS</strong></td>
+<td>Windows 11, macOS 13+, Ubuntu 22.04+</td>
+</tr>
+<tr>
+<td><strong>Python</strong></td>
+<td>3.11 (latest stable)</td>
+</tr>
+<tr>
+<td><strong>RAM</strong></td>
+<td>8 GB or more</td>
+</tr>
+<tr>
+<td><strong>Disk</strong></td>
+<td>1 GB free</td>
+</tr>
+<tr>
+<td><strong>Network</strong></td>
+<td>Broadband connection</td>
+</tr>
+<tr>
+<td><strong>Browser</strong></td>
+<td>Chrome, Firefox, Safari, Edge (latest)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="quick-start-summary">🎉 Quick Start Summary</h2>
+<ol type="1">
+<li><strong>Download</strong> installer for your OS</li>
+<li><strong>Run</strong> the installer (double-click or
+<code>./install.sh</code>)</li>
+<li><strong>Configure</strong> API key in <code>.env</code> file</li>
+<li><strong>Restart</strong> service</li>
+<li><strong>Access</strong> http://localhost:5000</li>
+<li><strong>Enjoy</strong> your AI agent!</li>
+</ol>
+<hr />
+<p><strong>Version</strong>: 1.0.0<br />
+<strong>Last Updated</strong>: November 8, 2025<br />
+<strong>Repository</strong>:
+https://github.com/ds25041974/V-Mart-Personal-AI-Agent<br />
+<strong>License</strong>: MIT</p>
+</body>
+</html>
