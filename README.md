@@ -1,14 +1,23 @@
-# V-Mart Personal AI Agent
+# 🤖 V-Mart Personal AI Agent
 
-A comprehensive personal AI agent for V-Mart employees, powered by Google's Gemini LLM. This agent provides intelligent assistance for business decisions, data analysis, file management, and daily operations.
+[![Python Application CI](https://github.com/ds25041974/V-Mart-Personal-AI-Agent/actions/workflows/python-app.yml/badge.svg)](https://github.com/ds25041974/V-Mart-Personal-AI-Agent/actions/workflows/python-app.yml)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/ds25041974/V-Mart-Personal-AI-Agent)
+
+**Developed by: DSR | Inspired by: LA | Powered by: Gemini AI**
+
+---
+
+A comprehensive personal AI agent powered by Google's Gemini AI, featuring document search, Gmail/Drive integration, and multi-platform support.
 
 ## 🌟 Features
 
 ### Core Capabilities
-- **💬 Intelligent Chat**: Context-aware conversations with Gemini AI
+- **💬 Intelligent Chat**: Context-aware conversations with Gemini 2.0 Flash
+- **📁 Document Search**: Scan and search local files (PDF, Word, Excel, PowerPoint, text files)
 - **📊 Data Analysis**: Advanced analysis for financial, sales, and inventory data
 - **🎯 Decision Support**: AI-powered recommendations with pros/cons analysis
-- **📁 File Management**: Browse, search, and analyze local files
 - **📧 Email Integration**: Read emails, send automated messages, and schedule bulk emails
 - **📈 Google Workspace Integration**: Access Google Drive, Sheets, Docs, and Slides
 - **🔄 GitHub Integration**: Manage repositories, read files, and create issues
@@ -17,18 +26,20 @@ A comprehensive personal AI agent for V-Mart employees, powered by Google's Gemi
 
 ### Security & Authentication
 - **🔐 Google OAuth**: Secure authentication
-- **🏢 Domain Restriction**: Limited to V-Mart domains (vmart.co.in, vmartretail.com, limeroad.com)
+- **� Demo Mode**: Quick access without OAuth setup
 - **🔒 Session Management**: Secure user sessions
+- **🛡️ Push Protection**: GitHub secret scanning enabled
 
 ### Multi-Platform Support
-- ✅ Windows
-- ✅ macOS
-- ✅ Linux
+- ✅ Windows 10+
+- ✅ macOS 10.15+
+- ✅ Linux (Ubuntu/Debian/Fedora/Arch)
 
 ## 📋 Prerequisites
 
 - Python 3.8 or higher
-- Google Cloud account with OAuth credentials
+- Google Cloud account (optional, for OAuth)
+- Gemini API key (free tier available)
 - Gemini API key
 - GitHub personal access token (optional, for GitHub features)
 
