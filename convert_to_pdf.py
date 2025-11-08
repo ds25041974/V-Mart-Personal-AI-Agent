@@ -30,6 +30,7 @@ MD_FILES = [
     "docs/CHATBOT_INTERFACE_GUIDE.md",
     "docs/GOOGLE_OAUTH_SETUP.md",
     "docs/SERVICE_24x7_SETUP.md",
+    "docs/BACKEND_MANAGER.md",
 ]
 
 # CSS for PDF styling
