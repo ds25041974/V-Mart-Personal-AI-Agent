@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Mart Personal AI Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏪 V-Mart Personal AI Agent</h1>
+            <p class="credits">Developed by DSR | Inspired by LA | Powered by Gemini AI</p>
+            <div class="user-info">
+                <span>Welcome, {{ user.name }}!</span>
+                <button id="logout-btn" onclick="window.location.href='/logout'">Logout</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="chat">💬 Chat</button>
+                <button class="tab-btn" data-tab="analyze">📊 Analysis</button>
+                <button class="tab-btn" data-tab="files">📁 Files</button>
+                <button class="tab-btn" data-tab="decision">🎯 Decision Support</button>
+            </div>
+
+            <!-- Chat Tab -->
+            <div id="chat-tab" class="tab-content active">
+                <div class="chat-window">
+                    <div class="chat-history" id="chat-history"></div>
+                    <div class="chat-controls">
+                        <button id="clear-history-btn" class="small-btn">Clear History</button>
+                    </div>
+                    <div class="chat-input">
+                        <textarea id="prompt-input" placeholder="Ask me anything..." rows="3"></textarea>
+                        <button id="send-btn">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Tab -->
+            <div id="analyze-tab" class="tab-content">
+                <div class="form-section">
+                    <h2>Data Analysis</h2>
+                    <select id="analysis-type">
+                        <option value="general">General Analysis</option>
+                        <option value="financial">Financial Analysis</option>
+                        <option value="sales">Sales Analysis</option>
+                        <option value="inventory">Inventory Analysis</option>
+                    </select>
+                    <textarea id="analysis-data" placeholder="Paste your data here..." rows="10"></textarea>
+                    <button id="analyze-btn">Analyze</button>
+                    <div id="analysis-result" class="result-box"></div>
+                </div>
+            </div>
+
+            <!-- Files Tab -->
+            <div id="files-tab" class="tab-content">
+                <div class="form-section">
+                    <h2>File Browser</h2>
+                    <div class="search-box">
+                        <input type="text" id="file-search" placeholder="Search files...">
+                        <button id="search-files-btn">Search</button>
+                    </div>
+                    <div id="file-list" class="file-list"></div>
+                    <div id="file-content" class="result-box"></div>
+                </div>
+            </div>
+
+            <!-- Decision Support Tab -->
+            <div id="decision-tab" class="tab-content">
+                <div class="form-section">
+                    <h2>Decision Support</h2>
+                    <input type="text" id="decision-title" placeholder="Decision title...">
+                    <textarea id="decision-context" placeholder="Decision context and background..." rows="5"></textarea>
+                    <div id="options-container">
+                        <h3>Options</h3>
+                        <input type="text" class="option-input" placeholder="Option 1">
+                        <input type="text" class="option-input" placeholder="Option 2">
+                        <button id="add-option-btn" class="small-btn">+ Add Option</button>
+                    </div>
+                    <button id="decision-analyze-btn">Analyze Decision</button>
+                    <div id="decision-result" class="result-box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Tab switching
+            $('.tab-btn').on('click', function() {
+                const tab = $(this).data('tab');
+                $('.tab-btn').removeClass('active');
+                $('.tab-content').removeClass('active');
+                $(this).addClass('active');
+                $(`#${tab}-tab`).addClass('active');
+            });
+
+            // Chat functionality
+            function sendMessage() {
+                const prompt = $('#prompt-input').val().trim();
+                if (!prompt) return;
+
+                $('#chat-history').append(`<div class="message user-message">${prompt}</div>`);
+                $('#prompt-input').val('');
+
+                $.ajax({
+                    url: '/ask',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ prompt: prompt, use_context: true }),
+                    success: function(data) {
+                        $('#chat-history').append(`<div class="message bot-message">${data.response}</div>`);
+                        $('#chat-history').scrollTop($('#chat-history')[0].scrollHeight);
+                    },
+                    error: function() {
+                        $('#chat-history').append('<div class="message error-message">Error occurred</div>');
+                    }
+                });
+            }
+
+            $('#send-btn').on('click', sendMessage);
+            $('#prompt-input').on('keypress', function(e) {
+                if (e.which === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            $('#clear-history-btn').on('click', function() {
+                $.post('/clear-history', function() {
+                    $('#chat-history').html('');
+                });
+            });
+
+            // Analysis functionality
+            $('#analyze-btn').on('click', function() {
+                const data = $('#analysis-data').val();
+                const type = $('#analysis-type').val();
+
+                $.ajax({
+                    url: '/analyze',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ data: data, type: type }),
+                    success: function(response) {
+                        $('#analysis-result').html(`<h3>Analysis Result:</h3><pre>${response.analysis}</pre>`);
+                    }
+                });
+            });
+
+            // File search functionality
+            $('#search-files-btn').on('click', function() {
+                const query = $('#file-search').val();
+                $.get(`/files/search?q=${query}`, function(data) {
+                    let html = '<h3>Search Results:</h3><ul>';
+                    data.files.forEach(file => {
+                        html += `<li class="file-item" data-path="${file}">${file}</li>`;
+                    });
+                    html += '</ul>';
+                    $('#file-list').html(html);
+                });
+            });
+
+            $(document).on('click', '.file-item', function() {
+                const path = $(this).data('path');
+                $.ajax({
+                    url: '/files/read',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ path: path }),
+                    success: function(data) {
+                        $('#file-content').html(`<h3>${path}</h3><pre>${data.content}</pre>`);
+                    }
+                });
+            });
+
+            // Decision support functionality
+            $('#add-option-btn').on('click', function() {
+                const count = $('.option-input').length + 1;
+                $('#options-container').append(`<input type="text" class="option-input" placeholder="Option ${count}">`);
+            });
+
+            $('#decision-analyze-btn').on('click', function() {
+                const decision = $('#decision-title').val();
+                const context = $('#decision-context').val();
+                const options = $('.option-input').map(function() {
+                    return $(this).val();
+                }).get().filter(v => v);
+
+                $.ajax({
+                    url: '/decision-support',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ decision, context, options }),
+                    success: function(data) {
+                        $('#decision-result').html(`<h3>Decision Analysis:</h3><pre>${data.analysis}</pre>`);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <footer class="app-footer">
+        <p>💡 Developed by DSR | ✨ Inspired by LA | 🤖 Powered by Gemini AI</p>
+    </footer>
+</body>
+</html>
