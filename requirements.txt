@@ -31,3 +31,12 @@ typing-extensions==4.9.0
 
 # Environment Variables
 python-dotenv==1.0.0
+
+# Database Connectors
+clickhouse-driver==0.2.6
+psycopg2-binary==2.9.9
+oracledb==2.0.1
+pyodbc==5.0.1
+
+# Security and Encryption
+cryptography==41.0.7

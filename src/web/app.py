@@ -7,11 +7,14 @@ Inspired by: LA
 Powered by: Gemini AI
 """
 
-import json
 import os
 
 from agent.gemini_agent import GeminiAgent
 from auth import google_auth
+from backend.ai_insights import AIInsightsEngine
+from backend.config_manager import config_manager
+from backend.db_manager import db_manager
+from backend.rbac import Permission, rbac_manager
 from connectors.data_reader import DataReaderConnector
 from connectors.local_files import LocalFilesConnector
 from flask import Flask, jsonify, redirect, render_template, request, session
@@ -26,7 +29,7 @@ app.config["GOOGLE_CLIENT_SECRET"] = os.environ.get("GOOGLE_CLIENT_SECRET")
 google_auth.init_app(app)
 
 # Initialize Gemini Agent
-gemini_agent = GeminiAgent(api_key=os.environ.get("GEMINI_API_KEY"))
+gemini_agent = GeminiAgent(api_key=os.environ.get("GEMINI_API_KEY") or "")
 
 # Initialize Local Files Connector
 local_connector = LocalFilesConnector(base_path=os.path.expanduser("~"))
@@ -37,6 +40,15 @@ data_reader = DataReaderConnector()
 # Initialize Task Scheduler
 scheduler = TaskScheduler()
 scheduler.start()
+
+# Initialize AI Insights Engine
+ai_insights = AIInsightsEngine(api_key=os.environ.get("GEMINI_API_KEY") or "")
+
+# Initialize demo admin user if not exists
+demo_email = "demo@vmart.co.in"
+if not rbac_manager.get_user(demo_email):
+    rbac_manager.create_user(demo_email, demo_email, ["admin"])
+    print(f"✓ Created demo admin user: {demo_email}")
 
 
 @app.route("/")
@@ -569,6 +581,330 @@ def format_summary():
 
     summary = data_reader.format_for_chatbot(data["data"])
     return jsonify({"summary": summary})
+
+
+# Backend Management API Endpoints
+
+
+@app.route("/backend/connections", methods=["GET"])
+def list_connections():
+    """List all database connections"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    connections = config_manager.list_database_connections()
+    return jsonify({"connections": connections})
+
+
+@app.route("/backend/connections", methods=["POST"])
+def create_connection():
+    """Create a new database connection"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    name = data.get("name")
+    db_type = data.get("type")
+    params = data.get("params", {})
+
+    if not name or not db_type:
+        return jsonify({"error": "Name and type are required"}), 400
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.DB_ADMIN
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    config_manager.add_database_connection(name, db_type, params)
+    return jsonify({"status": "success", "connection": name})
+
+
+@app.route("/backend/connections/<name>", methods=["DELETE"])
+def delete_connection(name):
+    """Delete a database connection"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.DB_ADMIN
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    success = config_manager.delete_credentials(f"db_{name}")
+    if success:
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"error": "Connection not found"}), 404
+
+
+@app.route("/backend/query", methods=["POST"])
+def execute_query():
+    """Execute a database query"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    connection_name = data.get("connection")
+    query = data.get("query")
+
+    if not connection_name or not query:
+        return jsonify({"error": "Connection and query are required"}), 400
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.DB_QUERY
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    try:
+        result = db_manager.execute_query(connection_name, query)
+        return jsonify({"result": result})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/backend/schema/<connection_name>", methods=["GET"])
+def get_schema(connection_name):
+    """Get database schema"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.DB_CONNECT
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    try:
+        schema = db_manager.get_schema(connection_name)
+        return jsonify({"schema": schema})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/backend/ai/analyze", methods=["POST"])
+def ai_analyze_data():
+    """Analyze data using AI"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    if "data" not in data:
+        return jsonify({"error": "Data is required"}), 400
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.AI_ANALYZE
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    try:
+        # Initialize AI insights engine
+        ai_engine = AIInsightsEngine(api_key=os.environ.get("GEMINI_API_KEY"))
+        context = data.get("context", {})
+        result = ai_engine.analyze_data(data["data"], context)
+        return jsonify(result)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/backend/ai/recommend", methods=["POST"])
+def ai_recommendations():
+    """Get AI recommendations"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    if "data" not in data or "goal" not in data:
+        return jsonify({"error": "Data and goal are required"}), 400
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.AI_RECOMMEND
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    try:
+        # Initialize AI insights engine
+        ai_engine = AIInsightsEngine(api_key=os.environ.get("GEMINI_API_KEY"))
+        context = data.get("context", {})
+        recommendations = ai_engine.generate_recommendations(
+            data["data"], data["goal"], context
+        )
+        return jsonify({"recommendations": recommendations})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/backend/users", methods=["GET"])
+def list_users():
+    """List all users"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.USER_READ
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    users = rbac_manager.list_users()
+    return jsonify({"users": users})
+
+
+@app.route("/backend/users", methods=["POST"])
+def create_user():
+    """Create a new user"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    username = data.get("username")
+    email = data.get("email")
+    roles = data.get("roles", [])
+
+    if not username or not email:
+        return jsonify({"error": "Username and email are required"}), 400
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.USER_WRITE
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    user_obj = rbac_manager.create_user(username, email, roles)
+    if user_obj:
+        return jsonify({"status": "success", "user": user_obj.to_dict()})
+    else:
+        return jsonify({"error": "User already exists"}), 409
+
+
+@app.route("/backend/users/<username>", methods=["DELETE"])
+def delete_user(username):
+    """Delete a user"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.USER_DELETE
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    success = rbac_manager.delete_user(username)
+    if success:
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"error": "User not found"}), 404
+
+
+@app.route("/backend/users/<username>/roles", methods=["PUT"])
+def update_user_roles(username):
+    """Update user roles"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    roles = data.get("roles", [])
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.USER_WRITE
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    success = rbac_manager.update_user_roles(username, roles)
+    if success:
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"error": "User not found"}), 404
+
+
+@app.route("/backend/roles", methods=["GET"])
+def list_roles():
+    """List all roles"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.ROLE_READ
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    roles = rbac_manager.list_roles()
+    return jsonify({"roles": roles})
+
+
+@app.route("/backend/roles", methods=["POST"])
+def create_role():
+    """Create a new role"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    name = data.get("name")
+    description = data.get("description", "")
+    permissions = data.get("permissions", [])
+
+    if not name:
+        return jsonify({"error": "Role name is required"}), 400
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.ROLE_WRITE
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    role = rbac_manager.create_role(name, description, permissions)
+    if role:
+        return jsonify({"status": "success", "role": role.to_dict()})
+    else:
+        return jsonify({"error": "Role already exists"}), 409
+
+
+@app.route("/backend/config", methods=["GET"])
+def get_config():
+    """Get configuration settings"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.SYSTEM_CONFIG
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    return jsonify({"config": config_manager.config})
+
+
+@app.route("/backend/config", methods=["PUT"])
+def update_config():
+    """Update configuration settings"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json() or {}
+    key = data.get("key")
+    value = data.get("value")
+
+    if not key:
+        return jsonify({"error": "Configuration key is required"}), 400
+
+    # Check if user has permission
+    if not rbac_manager.check_permission(
+        session["user"].get("email", "demo@vmart.co.in"), Permission.SYSTEM_CONFIG
+    ):
+        return jsonify({"error": "Insufficient permissions"}), 403
+
+    config_manager.set_config(key, value)
+    return jsonify({"status": "success"})
 
 
 if __name__ == "__main__":
