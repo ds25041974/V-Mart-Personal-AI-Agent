@@ -13,15 +13,16 @@ A comprehensive personal AI agent powered by Google's Gemini AI, featuring docum
 
 ## 📚 Documentation
 
-### 🔴 **HIGH PRIORITY - START HERE**
-- **[System Architecture](docs/ARCHITECTURE.md)** - Complete system design, flowcharts, and objectives ⭐
-- **[Setup Guide](docs/SETUP_GUIDE.md)** - Platform-specific installation (Windows/macOS/Linux)
-- **[User Guide](docs/USER_GUIDE.md)** - Complete usage manual
+**🔴 HIGH PRIORITY - START HERE:**
+- ⭐ [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) - Complete system architecture with flowcharts and objectives
+- ⭐ [**CHATBOT_INTERFACE_GUIDE.md**](docs/CHATBOT_INTERFACE_GUIDE.md) - Detailed guide to all tabs and features
+- [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) - Complete setup instructions for Windows, macOS, and Linux
+- [USER_GUIDE.md](docs/USER_GUIDE.md) - Comprehensive usage guide
 
-### Additional Resources
-- **[OAuth Setup](docs/GOOGLE_OAUTH_SETUP.md)** - Google authentication guide
-- **[Quick Setup](QUICK_SETUP.md)** - 5-minute quick start
-- **[API Reference](docs/API_REFERENCE.md)** - API documentation
+**Additional Resources:**
+- [GOOGLE_OAUTH_SETUP.md](docs/GOOGLE_OAUTH_SETUP.md) - Google OAuth configuration
+- [API_REFERENCE.md](docs/API_REFERENCE.md) - API documentation for developers
+- [QUICK_SETUP.md](QUICK_SETUP.md) - Quick start guide
 
 ## 🌟 Features
 
