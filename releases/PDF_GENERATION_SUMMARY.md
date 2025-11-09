@@ -8,17 +8,18 @@
 
 ## 📊 Generation Summary
 
-### PDFs Generated: 5
+### PDFs Generated: 6
 
 | # | Document | Size | Version | Status |
 |---|----------|------|---------|--------|
 | 1 | V-Mart_AI_Agent_v2.0_Release_Overview.pdf | 22 KB | v2.0.0 | ✅ Generated |
 | 2 | V-Mart_AI_Agent_v2.0_Release_Summary.pdf | 28 KB | v2.0.0 | ✅ Generated |
-| 3 | V-Mart_AI_Agent_v2.0_QA_Testing_Report.pdf | 30 KB | v2.0.0 | ✅ Generated |
-| 4 | V-Mart_AI_Agent_v2.0_QA_Completion_Summary.pdf | 18 KB | v2.0.0 | ✅ Generated |
-| 5 | V-Mart_AI_Agent_v1.0_Documentation.pdf | 16 KB | v1.0.0 | ✅ Generated |
+| 3 | V-Mart_AI_Agent_v2.0_Release_Downloads.pdf | 28 KB | v2.0.0 | ✅ Generated |
+| 4 | V-Mart_AI_Agent_v2.0_QA_Testing_Report.pdf | 30 KB | v2.0.0 | ✅ Generated |
+| 5 | V-Mart_AI_Agent_v2.0_QA_Completion_Summary.pdf | 18 KB | v2.0.0 | ✅ Generated |
+| 6 | V-Mart_AI_Agent_v1.0_Documentation.pdf | 16 KB | v1.0.0 | ✅ Generated |
 
-**Total Size:** 114 KB
+**Total Size:** 142 KB
 
 ---
 
@@ -27,11 +28,12 @@
 ### v2.0 Documentation
 1. `releases/README.md` → **Release Overview PDF**
 2. `releases/RELEASE_SUMMARY_v2.0.md` → **Release Summary PDF**
-3. `releases/QA_TESTING_REPORT_v2.0.md` → **QA Testing Report PDF**
-4. `releases/QA_COMPLETION_SUMMARY.md` → **QA Completion Summary PDF**
+3. `releases/RELEASE_DOWNLOADS_v2.0.md` → **Release Downloads PDF**
+4. `releases/QA_TESTING_REPORT_v2.0.md` → **QA Testing Report PDF**
+5. `releases/QA_COMPLETION_SUMMARY.md` → **QA Completion Summary PDF**
 
 ### v1.0 Documentation
-5. `README.md` → **v1.0 Documentation PDF**
+6. `README.md` → **v1.0 Documentation PDF**
 
 ---
 
@@ -106,6 +108,7 @@ releases/
 │   ├── V-Mart_AI_Agent_v1.0_Documentation.pdf
 │   ├── V-Mart_AI_Agent_v2.0_Release_Overview.pdf
 │   ├── V-Mart_AI_Agent_v2.0_Release_Summary.pdf
+│   ├── V-Mart_AI_Agent_v2.0_Release_Downloads.pdf
 │   ├── V-Mart_AI_Agent_v2.0_QA_Testing_Report.pdf
 │   └── V-Mart_AI_Agent_v2.0_QA_Completion_Summary.pdf
 └── generate_release_pdfs.py
@@ -123,7 +126,7 @@ releases/
 
 ### GitHub Release
 Ready to attach to v2.0.0 release:
-- Download all 5 PDFs as release assets
+- Download all 6 PDFs as release assets
 - Or download entire `pdf/` folder as ZIP
 - Users can access professional documentation
 
@@ -164,6 +167,11 @@ Ready to attach to v2.0.0 release:
 - Pages: ~15
 - Focus: Technical details
 - Audience: Developers, admins
+
+**v2.0 Release Downloads (28 KB):**
+- Pages: ~15
+- Focus: Installation guide
+- Audience: End users, installers
 
 **v2.0 QA Testing Report (30 KB):**
 - Pages: ~18
@@ -233,7 +241,7 @@ Ready to attach to v2.0.0 release:
 
 **Generated:** November 9, 2025  
 **Status:** ✅ PRODUCTION READY  
-**Package Size:** 114 KB (5 PDFs)  
+**Package Size:** 142 KB (6 PDFs)  
 
 ---
 

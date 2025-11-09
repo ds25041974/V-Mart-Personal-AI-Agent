@@ -478,6 +478,12 @@ def main():
             "version": "v2.0.0",
         },
         {
+            "file": "releases/RELEASE_DOWNLOADS_v2.0.md",
+            "output": "V-Mart_AI_Agent_v2.0_Release_Downloads.pdf",
+            "title": "V-Mart AI Agent v2.0 - Release Downloads Guide",
+            "version": "v2.0.0",
+        },
+        {
             "file": "releases/QA_TESTING_REPORT_v2.0.md",
             "output": "V-Mart_AI_Agent_v2.0_QA_Testing_Report.pdf",
             "title": "V-Mart AI Agent v2.0 - QA Testing Report",
