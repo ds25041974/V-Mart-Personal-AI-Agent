@@ -9,7 +9,45 @@
 
 ---
 
-## 📦 Release Package Overview
+## � Quick Download Summary
+
+### All Available Versions
+
+| Version | Component | Platform | Installer | Size | Release Date | Status |
+|---------|-----------|----------|-----------|------|--------------|--------|
+| **v2.0.0** | Chatbot Agent | Windows | `install-chatbot.bat` | 10 MB | Nov 9, 2025 | ✅ Latest |
+| **v2.0.0** | Chatbot Agent | macOS | `install-chatbot.sh` | 10 MB | Nov 9, 2025 | ✅ Latest |
+| **v2.0.0** | Chatbot Agent | Linux | `install-chatbot.sh` | 10 MB | Nov 9, 2025 | ✅ Latest |
+| **v2.0.0** | Backend Server | Windows | `install-backend.bat` | 15 MB | Nov 9, 2025 | ✅ Latest |
+| **v2.0.0** | Backend Server | macOS | `install-backend.sh` | 15 MB | Nov 9, 2025 | ✅ Latest |
+| **v2.0.0** | Backend Server | Linux | `install-backend.sh` | 15 MB | Nov 9, 2025 | ✅ Latest |
+| **v1.0.0** | Monolithic | Windows | `install.bat` | 12 MB | Oct 2025 | ⚠️ Legacy |
+| **v1.0.0** | Monolithic | macOS | `install.sh` | 12 MB | Oct 2025 | ⚠️ Legacy |
+| **v1.0.0** | Monolithic | Linux | `install.sh` | 12 MB | Oct 2025 | ⚠️ Legacy |
+
+### Download Locations
+
+**v2.0.0 Release (Recommended):**
+- **Chatbot Agent:** `releases/v2.0-separated/chatbot-agent/[platform]/`
+- **Backend Server:** `releases/v2.0-separated/backend-server/[platform]/`
+
+**v1.0.0 Legacy:**
+- **Monolithic Package:** `releases/v1.0/[platform]/`
+
+### Quick Selection Guide
+
+| Your Need | Recommended Download | Installation Time |
+|-----------|---------------------|-------------------|
+| **Personal Use** | Chatbot Agent only (v2.0) | 3-5 minutes |
+| **Small Team** | Chatbot Agent + Backend (v2.0) | 8-12 minutes |
+| **Enterprise** | Multiple Chatbots + 1 Backend (v2.0) | 15-30 minutes |
+| **API Services** | Backend Server only (v2.0) | 5-8 minutes |
+| **Legacy Support** | Monolithic v1.0 | 5-10 minutes |
+| **Migration from v1.0** | Chatbot Agent v2.0 first, then Backend | 10-15 minutes |
+
+---
+
+## �📦 Release Package Overview
 
 V-Mart AI Agent v2.0 introduces a **separated architecture** with two independent components:
 
@@ -38,7 +76,68 @@ Each component can be installed independently or together for full functionality
 
 ---
 
-## 📥 Download Links
+## � Version Comparison Chart
+
+### v2.0 vs v1.0 Feature Matrix
+
+| Feature | v1.0 (Monolithic) | v2.0 (Separated) | Improvement |
+|---------|-------------------|------------------|-------------|
+| **Architecture** | Single integrated app | Chatbot + Backend | ⬆️ 100% Modularity |
+| **Deployment Options** | 1 (All-in-one) | 4 (Standalone, Backend, Enterprise, API) | ⬆️ 300% Flexibility |
+| **Scalability** | Single instance | Multiple chatbots → 1 backend | ⬆️ ∞ Horizontal scaling |
+| **Auto-Start Service** | ❌ Manual start | ✅ System service | ⬆️ New feature |
+| **Crash Recovery** | ❌ None | ✅ Automatic restart | ⬆️ New feature |
+| **Installation Wizard** | ❌ Manual config | ✅ Interactive setup | ⬆️ New feature |
+| **Management Scripts** | ❌ Limited | ✅ Start/Stop/Status/Logs | ⬆️ New feature |
+| **Documentation** | 3 guides | 16 guides | ⬆️ 433% More docs |
+| **API Endpoints** | N/A | 17+ RESTful endpoints | ⬆️ New capability |
+| **Database Support** | Limited | 7 database types | ⬆️ Enhanced |
+| **RBAC Permissions** | Basic | 23 granular permissions | ⬆️ Enhanced security |
+| **OAuth Integration** | Basic | Full Google OAuth | ⬆️ Enhanced |
+| **Platform Support** | Windows, macOS, Linux | Windows, macOS, Linux | ✅ Same |
+| **RAM Requirements** | 4 GB | 4 GB (chatbot), 8 GB (backend) | ⬆️ Optimized per component |
+| **Installation Time** | 5-10 min | 3-5 min (chatbot), 5-8 min (backend) | ⬆️ 40% Faster |
+| **QA Testing** | Basic | 45 comprehensive tests | ⬆️ Professional QA |
+| **Production Ready** | ⚠️ Limited | ✅ Enterprise-grade | ⬆️ Full production support |
+
+### Component Breakdown
+
+| Aspect | v1.0 Monolithic | v2.0 Chatbot Agent | v2.0 Backend Server |
+|--------|----------------|-------------------|---------------------|
+| **Primary Function** | All-in-one AI agent | User interface | Data & API hub |
+| **Target Users** | End users | End users | Developers, admins |
+| **Installation Size** | 12 MB | 10 MB | 15 MB |
+| **Memory Usage** | 4 GB | 2-4 GB | 4-8 GB |
+| **Port** | 8000 | 8000 | 5000 |
+| **Dependencies** | High | Low | Medium |
+| **Update Frequency** | Monthly | Weekly (UI changes) | Quarterly (data changes) |
+| **Downtime for Updates** | Required | Independent | Independent |
+
+### Migration Path
+
+| Migration Stage | Complexity | Time Required | Backward Compatible |
+|----------------|------------|---------------|---------------------|
+| **v1.0 → v2.0 Chatbot** | Low | 10-15 minutes | ✅ Yes |
+| **v1.0 → v2.0 Backend** | Medium | 15-30 minutes | ✅ Yes |
+| **v1.0 → v2.0 Full** | Medium | 20-45 minutes | ✅ Yes |
+| **Data Migration** | Low | 5-10 minutes | ✅ Automatic |
+| **Configuration Import** | Low | 2-5 minutes | ✅ Compatible |
+
+### Recommended Version by Use Case
+
+| Use Case | v1.0 | v2.0 | Best Choice |
+|----------|------|------|-------------|
+| **Personal Desktop Use** | ✅ Suitable | ✅ Better | **v2.0 Chatbot** |
+| **Small Team (1-5 users)** | ✅ Suitable | ✅ Better | **v2.0 Full** |
+| **Enterprise (10+ users)** | ❌ Not suitable | ✅ Ideal | **v2.0 Enterprise** |
+| **API-Only Service** | ❌ Not available | ✅ Perfect | **v2.0 Backend** |
+| **24/7 Production** | ⚠️ Manual setup | ✅ Built-in | **v2.0 Full** |
+| **Development/Testing** | ✅ Quick setup | ✅ Modular | **v2.0 Chatbot** |
+| **Legacy System** | ✅ Keep using | ⚠️ Migrate later | **v1.0** |
+
+---
+
+## �📥 Download Links
 
 ### Chatbot Agent v2.0
 

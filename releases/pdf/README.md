@@ -16,7 +16,7 @@ This directory contains professional PDF documentation for V-Mart AI Agent relea
 |----------|------|-------------|
 | **V-Mart_AI_Agent_v2.0_Release_Overview.pdf** | 22 KB | High-level overview of v2.0 separated architecture release |
 | **V-Mart_AI_Agent_v2.0_Release_Summary.pdf** | 28 KB | Comprehensive release summary with installation guides |
-| **V-Mart_AI_Agent_v2.0_Release_Downloads.pdf** | 28 KB | Complete download guide with installation instructions for all platforms |
+| **V-Mart_AI_Agent_v2.0_Release_Downloads.pdf** | 36 KB | Complete download guide with installation instructions for all platforms |
 | **V-Mart_AI_Agent_v2.0_QA_Testing_Report.pdf** | 30 KB | Detailed QA testing report with all test results |
 | **V-Mart_AI_Agent_v2.0_QA_Completion_Summary.pdf** | 18 KB | QA completion summary and release approval |
 
@@ -71,6 +71,8 @@ This directory contains professional PDF documentation for V-Mart AI Agent relea
 
 **Contents:**
 - Release package overview
+- Quick download summary chart (all versions)
+- Version comparison chart (v2.0 vs v1.0)
 - What's new in v2.0
 - Download links for all platforms (Windows, macOS, Linux)
 - Quick start installation guides

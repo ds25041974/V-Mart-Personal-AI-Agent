@@ -14,12 +14,12 @@
 |---|----------|------|---------|--------|
 | 1 | V-Mart_AI_Agent_v2.0_Release_Overview.pdf | 22 KB | v2.0.0 | ✅ Generated |
 | 2 | V-Mart_AI_Agent_v2.0_Release_Summary.pdf | 28 KB | v2.0.0 | ✅ Generated |
-| 3 | V-Mart_AI_Agent_v2.0_Release_Downloads.pdf | 28 KB | v2.0.0 | ✅ Generated |
+| 3 | V-Mart_AI_Agent_v2.0_Release_Downloads.pdf | 36 KB | v2.0.0 | ✅ Generated |
 | 4 | V-Mart_AI_Agent_v2.0_QA_Testing_Report.pdf | 30 KB | v2.0.0 | ✅ Generated |
 | 5 | V-Mart_AI_Agent_v2.0_QA_Completion_Summary.pdf | 18 KB | v2.0.0 | ✅ Generated |
 | 6 | V-Mart_AI_Agent_v1.0_Documentation.pdf | 16 KB | v1.0.0 | ✅ Generated |
 
-**Total Size:** 142 KB
+**Total Size:** 150 KB
 
 ---
 
@@ -168,9 +168,9 @@ Ready to attach to v2.0.0 release:
 - Focus: Technical details
 - Audience: Developers, admins
 
-**v2.0 Release Downloads (28 KB):**
-- Pages: ~15
-- Focus: Installation guide
+**v2.0 Release Downloads (36 KB):**
+- Pages: ~20
+- Focus: Installation guide with version comparison
 - Audience: End users, installers
 
 **v2.0 QA Testing Report (30 KB):**
@@ -241,7 +241,7 @@ Ready to attach to v2.0.0 release:
 
 **Generated:** November 9, 2025  
 **Status:** ✅ PRODUCTION READY  
-**Package Size:** 142 KB (6 PDFs)  
+**Package Size:** 150 KB (6 PDFs)  
 
 ---
 
