@@ -8,6 +8,8 @@ Powered by: Gemini AI
 """
 
 import os
+import subprocess
+from datetime import datetime
 
 from agent.gemini_agent import GeminiAgent
 from auth import google_auth
@@ -56,36 +58,95 @@ def index():
     if "user" in session:
         return render_template("index.html", user=session["user"])
 
-    # Check if we're in demo mode (no OAuth configured)
-    if (
-        not app.config.get("GOOGLE_CLIENT_ID")
-        or app.config["GOOGLE_CLIENT_ID"] == "your_google_client_id_here"
-    ):
-        return """
-        <html>
-        <head><title>V-Mart AI Agent - Demo Mode</title></head>
-        <body style="font-family: Arial; max-width: 800px; margin: 50px auto; padding: 20px;">
-            <h1>🤖 V-Mart Personal AI Agent</h1>
-            <p>Google OAuth is not configured yet.</p>
-            <h3>To enable full functionality:</h3>
-            <ol>
-                <li>Get Google OAuth credentials from <a href="https://console.cloud.google.com">Google Cloud Console</a></li>
-                <li>Get Gemini API key from <a href="https://makersuite.google.com/app/apikey">Google AI Studio</a></li>
-                <li>Update the <code>.env</code> file with your credentials</li>
-                <li>Restart the server</li>
-            </ol>
-            <p><strong>For testing without OAuth:</strong></p>
-            <form action="/demo-login" method="post" style="margin-top: 20px;">
-                <button type="submit" style="padding: 10px 20px; background: #4285f4; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
-                    Enter Demo Mode
-                </button>
+    # Always show email login form (simplified mode)
+    return """
+    <html>
+    <head>
+        <title>V-Mart AI Agent - Login</title>
+        <style>
+            body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+            .login-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-width: 400px; width: 100%; }
+            h1 { color: #333; margin-bottom: 10px; font-size: 28px; }
+            .subtitle { color: #666; margin-bottom: 30px; font-size: 14px; }
+            .form-group { margin-bottom: 20px; }
+            label { display: block; margin-bottom: 5px; color: #555; font-weight: 500; }
+            input[type="email"], input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
+            input[type="email"]:focus, input[type="text"]:focus { outline: none; border-color: #4285f4; }
+            button { width: 100%; padding: 12px; background: #4285f4; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: 500; transition: background 0.3s; }
+            button:hover { background: #357ae8; }
+            .note { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; font-size: 13px; color: #666; }
+            .note strong { color: #333; }
+        </style>
+    </head>
+    <body>
+        <div class="login-container">
+            <h1>🤖 V-Mart AI Agent</h1>
+            <p class="subtitle">Login to access your AI assistant</p>
+            <form action="/email-login" method="post">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="your.email@vmart.co.in" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Full Name" required>
+                </div>
+                <button type="submit">Login</button>
             </form>
-            <p style="color: #666; margin-top: 20px;"><small>Demo mode allows you to test the interface without Google authentication.</small></p>
+            <div class="note">
+                <strong>📧 Allowed domains:</strong> vmart.co.in, vmartretail.com, limeroad.com<br>
+                <strong>🔐 Note:</strong> For Google Drive/Gmail access, you'll need to authorize with your Google account separately.
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+
+@app.route("/email-login", methods=["POST"])
+def email_login():
+    """Simple email-based login without OAuth for basic access"""
+    email = request.form.get("email", "").strip()
+    name = request.form.get("name", "").strip()
+
+    if not email or not name:
+        return "Email and name are required", 400
+
+    # Validate email domain
+    allowed_domains = os.getenv(
+        "ALLOWED_DOMAINS", "vmart.co.in,vmartretail.com,limeroad.com"
+    ).split(",")
+    email_domain = email.split("@")[-1] if "@" in email else ""
+
+    if email_domain not in allowed_domains:
+        return (
+            f"""
+        <html>
+        <head><title>Access Denied</title></head>
+        <body style="font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center;">
+            <h1 style="color: #d32f2f;">❌ Access Denied</h1>
+            <p>Your email domain <strong>{email_domain}</strong> is not authorized.</p>
+            <p>Allowed domains: {", ".join(allowed_domains)}</p>
+            <a href="/" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #4285f4; color: white; text-decoration: none; border-radius: 5px;">Back to Login</a>
         </body>
         </html>
-        """
+        """,
+            403,
+        )
 
-    return 'Welcome! Please <a href="/auth/login">login with Google</a>.'
+    # Create session
+    session["user"] = {
+        "email": email,
+        "name": name,
+        "picture": "",
+        "hd": email_domain,
+    }
+
+    # Create user in RBAC if doesn't exist
+    if not rbac_manager.get_user(email):
+        rbac_manager.create_user(email, name, ["user"])
+
+    return redirect("/")
 
 
 @app.route("/demo-login", methods=["POST"])
@@ -448,6 +509,72 @@ def read_file():
     return jsonify({"content": content})
 
 
+@app.route("/analyze-file", methods=["POST"])
+def analyze_file():
+    """Analyze file content with Gemini AI for insights and recommendations"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json()
+    filename = data.get("filename", "file")
+    content = data.get("content", "")
+
+    if not content:
+        return jsonify({"error": "No file content provided"}), 400
+
+    try:
+        # Create analysis prompt
+        prompt = f"""Analyze the following file '{filename}' and provide:
+1. A summary of what the file contains
+2. Key insights about the data/code
+3. Recommendations for improvements or actions
+4. Any potential issues or concerns
+
+File Content:
+{content[:10000]}  # Limit to first 10000 chars to avoid token limits
+
+Please provide a detailed analysis with actionable insights."""
+
+        # Get analysis from Gemini
+        response = gemini_agent.get_response(prompt)
+
+        return jsonify({"analysis": response})
+    except Exception as e:
+        return jsonify({"error": f"Analysis failed: {str(e)}"}), 500
+
+
+@app.route("/chat-about-file", methods=["POST"])
+def chat_about_file():
+    """Chat with Gemini AI about a specific file"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json()
+    filename = data.get("filename", "file")
+    content = data.get("content", "")
+    question = data.get("question", "")
+
+    if not content or not question:
+        return jsonify({"error": "File content and question are required"}), 400
+
+    try:
+        # Create context-aware prompt
+        prompt = f"""You are analyzing the file '{filename}'. Here is the file content:
+
+{content[:8000]}  # Limit content to avoid token limits
+
+User's question: {question}
+
+Please answer the question based on the file content above. Be specific and reference relevant parts of the file."""
+
+        # Get response from Gemini
+        response = gemini_agent.get_response(prompt)
+
+        return jsonify({"answer": response})
+    except Exception as e:
+        return jsonify({"error": f"Chat failed: {str(e)}"}), 500
+
+
 @app.route("/clear-history", methods=["POST"])
 def clear_history():
     if "user" not in session:
@@ -455,6 +582,101 @@ def clear_history():
 
     gemini_agent.clear_history()
     return jsonify({"status": "success"})
+
+
+@app.route("/github/commit", methods=["POST"])
+def github_commit():
+    """Auto-commit changes to GitHub"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.get_json()
+    commit_message = data.get(
+        "message", f"Auto-commit: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+
+    try:
+        # Get current directory (project root)
+        project_dir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        )
+
+        # Run git commands
+        commands = [
+            ["git", "add", "."],
+            ["git", "commit", "-m", commit_message],
+            ["git", "push", "origin", "main"],
+        ]
+
+        results = []
+        for cmd in commands:
+            result = subprocess.run(
+                cmd, cwd=project_dir, capture_output=True, text=True, timeout=30
+            )
+            results.append(
+                {
+                    "command": " ".join(cmd),
+                    "output": result.stdout,
+                    "error": result.stderr,
+                    "returncode": result.returncode,
+                }
+            )
+
+            # Stop if command failed
+            if result.returncode != 0 and "nothing to commit" not in result.stdout:
+                return jsonify(
+                    {
+                        "status": "error",
+                        "message": f"Git command failed: {' '.join(cmd)}",
+                        "details": results,
+                    }
+                ), 500
+
+        return jsonify(
+            {
+                "status": "success",
+                "message": "Changes committed and pushed to GitHub",
+                "details": results,
+            }
+        )
+
+    except subprocess.TimeoutExpired:
+        return jsonify({"error": "Git operation timed out"}), 500
+    except Exception as e:
+        return jsonify({"error": f"GitHub commit failed: {str(e)}"}), 500
+
+
+@app.route("/github/status", methods=["GET"])
+def github_status():
+    """Get git status of the repository"""
+    if "user" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        project_dir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        )
+
+        result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=project_dir,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+
+        has_changes = bool(result.stdout.strip())
+
+        return jsonify(
+            {
+                "has_changes": has_changes,
+                "status": result.stdout,
+                "clean": not has_changes,
+            }
+        )
+
+    except Exception as e:
+        return jsonify({"error": f"Failed to get git status: {str(e)}"}), 500
 
 
 @app.route("/scheduler/tasks", methods=["GET"])

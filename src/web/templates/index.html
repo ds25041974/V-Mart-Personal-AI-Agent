@@ -13,6 +13,10 @@
             <p class="credits">Developed by DSR | Inspired by LA | Powered by Gemini AI</p>
             <div class="user-info">
                 <span>Welcome, {{ user.name }}!</span>
+                <button id="github-commit-btn" class="github-btn" title="Commit changes to GitHub">
+                    <span id="github-btn-text">💾 Save to GitHub</span>
+                    <span id="github-status" style="margin-left: 5px;"></span>
+                </button>
                 <button id="logout-btn" onclick="window.location.href='/logout'">Logout</button>
             </div>
         </header>
@@ -59,13 +63,54 @@
             <!-- Files Tab -->
             <div id="files-tab" class="tab-content">
                 <div class="form-section">
-                    <h2>File Browser</h2>
-                    <div class="search-box">
-                        <input type="text" id="file-search" placeholder="Search files...">
-                        <button id="search-files-btn">Search</button>
+                    <h2>📁 File Browser</h2>
+                    
+                    <!-- File Upload/Browse Section -->
+                    <div class="file-upload-section">
+                        <div class="upload-controls">
+                            <input type="file" id="file-upload-input" style="display: none;" multiple>
+                            <button id="browse-files-btn" class="primary-btn">
+                                📂 Browse Local Files
+                            </button>
+                            <button id="list-all-files-btn" class="secondary-btn">
+                                📋 List All Files
+                            </button>
+                        </div>
+                        <div id="selected-files-info" class="selected-files"></div>
                     </div>
+                    
+                    <!-- Search Section -->
+                    <div class="search-box">
+                        <input type="text" id="file-search" placeholder="Search files by name or path...">
+                        <button id="search-files-btn">🔍 Search</button>
+                    </div>
+                    
+                    <!-- File List -->
                     <div id="file-list" class="file-list"></div>
+                    
+                    <!-- File Content Viewer -->
                     <div id="file-content" class="result-box"></div>
+                    
+                    <!-- AI Analysis Section -->
+                    <div id="file-ai-section" class="ai-section" style="display: none;">
+                        <h3>🤖 AI Assistant for File</h3>
+                        <div class="ai-controls">
+                            <button id="analyze-file-btn" class="primary-btn">
+                                🔍 Get AI Insights & Recommendations
+                            </button>
+                            <button id="clear-file-chat-btn" class="secondary-btn">
+                                🗑️ Clear Chat
+                            </button>
+                        </div>
+                        <div id="file-ai-insights" class="ai-insights"></div>
+                        <div class="file-chat-container">
+                            <div id="file-chat-history" class="chat-history"></div>
+                            <div class="chat-input">
+                                <textarea id="file-chat-input" placeholder="Ask questions about this file..." rows="2"></textarea>
+                                <button id="file-chat-send-btn">Send</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -98,7 +143,35 @@
                 $('.tab-content').removeClass('active');
                 $(this).addClass('active');
                 $(`#${tab}-tab`).addClass('active');
+                
+                // Load files when Files tab is opened
+                if (tab === 'files') {
+                    loadFiles();
+                }
             });
+            
+            // Function to load files
+            function loadFiles() {
+                $.get('/files/list', function(data) {
+                    if (data.error) {
+                        $('#file-list').html(`<p style="color: red;">${data.error}</p>`);
+                        return;
+                    }
+                    let html = '<h3>Recent Files:</h3><ul>';
+                    if (data.files && data.files.length > 0) {
+                        data.files.forEach(file => {
+                            const fileName = file.split('/').pop();
+                            html += `<li class="file-item" data-path="${file}"><span class="file-icon">📄</span> ${fileName}<br><small style="color: #666;">${file}</small></li>`;
+                        });
+                    } else {
+                        html += '<li>No files found</li>';
+                    }
+                    html += '</ul>';
+                    $('#file-list').html(html);
+                }).fail(function(xhr) {
+                    $('#file-list').html(`<p style="color: red;">Error loading files: ${xhr.responseJSON?.error || 'Unknown error'}</p>`);
+                });
+            }
 
             // Chat functionality
             function sendMessage() {
@@ -156,17 +229,107 @@
             // File search functionality
             $('#search-files-btn').on('click', function() {
                 const query = $('#file-search').val();
+                if (!query) {
+                    alert('Please enter a search query');
+                    return;
+                }
                 $.get(`/files/search?q=${query}`, function(data) {
-                    let html = '<h3>Search Results:</h3><ul>';
-                    data.files.forEach(file => {
-                        html += `<li class="file-item" data-path="${file}">${file}</li>`;
-                    });
+                    let html = '<h3>🔍 Search Results:</h3><ul>';
+                    if (data.files && data.files.length > 0) {
+                        data.files.forEach(file => {
+                            const fileName = file.split('/').pop();
+                            html += `<li class="file-item" data-path="${file}"><span class="file-icon">📄</span> ${fileName}<br><small style="color: #666;">${file}</small></li>`;
+                        });
+                    } else {
+                        html += '<li>No files found</li>';
+                    }
                     html += '</ul>';
                     $('#file-list').html(html);
+                }).fail(function(xhr) {
+                    alert('Error searching files: ' + (xhr.responseJSON?.error || 'Unknown error'));
                 });
             });
+            
+            // Browse local files functionality
+            $('#browse-files-btn').on('click', function() {
+                $('#file-upload-input').click();
+            });
+            
+            $('#file-upload-input').on('change', function() {
+                const files = this.files;
+                if (files.length === 0) return;
+                
+                let html = '<h3>📂 Selected Files:</h3><ul>';
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    html += `<li class="file-item browsed-file" data-index="${i}">
+                        <span class="file-icon">📄</span> ${file.name}
+                        <br><small style="color: #666;">Size: ${formatFileSize(file.size)} | Type: ${file.type || 'Unknown'}</small>
+                    </li>`;
+                }
+                html += '</ul>';
+                $('#selected-files-info').html(html);
+            });
+            
+            // Handle browsed file click to read content
+            let currentFileContent = '';
+            let currentFileName = '';
+            
+            $(document).on('click', '.browsed-file', function() {
+                const index = $(this).data('index');
+                const file = document.getElementById('file-upload-input').files[index];
+                
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const content = e.target.result;
+                        currentFileContent = content;
+                        currentFileName = file.name;
+                        
+                        $('#file-content').html(`
+                            <h3>📄 ${file.name}</h3>
+                            <div style="margin-bottom: 10px;">
+                                <strong>Size:</strong> ${formatFileSize(file.size)} | 
+                                <strong>Type:</strong> ${file.type || 'Unknown'} | 
+                                <strong>Modified:</strong> ${new Date(file.lastModified).toLocaleString()}
+                            </div>
+                            <pre>${escapeHtml(content)}</pre>
+                        `);
+                        
+                        // Show AI section
+                        $('#file-ai-section').show();
+                        $('#file-chat-history').html('');
+                        $('#file-ai-insights').html('');
+                    };
+                    reader.readAsText(file);
+                }
+            });
+            
+            // List all files from server
+            $('#list-all-files-btn').on('click', function() {
+                loadFiles();
+            });
+            
+            // Helper function to format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+            }
+            
+            // Helper function to escape HTML
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
 
             $(document).on('click', '.file-item', function() {
+                // Skip if it's a browsed file (handled separately)
+                if ($(this).hasClass('browsed-file')) return;
+                
                 const path = $(this).data('path');
                 $.ajax({
                     url: '/files/read',
@@ -174,10 +337,168 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ path: path }),
                     success: function(data) {
-                        $('#file-content').html(`<h3>${path}</h3><pre>${data.content}</pre>`);
+                        currentFileContent = data.content;
+                        currentFileName = path.split('/').pop();
+                        
+                        $('#file-content').html(`<h3>📄 ${path}</h3><pre>${data.content}</pre>`);
+                        
+                        // Show AI section
+                        $('#file-ai-section').show();
+                        $('#file-chat-history').html('');
+                        $('#file-ai-insights').html('');
+                    },
+                    error: function(xhr) {
+                        alert('Error reading file: ' + (xhr.responseJSON?.error || 'Unknown error'));
                     }
                 });
             });
+            
+            // AI Analysis for File
+            $('#analyze-file-btn').on('click', function() {
+                if (!currentFileContent) {
+                    alert('Please select a file first');
+                    return;
+                }
+                
+                const btn = $(this);
+                btn.prop('disabled', true).text('🔄 Analyzing...');
+                
+                $.ajax({
+                    url: '/analyze-file',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ 
+                        filename: currentFileName,
+                        content: currentFileContent 
+                    }),
+                    success: function(response) {
+                        $('#file-ai-insights').html(`
+                            <div class="ai-insight-box">
+                                <h4>🔍 AI Insights & Recommendations</h4>
+                                <pre>${response.analysis}</pre>
+                            </div>
+                        `);
+                        btn.prop('disabled', false).text('🔍 Get AI Insights & Recommendations');
+                    },
+                    error: function(xhr) {
+                        alert('Error analyzing file: ' + (xhr.responseJSON?.error || 'Unknown error'));
+                        btn.prop('disabled', false).text('🔍 Get AI Insights & Recommendations');
+                    }
+                });
+            });
+            
+            // File Chat Send
+            $('#file-chat-send-btn').on('click', function() {
+                sendFileChat();
+            });
+            
+            $('#file-chat-input').on('keypress', function(e) {
+                if (e.which === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    sendFileChat();
+                }
+            });
+            
+            function sendFileChat() {
+                const question = $('#file-chat-input').val().trim();
+                if (!question || !currentFileContent) return;
+                
+                // Add user message
+                $('#file-chat-history').append(`
+                    <div class="chat-message user-message">
+                        <strong>You:</strong> ${escapeHtml(question)}
+                    </div>
+                `);
+                $('#file-chat-input').val('');
+                
+                // Send to AI
+                $.ajax({
+                    url: '/chat-about-file',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        filename: currentFileName,
+                        content: currentFileContent,
+                        question: question
+                    }),
+                    success: function(response) {
+                        $('#file-chat-history').append(`
+                            <div class="chat-message bot-message">
+                                <strong>AI:</strong> ${response.answer}
+                            </div>
+                        `);
+                        $('#file-chat-history').scrollTop($('#file-chat-history')[0].scrollHeight);
+                    },
+                    error: function(xhr) {
+                        $('#file-chat-history').append(`
+                            <div class="chat-message error-message">
+                                <strong>Error:</strong> ${xhr.responseJSON?.error || 'Unknown error'}
+                            </div>
+                        `);
+                    }
+                });
+            }
+            
+            $('#clear-file-chat-btn').on('click', function() {
+                $('#file-chat-history').html('');
+                $('#file-ai-insights').html('');
+            });
+
+            // GitHub commit functionality
+            $('#github-commit-btn').on('click', function() {
+                const btn = $(this);
+                const btnText = $('#github-btn-text');
+                const originalText = btnText.text();
+                
+                btn.prop('disabled', true);
+                btnText.text('🔄 Committing...');
+                
+                $.ajax({
+                    url: '/github/commit',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        message: `Auto-commit: Updates from AI Agent session`
+                    }),
+                    success: function(response) {
+                        btnText.text('✅ Committed!');
+                        $('#github-status').text('');
+                        setTimeout(() => {
+                            btnText.text(originalText);
+                            btn.prop('disabled', false);
+                            checkGithubStatus(); // Refresh status
+                        }, 2000);
+                    },
+                    error: function(xhr) {
+                        const error = xhr.responseJSON?.error || 'Unknown error';
+                        btnText.text('❌ Failed');
+                        alert('GitHub commit failed: ' + error);
+                        setTimeout(() => {
+                            btnText.text(originalText);
+                            btn.prop('disabled', false);
+                        }, 2000);
+                    }
+                });
+            });
+            
+            // Check GitHub status on load
+            function checkGithubStatus() {
+                $.ajax({
+                    url: '/github/status',
+                    method: 'GET',
+                    success: function(response) {
+                        if (response.has_changes) {
+                            $('#github-status').text('(*)').attr('title', 'Uncommitted changes');
+                        } else {
+                            $('#github-status').text('✓').attr('title', 'All changes committed');
+                        }
+                    }
+                });
+            }
+            
+            // Check status every 30 seconds
+            checkGithubStatus();
+            setInterval(checkGithubStatus, 30000);
 
             // Decision support functionality
             $('#add-option-btn').on('click', function() {
