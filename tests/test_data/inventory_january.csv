@@ -1,0 +1,11 @@
+Store_ID,Product_ID,Product_Name,Stock_Available,Reorder_Level,Stock_Value
+VM_DL_001,PRD1234,Samsung Galaxy S24,150,50,₹15,00,000
+VM_DL_001,PRD1235,Levi's Jeans,200,75,₹10,00,000
+VM_DL_001,PRD5678,Philips Air Fryer,80,30,₹4,00,000
+VM_DL_002,PRD1234,Samsung Galaxy S24,120,50,₹12,00,000
+VM_DL_002,PRD1236,Nike Shoes,180,60,₹9,00,000
+VM_MH_001,PRD1234,Samsung Galaxy S24,200,50,₹20,00,000
+VM_MH_001,PRD1235,Levi's Jeans,150,75,₹7,50,000
+VM_MH_002,PRD5678,Philips Air Fryer,95,30,₹4,75,000
+VM_DL_003,PRD1234,Samsung Galaxy S24,85,50,₹8,50,000
+VM_DL_001,PRD1237,LG Washing Machine,40,20,₹8,00,000

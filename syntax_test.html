@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Syntax Test</title>
+</head>
+<body>
+    <h1>Testing JavaScript Syntax</h1>
+    <div id="output"></div>
+    
+    <script>
+        // Test the exact same escapeHtml function
+        function escapeHtml(text) {
+            var map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) {
+                return map[m];
+            });
+        }
+        
+        // Test it
+        var testString = '<div>Test & "quoted"</div>';
+        var escaped = escapeHtml(testString);
+        document.getElementById('output').innerHTML = 'Original: ' + testString + '<br>Escaped: ' + escaped;
+        console.log('✅ No syntax error! Function works correctly.');
+        console.log('Escaped:', escaped);
+    </script>
+</body>
+</html>

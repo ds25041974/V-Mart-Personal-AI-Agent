@@ -7,7 +7,8 @@ import os
 from datetime import date, datetime
 
 from flask import Blueprint, jsonify, render_template_string, request
-from stores import (
+
+from src.stores import (
     StoreAnalyzer,
     StoreChain,
     StoreDatabase,

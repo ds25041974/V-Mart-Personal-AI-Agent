@@ -1,0 +1,95 @@
+V-Mart Stores - January 2025 Performance Report
+=====================================================
+
+Executive Summary:
+-----------------
+Total Revenue: ₹18,95,000
+Total Units Sold: 383 units
+Average Transaction Value: ₹4,947
+
+Store Performance Analysis:
+
+1. VM_DL_001 (Delhi - Connaught Place)
+   - Revenue: ₹7,95,000 (42% of total)
+   - Units Sold: 133 units
+   - Top Category: Electronics (₹2,50,000)
+   - Growth: +15% YoY
+   - Inventory Health: GOOD
+   
+2. VM_DL_002 (Delhi - Saket)
+   - Revenue: ₹2,75,000 (14.5% of total)
+   - Units Sold: 65 units
+   - Top Category: Electronics (₹2,00,000)
+   - Growth: +8% YoY
+   - Inventory Health: MODERATE
+   
+3. VM_MH_001 (Mumbai - Andheri)
+   - Revenue: ₹5,25,000 (27.7% of total)
+   - Units Sold: 105 units
+   - Top Category: Electronics (₹3,00,000)
+   - Growth: +22% YoY
+   - Inventory Health: EXCELLENT
+
+Product Analysis:
+
+PRD1234 (Samsung Galaxy S24):
+- Total Sales: ₹8,90,000
+- Units Sold: 178
+- Available Stock: 655 units across all stores
+- Demand: HIGH
+- Recommendation: Maintain current stock levels
+
+PRD1235 (Levi's Jeans):
+- Total Sales: ₹4,10,000
+- Units Sold: 82
+- Available Stock: 350 units
+- Demand: MODERATE
+- Recommendation: Monitor weekly trends
+
+PRD5678 (Philips Air Fryer):
+- Total Sales: ₹1,80,000
+- Units Sold: 60
+- Available Stock: 175 units
+- Demand: GROWING
+- Recommendation: Increase stock by 20%
+
+Key Insights:
+-------------
+1. Electronics category dominates with 60% revenue share
+2. Delhi stores collectively contribute 56.5% of total revenue
+3. Product PRD1234 shows consistent high demand across all locations
+4. Mumbai store (VM_MH_001) shows highest growth rate at 22%
+5. Fashion category showing steady growth in tier-2 cities
+
+Recommendations:
+---------------
+1. Increase inventory for PRD1234 and PRD5678 at VM_DL_001
+2. Launch promotional campaigns for fashion items in Delhi region
+3. Replicate Mumbai's success strategies in other metro stores
+4. Focus on customer retention programs for high-value customers
+5. Optimize stock distribution based on regional demand patterns
+
+Weather Impact Analysis:
+-----------------------
+- Clear weather days: 18
+- Rainy days: 5
+- Average temperature: 18°C
+- Footfall correlation: +12% on clear days
+- Sales impact: Weather-related dip of 8% on rainy days
+
+Competitor Analysis:
+-------------------
+- Average competitor distance: 3.2 km
+- Price positioning: V-Mart maintains 5-8% competitive advantage
+- Customer preference: 68% choose V-Mart for product variety
+
+Next Steps:
+----------
+1. Review inventory levels for top-performing products
+2. Plan festival season stock (Holi approaching in March)
+3. Analyze customer feedback for service improvements
+4. Expand product range in growing categories
+5. Implement dynamic pricing for slow-moving inventory
+
+Report Generated: January 20, 2025
+Data Sources: V-Mart Sales Database, Inventory System, Weather API, Store Geo-location Data

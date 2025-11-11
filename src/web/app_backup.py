@@ -6,11 +6,12 @@ Enhanced with multi-connector support and advanced features
 import json
 import os
 
-from agent.gemini_agent import GeminiAgent
-from auth import google_auth
-from connectors.local_files import LocalFilesConnector
 from flask import Flask, jsonify, redirect, render_template, request, session
-from scheduler.task_scheduler import TaskScheduler
+
+from src.agent.gemini_agent import GeminiAgent
+from src.auth import google_auth
+from src.connectors.local_files import LocalFilesConnector
+from src.scheduler.task_scheduler import TaskScheduler
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24))

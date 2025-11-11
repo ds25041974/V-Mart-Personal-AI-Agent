@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MINIMAL TEST - V-Mart AI</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 2px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        textarea { width: 100%; min-height: 100px; }
+        .result { background: #f0f0f0; padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 MINIMAL FUNCTIONALITY TEST</h1>
+    <p><strong>This is a simplified version to test if basic onclick works</strong></p>
+    
+    <!-- TEST 1: Simple Button Click -->
+    <div class="test-section">
+        <h2>Test 1: Simple Button Click</h2>
+        <button onclick="alert('Button clicked!'); document.getElementById('test1-result').innerHTML = '✅ Button onclick works!';">
+            Click Me
+        </button>
+        <div id="test1-result" class="result">Click the button above</div>
+    </div>
+    
+    <!-- TEST 2: Send Message Test -->
+    <div class="test-section">
+        <h2>Test 2: Send Message (like Chat)</h2>
+        <textarea id="message-input" placeholder="Type a message..."></textarea>
+        <br>
+        <button onclick="testSendMessage();">Send Message</button>
+        <div id="test2-result" class="result">Type a message and click Send</div>
+    </div>
+    
+    <!-- TEST 3: File Input Test -->
+    <div class="test-section">
+        <h2>Test 3: File Selection (like File Browse)</h2>
+        <input type="file" id="file-input" multiple onchange="testFileSelection(this.files);">
+        <br>
+        <button onclick="document.getElementById('file-input').click();">Browse Files</button>
+        <div id="test3-result" class="result">Select files above</div>
+    </div>
+    
+    <!-- TEST 4: Folder Input Test -->
+    <div class="test-section">
+        <h2>Test 4: Folder Selection (like Path Manager)</h2>
+        <input type="file" id="folder-input" webkitdirectory directory multiple onchange="testFolderSelection(this.files);">
+        <br>
+        <button onclick="document.getElementById('folder-input').click();">Browse Folder</button>
+        <div id="test4-result" class="result">Select a folder above</div>
+    </div>
+    
+    <!-- Console Output -->
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <div id="console-output" class="result" style="font-family: monospace; max-height: 200px; overflow-y: auto;"></div>
+    </div>
+    
+    <script>
+        // Log to both console and page
+        function log(message) {
+            console.log(message);
+            var output = document.getElementById('console-output');
+            output.innerHTML += message + '<br>';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        log('✅ Page loaded successfully');
+        log('✅ jQuery version: ' + $.fn.jquery);
+        
+        // Test 2: Send Message
+        function testSendMessage() {
+            log('🔥 testSendMessage() called');
+            var message = document.getElementById('message-input').value;
+            if (!message.trim()) {
+                log('❌ Empty message');
+                document.getElementById('test2-result').innerHTML = '❌ Please type a message first';
+                return;
+            }
+            log('📨 Message: ' + message);
+            document.getElementById('test2-result').innerHTML = '✅ Send works! Message: ' + message;
+            document.getElementById('message-input').value = '';
+        }
+        
+        // Test 3: File Selection
+        function testFileSelection(files) {
+            log('📁 testFileSelection() called with ' + files.length + ' files');
+            if (files.length === 0) {
+                log('❌ No files selected');
+                return;
+            }
+            var fileList = '';
+            for (var i = 0; i < files.length; i++) {
+                fileList += '• ' + files[i].name + ' (' + Math.round(files[i].size/1024) + ' KB)<br>';
+                log('  - ' + files[i].name);
+            }
+            document.getElementById('test3-result').innerHTML = '✅ Files selected:<br>' + fileList;
+        }
+        
+        // Test 4: Folder Selection
+        function testFolderSelection(files) {
+            log('📂 testFolderSelection() called with ' + files.length + ' files');
+            if (files.length === 0) {
+                log('❌ No folder selected');
+                return;
+            }
+            // Get the folder path from first file
+            var folderPath = files[0].webkitRelativePath.split('/')[0];
+            log('  Folder: ' + folderPath);
+            document.getElementById('test4-result').innerHTML = '✅ Folder selected: ' + folderPath + '<br>Contains ' + files.length + ' files';
+        }
+        
+        log('✅ All test functions loaded');
+        
+        // Test if jQuery works
+        $(document).ready(function() {
+            log('✅ jQuery ready event fired');
+        });
+    </script>
+</body>
+</html>

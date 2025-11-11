@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ultra Minimal JavaScript Test</title>
+</head>
+<body>
+    <h1>JavaScript Test</h1>
+    <p id="test1">Waiting...</p>
+    <p id="test2">Waiting...</p>
+    <p id="test3">Waiting...</p>
+    
+    <script>
+        // Test 1: Most basic JavaScript
+        document.getElementById('test1').innerHTML = '✅ Basic JavaScript works!';
+        console.log('✅ Test 1: Basic JavaScript works');
+        
+        // Test 2: Console logging
+        console.log('✅ Test 2: Console.log works');
+        document.getElementById('test2').innerHTML = '✅ Console.log works (check console)';
+        
+        // Test 3: Function call
+        function testFunction() {
+            console.log('✅ Test 3: Functions work');
+            document.getElementById('test3').innerHTML = '✅ Functions work!';
+        }
+        testFunction();
+        
+        // Test 4: Alert
+        alert('✅ JavaScript is working! Check the page and console.');
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Testing - V-Mart AI Agent</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 14px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .demo-content {
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .debug-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .debug-info h3 {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+
+        .status {
+            margin: 5px 0;
+        }
+
+        .status.success {
+            color: #28a745;
+        }
+
+        .status.error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏪 V-Mart AI Agent - Tab Testing</h1>
+        
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="chat">💬 Chat</button>
+            <button class="tab-btn" data-tab="analyze">📊 Analysis</button>
+            <button class="tab-btn" data-tab="files">📁 Files</button>
+            <button class="tab-btn" data-tab="paths">🗂️ Path Manager</button>
+            <button class="tab-btn" data-tab="decision">🎯 Decision Support</button>
+        </div>
+
+        <!-- Chat Tab -->
+        <div id="chat-tab" class="tab-content active">
+            <h2>💬 Chat Tab</h2>
+            <div class="demo-content">
+                <p>This is the Chat tab where users can interact with the AI agent.</p>
+                <p>Features: Real-time conversation, context-aware responses, file analysis.</p>
+            </div>
+        </div>
+
+        <!-- Analysis Tab -->
+        <div id="analyze-tab" class="tab-content">
+            <h2>📊 Analysis Tab</h2>
+            <div class="demo-content">
+                <p>This is the Analysis tab for data analysis.</p>
+                <p>Features: Financial analysis, sales analysis, inventory analysis.</p>
+            </div>
+        </div>
+
+        <!-- Files Tab -->
+        <div id="files-tab" class="tab-content">
+            <h2>📁 Files Tab</h2>
+            <div class="demo-content">
+                <p>This is the Files tab for browsing and managing files.</p>
+                <p>Features: File upload, content viewer, AI-powered insights.</p>
+            </div>
+        </div>
+
+        <!-- Path Manager Tab -->
+        <div id="paths-tab" class="tab-content">
+            <h2>🗂️ Path Manager Tab</h2>
+            <div class="demo-content">
+                <p>This is the Path Manager tab for managing file paths.</p>
+                <p>Features: Add paths, browse folders, edit configurations, persistent storage.</p>
+            </div>
+        </div>
+
+        <!-- Decision Support Tab -->
+        <div id="decision-tab" class="tab-content">
+            <h2>🎯 Decision Support Tab</h2>
+            <div class="demo-content">
+                <p>This is the Decision Support tab for business decisions.</p>
+                <p>Features: Data-driven insights, recommendations, strategic planning.</p>
+            </div>
+        </div>
+
+        <!-- Debug Information -->
+        <div class="debug-info">
+            <h3>🔍 Debug Console</h3>
+            <div id="debug-output"></div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const statusClass = type === 'success' ? 'success' : type === 'error' ? 'error' : '';
+            $('#debug-output').append(`<div class="status ${statusClass}">[${timestamp}] ${message}</div>`);
+            console.log(message);
+        }
+
+        $(document).ready(function() {
+            log('✅ jQuery loaded: v' + $.fn.jquery, 'success');
+            log('✅ Document ready', 'success');
+            log(`Found ${$('.tab-btn').length} tab buttons`, 'success');
+            log(`Found ${$('.tab-content').length} tab content sections`, 'success');
+
+            // Tab switching with debugging
+            $('.tab-btn').off('click').on('click', function(e) {
+                e.preventDefault();
+                const tab = $(this).data('tab');
+                log(`🖱️ Tab clicked: ${tab}`);
+                
+                // Check if element exists before switching
+                const targetTab = $(`#${tab}-tab`);
+                if (targetTab.length === 0) {
+                    log(`❌ ERROR: Tab content not found: #${tab}-tab`, 'error');
+                    return;
+                }
+                
+                // Remove all active classes
+                $('.tab-btn').removeClass('active');
+                $('.tab-content').removeClass('active');
+                
+                // Add active class to clicked button
+                $(this).addClass('active');
+                
+                // Show corresponding tab content
+                targetTab.addClass('active');
+                
+                log(`✅ Switched to tab: ${tab}`, 'success');
+                log(`   Active button: ${$(this).text().trim()}`);
+                log(`   Active content: ${targetTab.find('h2').text()}`);
+            });
+
+            // Test all tabs on load
+            setTimeout(function() {
+                log('--- Running automated tab tests ---');
+                const tabs = ['chat', 'analyze', 'files', 'paths', 'decision'];
+                let testIndex = 0;
+                
+                const testInterval = setInterval(function() {
+                    if (testIndex < tabs.length) {
+                        const tab = tabs[testIndex];
+                        log(`🧪 Testing tab: ${tab}`);
+                        $(`.tab-btn[data-tab="${tab}"]`).click();
+                        testIndex++;
+                    } else {
+                        clearInterval(testInterval);
+                        log('--- All automated tests completed ---', 'success');
+                        // Return to first tab
+                        $(`.tab-btn[data-tab="chat"]`).click();
+                    }
+                }, 1000);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CLICK TEST</title>
+    <style>
+        body { font-family: Arial; padding: 40px; background: #f5f5f5; }
+        .big-button { 
+            padding: 30px 60px; 
+            font-size: 24px; 
+            background: #4285f4; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer;
+            margin: 20px;
+        }
+        .big-button:hover { background: #357ae8; }
+        .log { 
+            background: white; 
+            padding: 20px; 
+            margin: 20px 0; 
+            border: 2px solid #ddd; 
+            border-radius: 8px;
+            min-height: 300px;
+            font-family: monospace;
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+    <h1>🔴 URGENT: Click Test - Does onclick Work?</h1>
+    
+    <div class="log" id="log">
+        <div class="success">✅ Page loaded. Now click the button below...</div>
+    </div>
+
+    <button class="big-button" onclick="
+        document.getElementById('log').innerHTML += '<div class=success>✅ ONCLICK WORKS! Button was clicked at ' + new Date().toLocaleTimeString() + '</div>';
+        console.log('✅ Button clicked successfully!');
+        alert('✅ SUCCESS! Onclick handler fired!');
+    ">
+        CLICK ME NOW
+    </button>
+
+    <hr>
+
+    <h2>Test 2: Enter Key</h2>
+    <input type="text" id="test-input" placeholder="Type anything and press Enter" 
+        style="width: 400px; padding: 15px; font-size: 18px;"
+        onkeydown="
+            if(event.key === 'Enter') {
+                document.getElementById('log').innerHTML += '<div class=success>✅ ENTER KEY WORKS! Pressed at ' + new Date().toLocaleTimeString() + '</div>';
+                console.log('✅ Enter key detected!');
+                alert('✅ SUCCESS! Enter key handler fired!');
+            }
+        ">
+
+    <hr>
+
+    <h2>Test 3: File Selection</h2>
+    <input type="file" id="file-test" multiple style="display:none;"
+        onchange="
+            document.getElementById('log').innerHTML += '<div class=success>✅ FILE SELECTION WORKS! Selected ' + this.files.length + ' file(s) at ' + new Date().toLocaleTimeString() + '</div>';
+            console.log('✅ Files selected:', this.files.length);
+            alert('✅ SUCCESS! Selected ' + this.files.length + ' file(s)!');
+        ">
+    <button class="big-button" onclick="
+        document.getElementById('file-test').click();
+        document.getElementById('log').innerHTML += '<div class=success>✅ FILE BROWSE BUTTON WORKS! Clicked at ' + new Date().toLocaleTimeString() + '</div>';
+    ">
+        BROWSE FILES
+    </button>
+
+    <hr>
+
+    <h2>🎯 Expected Results:</h2>
+    <ul>
+        <li><strong>Test 1:</strong> Click "CLICK ME NOW" → Should see "✅ ONCLICK WORKS!" in the log AND an alert</li>
+        <li><strong>Test 2:</strong> Type in the input and press Enter → Should see "✅ ENTER KEY WORKS!" AND an alert</li>
+        <li><strong>Test 3:</strong> Click "BROWSE FILES" → Should open file picker, select files → See "✅ FILE SELECTION WORKS!" AND alert</li>
+    </ul>
+
+    <p style="color: red; font-size: 18px; font-weight: bold;">
+        ⚠️ IF ANY TEST FAILS → Your browser has JavaScript disabled or blocked!
+    </p>
+    <p style="color: green; font-size: 18px; font-weight: bold;">
+        ✅ IF ALL TESTS PASS → The onclick handlers work, problem is with the actual server page!
+    </p>
+
+    <script>
+        console.log('🚀 Test page loaded at', new Date().toLocaleTimeString());
+        console.log('✅ JavaScript is enabled and running');
+        document.getElementById('log').innerHTML += '<div class="success">✅ JavaScript is working!</div>';
+    </script>
+</body>
+</html>

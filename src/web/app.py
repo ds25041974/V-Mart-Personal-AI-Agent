@@ -10,21 +10,23 @@ Powered by: Gemini AI
 import os
 import subprocess
 from datetime import datetime
+from typing import Optional
 
-from agent.gemini_agent import GeminiAgent
-from auth import google_auth
-from backend.ai_insights import AIInsightsEngine
-from backend.config_manager import config_manager
-from backend.db_manager import db_manager
-from backend.rbac import Permission, rbac_manager
-from connectors.data_reader import DataReaderConnector
-from connectors.local_files import LocalFilesConnector
 from flask import Flask, jsonify, redirect, render_template, request, send_file, session
-from scheduler.task_scheduler import TaskScheduler
+
+from src.agent.gemini_agent import GeminiAgent
+from src.auth import google_auth
+from src.backend.ai_insights import AIInsightsEngine
+from src.backend.config_manager import config_manager
+from src.backend.db_manager import db_manager
+from src.backend.rbac import Permission, rbac_manager
+from src.connectors.data_reader import DataReaderConnector
+from src.connectors.local_files import LocalFilesConnector
+from src.scheduler.task_scheduler import TaskScheduler
 
 # Import PDF OCR utilities
 try:
-    from utils.pdf_ocr import PDFOCRExtractor, analyze_pdf_structure
+    from src.utils.pdf_ocr import PDFOCRExtractor, analyze_pdf_structure
 
     PDF_OCR_AVAILABLE = True
 except ImportError:
@@ -35,7 +37,7 @@ except ImportError:
 
 # Import Export utilities
 try:
-    from utils.export_utils import ExportGenerator
+    from src.utils.export_utils import ExportGenerator
 
     EXPORT_AVAILABLE = True
 except ImportError:
@@ -46,6 +48,10 @@ except ImportError:
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24))
+
+# Disable template caching to force reload of changes
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
 # Configure Google OAuth
 app.config["GOOGLE_CLIENT_ID"] = os.environ.get("GOOGLE_CLIENT_ID")
@@ -67,6 +73,52 @@ scheduler.start()
 
 # Initialize AI Insights Engine
 ai_insights = AIInsightsEngine(api_key=os.environ.get("GEMINI_API_KEY") or "")
+
+# Initialize Path Manager for local file access
+from src.utils.path_manager import PathManager
+
+path_manager = PathManager()
+
+# Initialize Retail Intelligence Modules
+try:
+    from src.retail_intelligence.customer_analytics import CustomerAnalyzer
+    from src.retail_intelligence.fashion_analyzer import FashionAnalyzer
+    from src.retail_intelligence.festival_planner import FestivalPlanner
+    from src.retail_intelligence.inventory_planner import InventoryPlanner
+    from src.retail_intelligence.sales_analytics import SalesAnalyzer
+
+    sales_analyzer = SalesAnalyzer(gemini_engine=ai_insights)
+    inventory_planner = InventoryPlanner(gemini_engine=ai_insights)
+    customer_analyzer = CustomerAnalyzer(gemini_engine=ai_insights)
+    fashion_analyzer = FashionAnalyzer(gemini_engine=ai_insights)
+    festival_planner = FestivalPlanner(gemini_engine=ai_insights)
+
+    RETAIL_INTELLIGENCE_AVAILABLE = True
+    print("✅ Retail Intelligence Modules loaded successfully")
+except ImportError as e:
+    RETAIL_INTELLIGENCE_AVAILABLE = False
+    sales_analyzer = None
+    inventory_planner = None
+    customer_analyzer = None
+    fashion_analyzer = None
+    festival_planner = None
+    print(f"⚠ Warning: Retail Intelligence modules not available: {e}")
+
+# Initialize enhanced utilities
+try:
+    from src.utils.file_cross_referencer import FileCrossReferencer
+    from src.utils.response_formatter import ResponseFormatter
+
+    response_formatter = ResponseFormatter()
+    file_cross_referencer = FileCrossReferencer()
+
+    ENHANCED_UTILS_AVAILABLE = True
+    print("✅ Enhanced utilities loaded successfully")
+except ImportError as e:
+    ENHANCED_UTILS_AVAILABLE = False
+    response_formatter = None
+    file_cross_referencer = None
+    print(f"⚠ Warning: Enhanced utilities not available: {e}")
 
 # Initialize demo admin user if not exists
 demo_email = "demo@vmart.co.in"
@@ -100,6 +152,24 @@ try:
     print("✓ Retail Intelligence AI routes registered at /api/intelligence")
 except Exception as e:
     print(f"⚠ Retail Intelligence routes not available: {e}")
+
+# Register AI Chat Blueprint (NEW - Path Configuration Feature)
+try:
+    from web.ai_chat_routes import ai_chat_bp
+
+    app.register_blueprint(ai_chat_bp)
+    print("✓ AI Chat routes registered at /ai-chat")
+except Exception as e:
+    print(f"⚠ AI Chat routes not available: {e}")
+
+# Register Path Manager Blueprint (NEW - File Path Configuration)
+try:
+    from src.web.path_routes import path_bp
+
+    app.register_blueprint(path_bp)
+    print("✓ Path Manager routes registered at /api/paths")
+except Exception as e:
+    print(f"⚠ Path Manager routes not available: {e}")
 
 # AI Chat features now integrated into main interface
 # No separate /ai-chat routes needed
@@ -300,6 +370,59 @@ def demo_login():
     return redirect("/")
 
 
+# ==========================================
+# PATH MANAGER HELPER FUNCTIONS
+# ==========================================
+
+
+def get_path_manager_context(query: str, limit: int = 5) -> Optional[str]:
+    """
+    Search configured paths for relevant files based on query.
+    Returns formatted context string with file contents if found.
+    """
+    try:
+        # Search for relevant files in configured paths
+        results = path_manager.search_files(query, limit=limit)
+
+        if not results:
+            return None
+
+        # Build context from found files
+        context_parts = [
+            f"\n📁 **Found {len(results)} relevant file(s) from configured paths:**\n"
+        ]
+
+        for i, file_info in enumerate(results, 1):
+            file_path = file_info.get("path")
+            file_name = file_info.get("name")
+            source_path = file_info.get("source_path", "Unknown")
+
+            try:
+                # Read file content (limit to reasonable size)
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read(10000)  # Limit to 10KB
+
+                context_parts.append(
+                    f"\n**File {i}: {file_name}** (from {source_path})"
+                )
+                context_parts.append(
+                    f"```\n{content[:5000]}\n```\n"
+                )  # Limit to 5KB per file
+
+            except Exception as e:
+                print(f"Error reading file {file_path}: {e}")
+                continue
+
+        if len(context_parts) > 1:  # More than just the header
+            return "\n".join(context_parts)
+
+        return None
+
+    except Exception as e:
+        print(f"Error getting path manager context: {e}")
+        return None
+
+
 @app.route("/ask", methods=["POST"])
 def ask():
     """
@@ -455,19 +578,33 @@ Please answer the question based on the file content above. Be specific and refe
 
         # PRIORITY 2: No browsed file - check if user is explicitly asking about files/data sources
         else:
-            # Only search files/sources if explicitly mentioned
-            keywords_doc = [
-                "document",
-                "doc",
-                "file",
-                "sheet",
-                "slide",
-                "presentation",
-                "pdf",
-                "excel",
-                "word",
-                "ppt",
-            ]
+            # FIRST: Try to get context from configured paths (Path Manager)
+            path_context = get_path_manager_context(prompt, limit=3)
+
+            if path_context:
+                # Found relevant files in configured paths
+                context_info.append("Using files from configured paths")
+                enhanced_prompt = f"""{path_context}
+
+**USER'S QUESTION:** {prompt}
+
+Please answer the question using the files provided above from the configured paths. If the files don't contain relevant information, let the user know."""
+
+            # FALLBACK: Only search other files/sources if no path manager files found
+            elif not path_context:
+                # Only search files/sources if explicitly mentioned
+                keywords_doc = [
+                    "document",
+                    "doc",
+                    "file",
+                    "sheet",
+                    "slide",
+                    "presentation",
+                    "pdf",
+                    "excel",
+                    "word",
+                    "ppt",
+                ]
             keywords_local = [
                 "local file",
                 "my file",
@@ -594,12 +731,132 @@ Please answer the question based on the file content above. Be specific and refe
     except Exception as e:
         print(f"⚠ Analytics context not available: {e}")
 
+    # ========== ENHANCED AI INTEGRATION WITH CURATED RESPONSES ==========
+    # Gather all data sources for curated response formatting
+    data_sources = []
+    file_references = []
+    analytics_data_dict = None
+
+    # Track store/weather/competition data if available
+    try:
+        # Check if store context was requested
+        store_id_param = data.get("store_id")
+        city_param = data.get("city")
+
+        if store_id_param or city_param:
+            data_sources.append(
+                {
+                    "type": "store" if store_id_param else "city",
+                    "store_id": store_id_param,
+                    "location": city_param or "N/A",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
+
+        # Add weather data source if detected in prompt
+        if any(
+            word in prompt_lower
+            for word in ["weather", "temperature", "climate", "rain", "sunny"]
+        ):
+            data_sources.append(
+                {
+                    "type": "weather",
+                    "location": city_param or "N/A",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
+
+        # Add competition data if detected
+        if any(
+            word in prompt_lower
+            for word in ["competition", "competitor", "rival", "market"]
+        ):
+            data_sources.append(
+                {
+                    "type": "competition",
+                    "count": "variable",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
+    except Exception as e:
+        print(f"Error tracking data sources: {e}")
+
+    # Track file references
+    if browsed_file and browsed_file.get("content"):
+        file_references.append(
+            {
+                "name": browsed_file.get("name", "Unknown"),
+                "format": browsed_file.get("format", "text"),
+                "size": len(browsed_file.get("content", "")),
+                "source": browsed_file.get("source", "browser"),
+            }
+        )
+
+    # Convert analytics context to dict if available
+    if analytics_context_text:
+        analytics_data_dict = {
+            "source": "V-Mart Analytics Engine",
+            "period": "last 30 days",
+            "has_data": True,
+        }
+
     # Get AI response with analytics context
     response = gemini_agent.get_response(
         enhanced_prompt,
         use_context=use_context,
         analytics_context=analytics_context_text,
     )
+
+    # ========== APPLY CURATED RESPONSE FORMATTING ==========
+    try:
+        from src.utils.response_formatter import ResponseFormatter
+
+        formatter = ResponseFormatter()
+        curated = formatter.format_curated_response(
+            ai_response=response,
+            data_sources=data_sources if data_sources else None,
+            analytics_data=analytics_data_dict,
+            file_references=file_references if file_references else None,
+            include_citations=True,
+        )
+
+        # Use the curated response with enhanced formatting
+        response = curated["response"]
+
+        # Add insights section if available
+        if curated.get("insights"):
+            insights_html = "<div class='ai-insights'><h4>🔍 Key Insights:</h4><ul>"
+            for insight in curated["insights"][:3]:  # Top 3
+                insights_html += f"<li>{insight}</li>"
+            insights_html += "</ul></div>"
+            response = insights_html + "\n\n" + response
+
+        # Add recommendations section if available
+        if curated.get("recommendations"):
+            rec_html = (
+                "<div class='ai-recommendations'><h4>💡 Recommendations:</h4><ul>"
+            )
+            for rec in curated["recommendations"][:3]:  # Top 3
+                rec_html += f"<li>{rec}</li>"
+            rec_html += "</ul></div>"
+            response = response + "\n\n" + rec_html
+
+        # Add citations if available
+        if curated.get("citations"):
+            citations_html = "<div class='ai-citations'><h4>📚 Data Sources:</h4><ul>"
+            for cite in curated["citations"]:
+                citations_html += (
+                    f"<li><strong>{cite.get('type')}</strong>: {cite.get('source')} "
+                )
+                if cite.get("location"):
+                    citations_html += f"({cite.get('location')})"
+                citations_html += "</li>"
+            citations_html += "</ul></div>"
+            response = response + "\n\n" + citations_html
+
+    except Exception as e:
+        print(f"⚠ Response formatting enhancement skipped: {e}")
+        # Fall back to original response if formatting fails
 
     # Format the response
     formatted_response = format_ai_response(response)
@@ -1799,4 +2056,7 @@ def check_export_availability():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    # Disable debug mode for background processes to avoid terminal I/O errors
+    # Set FLASK_DEBUG=1 environment variable to enable debug mode
+    debug_mode = os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(host="0.0.0.0", port=8000, debug=debug_mode, use_reloader=False)

@@ -11,7 +11,7 @@ import os
 from datetime import datetime
 from typing import Dict, List, Optional
 
-from stores import StoreAnalyzer, StoreDatabase, WeatherService
+from src.stores import StoreAnalyzer, StoreDatabase, WeatherService
 
 
 class AIContextManager:

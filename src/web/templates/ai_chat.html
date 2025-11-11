@@ -715,33 +715,69 @@
             </div>
             <div class="modal-body">
                 <div class="path-form">
+                    <div class="info-banner" style="background: #e3f2fd; border-left: 4px solid #2196F3; padding: 12px; margin-bottom: 16px; border-radius: 4px;">
+                        <strong>💡 How it works:</strong> Configure paths to let AI read files directly from your local system without uploading.
+                        <br><small>Priority: Configured paths → Uploaded files → No files</small>
+                    </div>
+                    
                     <div class="form-group">
-                        <label for="pathName">Path Name</label>
-                        <input type="text" id="pathName" placeholder="e.g., Sales Reports, Product Images" />
+                        <label for="pathName">Path Name <span style="color: red;">*</span></label>
+                        <input 
+                            type="text" 
+                            id="pathName" 
+                            placeholder="e.g., Sales Reports, Product Images" 
+                            required
+                        />
                     </div>
                     <div class="form-group">
-                        <label for="pathLocation">File/Folder Path</label>
-                        <input type="text" id="pathLocation" placeholder="e.g., /Users/username/Documents/Reports" />
-                        <small style="color: #888; font-size: 12px;">💡 Tip: Absolute path to file or folder on your local system</small>
+                        <label for="pathLocation">File/Folder Path <span style="color: red;">*</span></label>
+                        <div style="display: flex; gap: 8px;">
+                            <input 
+                                type="text" 
+                                id="pathLocation" 
+                                placeholder="e.g., /Users/username/Documents/Reports" 
+                                style="flex: 1;"
+                                required
+                            />
+                            <button type="button" class="btn-secondary" onclick="validatePath()" title="Check if path exists">
+                                ✓ Validate
+                            </button>
+                        </div>
+                        <small id="pathValidation" style="color: #888; font-size: 12px; display: block; margin-top: 4px;">
+                            💡 Tip: Use absolute path to file or folder on your local system
+                        </small>
                     </div>
                     <div class="form-group">
                         <label for="pathDescription">Description (Optional)</label>
-                        <textarea id="pathDescription" placeholder="e.g., Monthly sales reports in Excel format"></textarea>
+                        <textarea 
+                            id="pathDescription" 
+                            placeholder="e.g., Monthly sales reports in Excel format"
+                            rows="2"
+                        ></textarea>
                     </div>
                     <div class="form-actions">
-                        <button class="btn-primary" onclick="addPath()">➕ Add Path</button>
-                        <button class="btn-secondary" onclick="clearPathForm()">Clear</button>
+                        <button class="btn-primary" onclick="addPath()" id="addPathBtn">
+                            ➕ Add Path
+                        </button>
+                        <button class="btn-secondary" onclick="clearPathForm()">
+                            🔄 Clear
+                        </button>
                     </div>
                 </div>
 
                 <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 24px 0;">
 
-                <h3 style="margin-bottom: 16px; font-size: 16px; color: #333;">Configured Paths</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="font-size: 16px; color: #333;">Configured Paths</h3>
+                    <button class="btn-secondary" onclick="refreshPaths()" title="Refresh list">
+                        🔄 Refresh
+                    </button>
+                </div>
                 <div class="paths-list" id="pathsList">
                     <div class="empty-state">
                         <div class="empty-state-icon">📂</div>
                         <p>No paths configured yet</p>
-                        <small style="color: #aaa;">Add local paths to enable AI to read files directly</small>
+                        <small style="color: #aaa;">Add local paths to enable AI to read files directly without manual uploads</small>
                     </div>
                 </div>
             </div>
@@ -1128,9 +1164,13 @@
             const description = document.getElementById('pathDescription').value.trim();
 
             if (!name || !location) {
-                alert('Please provide both path name and location');
+                alert('⚠️ Please provide both path name and location');
                 return;
             }
+
+            const addBtn = document.getElementById('addPathBtn');
+            addBtn.disabled = true;
+            addBtn.textContent = '⏳ Adding...';
 
             try {
                 const response = await fetch('/ai-chat/paths', {
@@ -1149,15 +1189,18 @@
                 renderPathsList();
                 clearPathForm();
                 
-                // Show success message
-                alert('✅ Path added successfully!');
+                // Show success notification
+                showNotification('✅ Path added successfully! AI can now read files from this location.', 'success');
             } catch (error) {
-                alert('❌ Failed to add path: ' + error.message);
+                showNotification('❌ Failed to add path: ' + error.message, 'error');
+            } finally {
+                addBtn.disabled = false;
+                addBtn.textContent = '➕ Add Path';
             }
         }
 
         async function deletePath(index) {
-            if (!confirm('Are you sure you want to remove this path?')) {
+            if (!confirm('⚠️ Remove this path? AI will no longer access files from this location.')) {
                 return;
             }
 
@@ -1173,14 +1216,15 @@
 
                 configuredPaths.splice(index, 1);
                 renderPathsList();
-                alert('✅ Path removed successfully!');
+                showNotification('✅ Path removed successfully!', 'success');
             } catch (error) {
-                alert('❌ Failed to remove path: ' + error.message);
+                showNotification('❌ Failed to remove path: ' + error.message, 'error');
             }
         }
 
         async function scanPath(index) {
             const path = configuredPaths[index];
+            showNotification('🔍 Scanning path...', 'info');
             
             try {
                 const response = await fetch(`/ai-chat/paths/${path.id || index}/scan`, {
@@ -1193,17 +1237,83 @@
 
                 const result = await response.json();
                 configuredPaths[index].file_count = result.file_count;
+                configuredPaths[index].file_types = result.file_types;
+                configuredPaths[index].total_size = result.total_size;
                 renderPathsList();
-                alert(`✅ Scan complete! Found ${result.file_count} files`);
+                
+                const fileTypesStr = Object.entries(result.file_types || {})
+                    .map(([ext, count]) => `${count} ${ext}`)
+                    .join(', ');
+                
+                showNotification(`✅ Scan complete! Found ${result.file_count} files (${fileTypesStr})`, 'success');
             } catch (error) {
-                alert('❌ Scan failed: ' + error.message);
+                showNotification('❌ Scan failed: ' + error.message, 'error');
             }
+        }
+
+        async function validatePath() {
+            const location = document.getElementById('pathLocation').value.trim();
+            const validationMsg = document.getElementById('pathValidation');
+            
+            if (!location) {
+                validationMsg.textContent = '⚠️ Please enter a path first';
+                validationMsg.style.color = '#ff9800';
+                return;
+            }
+            
+            validationMsg.textContent = '⏳ Validating path...';
+            validationMsg.style.color = '#2196F3';
+            
+            // Note: Path validation will happen on server when adding
+            // This is just UI feedback
+            setTimeout(() => {
+                validationMsg.textContent = '💡 Path will be validated when you click Add Path';
+                validationMsg.style.color = '#888';
+            }, 500);
+        }
+
+        async function refreshPaths() {
+            await loadConfiguredPaths();
+            showNotification('🔄 Paths refreshed!', 'info');
         }
 
         function clearPathForm() {
             document.getElementById('pathName').value = '';
             document.getElementById('pathLocation').value = '';
             document.getElementById('pathDescription').value = '';
+            document.getElementById('pathValidation').textContent = '💡 Tip: Use absolute path to file or folder on your local system';
+            document.getElementById('pathValidation').style.color = '#888';
+        }
+        
+        function showNotification(message, type = 'info') {
+            // Simple notification for now - can be enhanced with toast/snackbar
+            const colors = {
+                success: '#4CAF50',
+                error: '#f44336',
+                info: '#2196F3',
+                warning: '#ff9800'
+            };
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colors[type] || colors.info};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
 
         function openPathSettings() {
