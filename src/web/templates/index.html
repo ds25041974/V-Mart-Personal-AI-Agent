@@ -5,15 +5,260 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-Mart Personal AI Agent</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Optimized UI - Compact Layout */
+        body {
+            padding: 8px;
+        }
+        
+        .container {
+            min-height: calc(100vh - 16px);
+        }
+        
+        /* Compact Header */
+        header {
+            padding: 10px 20px !important;
+            flex-shrink: 0;
+        }
+        
+        header h1 {
+            font-size: 20px !important;
+            margin: 0;
+            line-height: 1.2;
+        }
+        
+        .credits {
+            font-size: 10px !important;
+            margin-top: 2px !important;
+            opacity: 0.85;
+        }
+        
+        .user-info {
+            gap: 10px !important;
+        }
+        
+        .user-info span {
+            font-size: 12px !important;
+        }
+        
+        #logout-btn {
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+        }
+        
+        /* Compact Tabs */
+        .tabs {
+            padding: 8px 15px !important;
+            gap: 6px !important;
+            background: #f5f5f5;
+            border-bottom: 2px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+        
+        .tab-btn {
+            padding: 6px 12px !important;
+            font-size: 13px !important;
+            border-radius: 6px !important;
+            min-height: auto !important;
+        }
+        
+        /* Content Area - Normal Scrolling */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Chat Window - Normal Layout */
+        .chat-window {
+            padding: 15px;
+        }
+        
+        .chat-history {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 8px;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        
+        .chat-controls {
+            margin-bottom: 6px;
+        }
+        
+        #clear-history-btn {
+            padding: 4px 10px !important;
+            font-size: 11px !important;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input textarea {
+            flex: 1;
+            resize: none;
+            min-height: 60px !important;
+        }
+        
+        .chat-input button {
+            width: 100px;
+        }
+        
+        /* Form Section - Normal Layout */
+        .form-section {
+            padding: 15px;
+        }
+        
+        .form-section h2 {
+            font-size: 18px !important;
+            margin-top: 0 !important;
+            margin-bottom: 12px !important;
+        }
+        
+        .form-section h3 {
+            font-size: 15px !important;
+            margin-top: 15px !important;
+            margin-bottom: 10px !important;
+        }
+        
+        /* Compact Buttons */
+        .small-btn {
+            padding: 5px 10px !important;
+            font-size: 12px !important;
+        }
+        
+        .primary-btn, .secondary-btn {
+            padding: 8px 16px !important;
+            font-size: 13px !important;
+        }
+        
+        /* Message Styling */
+        .message {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            line-height: 1.5 !important;
+        }
+        
+        /* Thinking Indicator */
+        .thinking-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .thinking-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e0e0e0;
+            border-top: 2px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Export Buttons */
+        .export-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .export-btn {
+            padding: 4px 10px !important;
+            font-size: 11px !important;
+            background: #f5f5f5 !important;
+            border: 1px solid #ddd !important;
+            border-radius: 4px !important;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .export-btn:hover {
+            background: #e8e8e8 !important;
+        }
+        
+        .export-btn svg {
+            width: 12px;
+            height: 12px;
+        }
+        
+        /* Footer Compact */
+        .app-footer {
+            padding: 4px !important;
+            font-size: 10px !important;
+        }
+        
+        /* Result Box */
+        .result-box {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        /* Input Fields */
+        input[type="text"], 
+        input[type="email"], 
+        textarea, 
+        select {
+            font-size: 13px !important;
+            padding: 8px !important;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 16px !important;
+            }
+            
+            .tab-btn {
+                padding: 5px 8px !important;
+                font-size: 11px !important;
+            }
+            
+            .chat-input {
+                flex-direction: column;
+            }
+            
+            .chat-input button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🏪 V-Mart Personal AI Agent</h1>
-            <p class="credits">Developed by DSR | Inspired by LA | Powered by Gemini AI</p>
-            <div class="user-info">
-                <span>Welcome, {{ user.name }}!</span>
-                <button id="logout-btn" onclick="window.location.href='/logout'">Logout</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div>
+                    <h1>🏪 V-Mart AI Agent</h1>
+                    <p class="credits">DSR | LA | Gemini AI</p>
+                </div>
+                <div class="user-info">
+                    <span>{{ user.name }}</span>
+                    <button id="logout-btn" onclick="window.location.href='/logout'">Logout</button>
+                </div>
             </div>
         </header>
 
@@ -23,6 +268,7 @@
                 <button class="tab-btn active" data-tab="chat">💬 Chat</button>
                 <button class="tab-btn" data-tab="analyze">📊 Analysis</button>
                 <button class="tab-btn" data-tab="files">📁 Files</button>
+                <button class="tab-btn" data-tab="paths">🗂️ Path Manager</button>
                 <button class="tab-btn" data-tab="decision">🎯 Decision Support</button>
             </div>
 
@@ -53,10 +299,6 @@
                     <textarea id="analysis-data" placeholder="Paste your data here..." rows="10"></textarea>
                     <button id="analyze-btn">Analyze</button>
                     <div id="analysis-result" class="result-box"></div>
-                    <div id="analysis-export-buttons" class="export-buttons" style="display: none; margin-top: 10px;">
-                        <button class="export-btn" onclick="exportAnalysis('excel')">📊 Export to Excel</button>
-                        <button class="export-btn" onclick="exportAnalysis('pdf')">📄 Export to PDF</button>
-                    </div>
                 </div>
             </div>
 
@@ -64,58 +306,107 @@
             <div id="files-tab" class="tab-content">
                 <div class="form-section">
                     <h2>📁 File Browser</h2>
+                    <p style="color: #666; margin-bottom: 15px;">Upload and analyze multiple file formats: Images, Excel, CSV, Docs, PDF</p>
                     
-                    <!-- File Upload/Browse Section -->
-                    <!-- Browse Local Files Section -->
-                    <div class="browse-section">
-                        <h3>📁 Browse Your Files</h3>
-                        <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">
-                            Supported: Text files (.txt, .md, .py, .js, .json, .csv) and PDFs
-                        </p>
-                        <div class="browse-controls">
-                            <input 
-                                type="file" 
-                                id="file-upload-input" 
-                                multiple 
-                                accept=".txt,.md,.py,.js,.json,.csv,.pdf,.log,.html,.css,.xml,.yaml,.yml"
-                                style="display: none;">
-                            <button id="browse-btn" class="primary-btn">
-                                📂 Browse Local Files
-                            </button>
-                        </div>
-                        <div id="selected-files-info" class="selected-files"></div>
-                    </div>                    <!-- File Content Viewer (for browsed files) -->
-                    <div id="file-content" class="result-box" style="display: none;"></div>
+                    <!-- File Upload Section -->
+                    <div style="margin-bottom: 20px;">
+                        <input type="file" id="file-upload-input" multiple 
+                               accept=".jpg,.jpeg,.png,.gif,.bmp,.xlsx,.xls,.csv,.doc,.docx,.pdf,.txt,.md,.json"
+                               style="display: none;">
+                        <button id="browse-files-btn" class="primary-btn" style="margin-right: 10px;">
+                            📂 Browse Files
+                        </button>
+                        <button id="clear-selected-files-btn" class="secondary-btn">
+                            🗑️ Clear Selected
+                        </button>
+                    </div>
                     
-                    <!-- AI Analysis Section (for browsed files) -->
-                    <div id="file-ai-section" class="ai-section" style="display: none;">
-                        <h3>🤖 AI Assistant for File</h3>
-                        <div class="ai-controls">
-                            <button id="analyze-file-btn" class="primary-btn">
-                                🔍 Get AI Insights & Recommendations
-                            </button>
-                            <button id="clear-file-chat-btn" class="secondary-btn">
-                                🗑️ Clear Chat
-                            </button>
+                    <!-- Selected Files Display -->
+                    <div id="selected-files-display" style="margin-bottom: 20px; display: none;">
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">Selected Files:</h3>
+                        <div id="selected-files-list" style="max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;"></div>
+                        <button id="upload-files-btn" class="primary-btn" style="margin-top: 10px;">
+                            ⬆️ Upload & Analyze Files
+                        </button>
+                    </div>
+                    
+                    <!-- File Content Viewer -->
+                    <div id="file-content-viewer" style="display: none; margin-bottom: 20px;">
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">File Content:</h3>
+                        <div id="file-content" class="result-box" style="max-height: 300px; overflow-y: auto;"></div>
+                    </div>
+                    
+                    <!-- AI Chat for Files -->
+                    <div id="file-ai-chat" style="display: none; margin-top: 20px;">
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">🤖 Ask AI about Files</h3>
+                        <div id="file-chat-history" style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 4px;"></div>
+                        <div style="display: flex; gap: 10px;">
+                            <textarea id="file-chat-input" placeholder="Ask questions about uploaded files..." rows="2" style="flex: 1;"></textarea>
+                            <button id="file-chat-send-btn" class="primary-btn">Send</button>
                         </div>
-                        <div id="file-ai-insights" class="ai-insights"></div>
-                        <div class="file-chat-container">
-                            <div id="file-chat-history" class="chat-history"></div>
-                            <div class="chat-input">
-                                <textarea id="file-chat-input" placeholder="Ask questions about this file..." rows="2"></textarea>
-                                <button id="file-chat-send-btn">Send</button>
+                    </div>
+                    
+                    <!-- Server File Search -->
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #eee;">
+                        <h3 style="font-size: 16px; margin-bottom: 10px;">Search Server Files:</h3>
+                        <div class="search-box">
+                            <input type="text" id="file-search" placeholder="Search files on server...">
+                            <button id="search-files-btn">🔍 Search</button>
+                        </div>
+                        <div id="file-list" class="file-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Path Manager Tab -->
+            <div id="paths-tab" class="tab-content">
+                <div class="form-section">
+                    <h2>🗂️ Path Manager</h2>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        Configure local paths for AI to access directly. Once configured, AI will automatically read data from these paths.
+                    </p>
+                    
+                    <!-- Add Path Section -->
+                    <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h3 style="font-size: 16px; margin-bottom: 15px;">Add New Path</h3>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Path Name:</label>
+                            <input type="text" id="path-name" placeholder="e.g., My Documents" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Path Location:</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="path-location" placeholder="/path/to/folder or C:\path\to\folder" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <input type="file" id="path-folder-browser" webkitdirectory directory multiple style="display: none;">
+                                <button id="browse-path-btn" class="secondary-btn">📁 Browse</button>
                             </div>
+                            <small style="color: #666;">Click Browse to select folder or enter path manually</small>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Description (Optional):</label>
+                            <textarea id="path-description" placeholder="Brief description..." rows="2" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button id="validate-path-btn" class="secondary-btn">🔍 Validate Path</button>
+                            <button id="add-path-btn" class="primary-btn">➕ Add Path</button>
+                        </div>
+                        <div id="path-validation-result" style="margin-top: 10px; padding: 10px; border-radius: 4px; display: none;"></div>
+                    </div>
+                    
+                    <!-- Configured Paths List -->
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="font-size: 16px; margin: 0;">Configured Paths</h3>
+                            <button id="refresh-paths-btn" class="small-btn">🔄 Refresh</button>
+                        </div>
+                        <div id="configured-paths-list" style="border: 1px solid #ddd; border-radius: 4px; padding: 10px; min-height: 100px;">
+                            <p style="text-align: center; color: #999;">Loading paths...</p>
                         </div>
                     </div>
-                    
-                    <!-- Search Section (for server files) -->
-                    <div class="search-box">
-                        <input type="text" id="file-search" placeholder="Search server files by name or path...">
-                        <button id="search-files-btn">🔍 Search</button>
-                    </div>
-                    
-                    <!-- File List (for server files only) -->
-                    <div id="file-list" class="file-list"></div>
                 </div>
             </div>
 
@@ -133,10 +424,6 @@
                     </div>
                     <button id="decision-analyze-btn">Analyze Decision</button>
                     <div id="decision-result" class="result-box"></div>
-                    <div id="decision-export-buttons" class="export-buttons" style="display: none; margin-top: 10px;">
-                        <button class="export-btn" onclick="exportDecision('excel')">📊 Export to Excel</button>
-                        <button class="export-btn" onclick="exportDecision('pdf')">📄 Export to PDF</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -145,6 +432,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Global variables for file management
+            let selectedFiles = [];
+            let uploadedFileData = [];
+            
             // Tab switching
             $('.tab-btn').on('click', function() {
                 const tab = $(this).data('tab');
@@ -152,42 +443,74 @@
                 $('.tab-content').removeClass('active');
                 $(this).addClass('active');
                 $(`#${tab}-tab`).addClass('active');
+                
+                // Load paths when Path Manager tab is opened
+                if (tab === 'paths') {
+                    loadConfiguredPaths();
+                }
             });
 
             // Chat functionality
+            let messageCounter = 0;
+            
             function sendMessage() {
                 const prompt = $('#prompt-input').val().trim();
                 if (!prompt) return;
 
                 $('#chat-history').append(`<div class="message user-message">${prompt}</div>`);
                 $('#prompt-input').val('');
-
-                // Prepare request data with browsed file context if available
-                const requestData = { 
-                    prompt: prompt, 
-                    use_context: true 
-                };
                 
-                // Check if user has browsed a file
-                if (currentFileContent && currentFileName) {
-                    requestData.browsed_file = {
-                        name: currentFileName,
-                        content: currentFileContent,
-                        source: currentFileSource
-                    };
-                    console.log('Sending with browsed file:', currentFileName);
-                }
+                // Show thinking indicator
+                const thinkingId = 'thinking-' + Date.now();
+                $('#chat-history').append(`
+                    <div class="thinking-indicator" id="${thinkingId}">
+                        <div class="thinking-spinner"></div>
+                        <span>Gemini is thinking...</span>
+                    </div>
+                `);
+                $('#chat-history').scrollTop($('#chat-history')[0].scrollHeight);
 
                 $.ajax({
                     url: '/ask',
                     method: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify(requestData),
+                    data: JSON.stringify({ prompt: prompt, use_context: true }),
                     success: function(data) {
-                        $('#chat-history').append(`<div class="message bot-message">${data.response}</div>`);
+                        // Remove thinking indicator
+                        $('#' + thinkingId).remove();
+                        
+                        // Add message with unique ID and export buttons
+                        const messageId = 'msg-' + (++messageCounter);
+                        $('#chat-history').append(`
+                            <div class="message bot-message" id="${messageId}">
+                                <div class="message-content">${data.response}</div>
+                                <div class="export-buttons">
+                                    <button class="export-btn" onclick="exportToPDF('${messageId}')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                                            <polyline points="17 21 17 13 7 13 7 21"/>
+                                            <polyline points="7 3 7 8 15 8"/>
+                                        </svg>
+                                        PDF
+                                    </button>
+                                    <button class="export-btn" onclick="exportToDOC('${messageId}')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                            <polyline points="14 2 14 8 20 8"/>
+                                            <line x1="16" y1="13" x2="8" y2="13"/>
+                                            <line x1="16" y1="17" x2="8" y2="17"/>
+                                            <polyline points="10 9 9 9 8 9"/>
+                                        </svg>
+                                        DOC
+                                    </button>
+                                </div>
+                            </div>
+                        `);
                         $('#chat-history').scrollTop($('#chat-history')[0].scrollHeight);
                     },
                     error: function() {
+                        // Remove thinking indicator
+                        $('#' + thinkingId).remove();
                         $('#chat-history').append('<div class="message error-message">Error occurred</div>');
                     }
                 });
@@ -218,277 +541,120 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ data: data, type: type }),
                     success: function(response) {
-                        $('#analysis-result').html(`<h3>Analysis Result:</h3>${response.analysis}`);
-                        $('#analysis-export-buttons').show();
-                        
-                        // Store analysis data for export
-                        window.lastAnalysisData = {
-                            title: `Data Analysis Report - ${type}`,
-                            analysis: response.analysis,
-                            insights: extractInsights(response.analysis),
-                            recommendations: extractRecommendations(response.analysis),
-                            source: 'Data Analysis Tool'
-                        };
+                        $('#analysis-result').html(`<h3>Analysis Result:</h3><pre>${response.analysis}</pre>`);
                     }
                 });
             });
 
-            // File search functionality
-            $('#search-files-btn').on('click', function() {
-                const query = $('#file-search').val();
-                if (!query) {
-                    alert('Please enter a search query');
-                    return;
-                }
-                $.get(`/files/search?q=${query}`, function(data) {
-                    let html = '<h3>🔍 Search Results:</h3><ul>';
-                    if (data.files && data.files.length > 0) {
-                        data.files.forEach(file => {
-                            const fileName = file.split('/').pop();
-                            html += `<li class="file-item" data-path="${file}"><span class="file-icon">📄</span> ${fileName}<br><small style="color: #666;">${file}</small></li>`;
-                        });
-                    } else {
-                        html += '<li>No files found</li>';
-                    }
-                    html += '</ul>';
-                    $('#file-list').html(html);
-                }).fail(function(xhr) {
-                    alert('Error searching files: ' + (xhr.responseJSON?.error || 'Unknown error'));
-                });
-            });
+            // ==================== FILE BROWSER FUNCTIONALITY ====================
             
-            // Browse local files functionality
-            $('#browse-btn').on('click', function() {
+            // Browse files button
+            $('#browse-files-btn').on('click', function() {
                 $('#file-upload-input').click();
             });
             
-            $('#file-upload-input').on('change', function() {
-                const files = this.files;
-                if (files.length === 0) return;
-                
-                // Hide server file list and search results when browsing local files
-                $('#file-list').html('');
-                $('#file-search').val('');
-                
-                let html = '<h3>📂 Selected Files:</h3><ul>';
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    html += `<li class="file-item browsed-file" data-index="${i}">
-                        <span class="file-icon">📄</span> ${file.name}
-                        <br><small style="color: #666;">Size: ${formatFileSize(file.size)} | Type: ${file.type || 'Unknown'}</small>
-                    </li>`;
+            // Handle file selection
+            $('#file-upload-input').on('change', function(e) {
+                selectedFiles = Array.from(e.target.files);
+                displaySelectedFiles();
+            });
+            
+            // Display selected files
+            function displaySelectedFiles() {
+                if (selectedFiles.length === 0) {
+                    $('#selected-files-display').hide();
+                    return;
                 }
+                
+                let html = '<ul style="list-style: none; padding: 0; margin: 0;">';
+                selectedFiles.forEach((file, index) => {
+                    const fileIcon = getFileIcon(file.name);
+                    const fileSize = formatFileSize(file.size);
+                    html += `
+                        <li style="padding: 8px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                            <span>${fileIcon} ${file.name} <small style="color: #999;">(${fileSize})</small></span>
+                            <button class="remove-file-btn small-btn" data-index="${index}">✖</button>
+                        </li>
+                    `;
+                });
                 html += '</ul>';
-                $('#selected-files-info').html(html);
                 
-                // Auto-select first file if only one file is selected
-                if (files.length === 1) {
-                    setTimeout(function() {
-                        $('.browsed-file').first().click();
-                    }, 100);
-                }
-            });
-            
-            // Handle browsed file click to read content
-            let currentFileContent = '';
-            let currentFileName = '';
-            let currentFileSource = ''; // Track if file is from 'browsed' or 'server'
-            
-            $(document).on('click', '.browsed-file', function() {
-                const index = $(this).data('index');
-                const file = document.getElementById('file-upload-input').files[index];
-                
-                if (file) {
-                    // Check if it's a PDF file
-                    if (file.name.toLowerCase().endsWith('.pdf')) {
-                        handlePDFFile(file);
-                    } else {
-                        handleTextFile(file);
-                    }
-                }
-            });
-            
-            // Handle text files
-            function handleTextFile(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const content = e.target.result;
-                    currentFileContent = content;
-                    currentFileName = file.name;
-                    currentFileSource = 'browsed';
-                    
-                    console.log('Browsed file loaded:', file.name, 'Size:', content.length);
-                    
-                    // Show file content
-                    $('#file-content').html(`
-                        <h3>📄 ${file.name}</h3>
-                        <div style="margin-bottom: 10px;">
-                            <strong>Size:</strong> ${formatFileSize(file.size)} | 
-                            <strong>Type:</strong> ${file.type || 'Text'} | 
-                            <strong>Modified:</strong> ${new Date(file.lastModified).toLocaleString()}
-                        </div>
-                        <pre>${escapeHtml(content.substring(0, 5000))}${content.length > 5000 ? '\n\n... (content truncated for display)' : ''}</pre>
-                    `).show();
-                    
-                    // Show AI section and clear previous insights
-                    $('#file-ai-section').show();
-                    $('#file-chat-history').html('');
-                    $('#file-ai-insights').html('');
-                };
-                reader.readAsText(file);
+                $('#selected-files-list').html(html);
+                $('#selected-files-display').show();
             }
             
-            // Handle PDF files
-            function handlePDFFile(file) {
-                currentFileName = file.name;
-                currentFileSource = 'browsed-pdf';
+            // Remove file from selection
+            $(document).on('click', '.remove-file-btn', function() {
+                const index = $(this).data('index');
+                selectedFiles.splice(index, 1);
+                displaySelectedFiles();
+            });
+            
+            // Clear selected files
+            $('#clear-selected-files-btn').on('click', function() {
+                selectedFiles = [];
+                $('#file-upload-input').val('');
+                displaySelectedFiles();
+            });
+            
+            // Upload and analyze files
+            $('#upload-files-btn').on('click', function() {
+                if (selectedFiles.length === 0) {
+                    alert('Please select files first');
+                    return;
+                }
                 
-                // Show loading message
-                $('#file-content').html(`
-                    <h3>📄 ${file.name}</h3>
-                    <div style="margin-bottom: 10px;">
-                        <strong>Size:</strong> ${formatFileSize(file.size)} | 
-                        <strong>Type:</strong> PDF Document | 
-                        <strong>Modified:</strong> ${new Date(file.lastModified).toLocaleString()}
-                    </div>
-                    <div class="loading">🔄 Extracting text from PDF using OCR...</div>
-                `).show();
-                
-                // Upload PDF for OCR extraction
                 const formData = new FormData();
-                formData.append('file', file);
+                selectedFiles.forEach(file => {
+                    formData.append('files', file);
+                });
+                
+                $(this).prop('disabled', true).text('⏳ Uploading...');
                 
                 $.ajax({
-                    url: '/extract-pdf-text',
+                    url: '/ai-chat/upload',
                     method: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        currentFileContent = response.text;
+                        uploadedFileData = response.files || [];
+                        displayFileContent(uploadedFileData);
+                        $('#file-ai-chat').show();
+                        $('#upload-files-btn').prop('disabled', false).text('⬆️ Upload & Analyze Files');
                         
-                        console.log('PDF text extracted:', file.name, 
-                                    'Method:', response.method, 
-                                    'Pages:', response.page_count,
-                                    'Chars:', response.text.length);
-                        
-                        // Show extracted text
-                        $('#file-content').html(`
-                            <h3>📄 ${file.name}</h3>
-                            <div style="margin-bottom: 10px;">
-                                <strong>Size:</strong> ${formatFileSize(file.size)} | 
-                                <strong>Type:</strong> PDF Document | 
-                                <strong>Pages:</strong> ${response.page_count} | 
-                                <strong>Extraction:</strong> ${response.method.toUpperCase()}
-                            </div>
-                            <div style="background: #e3f2fd; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                                ℹ️ <strong>OCR Status:</strong> Text extracted using ${response.method === 'ocr' ? 'Optical Character Recognition (scanned PDF)' : 'Direct Text Extraction (text-based PDF)'}
-                            </div>
-                            <pre>${escapeHtml(currentFileContent.substring(0, 5000))}${currentFileContent.length > 5000 ? '\n\n... (content truncated for display)' : ''}</pre>
-                        `);
-                        
-                        // Show AI section
-                        $('#file-ai-section').show();
-                        $('#file-chat-history').html('');
-                        $('#file-ai-insights').html('');
+                        // Show success message
+                        alert(`Successfully uploaded ${uploadedFileData.length} file(s)`);
                     },
                     error: function(xhr) {
-                        $('#file-content').html(`
-                            <h3>❌ Error Extracting PDF</h3>
-                            <p style="color: red;">${xhr.responseJSON?.error || 'Failed to extract text from PDF'}</p>
-                            <p>Make sure OCR dependencies are installed on the server.</p>
-                        `);
-                    }
-                });
-            }
-            
-            // Helper function to format file size
-            function formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-            }
-            
-            // Helper function to escape HTML
-            function escapeHtml(text) {
-                const div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
-            }
-
-            $(document).on('click', '.file-item', function() {
-                // Skip if it's a browsed file (handled separately)
-                if ($(this).hasClass('browsed-file')) return;
-                
-                const path = $(this).data('path');
-                $.ajax({
-                    url: '/files/read',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ path: path }),
-                    success: function(data) {
-                        currentFileContent = data.content;
-                        currentFileName = path.split('/').pop();
-                        currentFileSource = 'server';
-                        
-                        console.log('Server file loaded:', currentFileName, 'Size:', data.content.length);
-                        
-                        // Show file content
-                        $('#file-content').html(`
-                            <h3>📄 ${path}</h3>
-                            <pre>${data.content.substring(0, 5000)}${data.content.length > 5000 ? '\n\n... (content truncated for display)' : ''}</pre>
-                        `).show();
-                        
-                        // Show AI section
-                        $('#file-ai-section').show();
-                        $('#file-chat-history').html('');
-                        $('#file-ai-insights').html('');
-                    },
-                    error: function(xhr) {
-                        alert('Error reading file: ' + (xhr.responseJSON?.error || 'Unknown error'));
+                        alert('Error uploading files: ' + (xhr.responseJSON?.error || 'Unknown error'));
+                        $('#upload-files-btn').prop('disabled', false).text('⬆️ Upload & Analyze Files');
                     }
                 });
             });
             
-            // AI Analysis for File
-            $('#analyze-file-btn').on('click', function() {
-                if (!currentFileContent) {
-                    alert('Please select a file first');
-                    return;
-                }
+            // Display file content
+            function displayFileContent(files) {
+                if (!files || files.length === 0) return;
                 
-                console.log('Analyzing file:', currentFileName, 'Source:', currentFileSource, 'Content length:', currentFileContent.length);
-                
-                const btn = $(this);
-                btn.prop('disabled', true).text('🔄 Analyzing...');
-                
-                $.ajax({
-                    url: '/analyze-file',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ 
-                        filename: currentFileName,
-                        content: currentFileContent 
-                    }),
-                    success: function(response) {
-                        console.log('Analysis received for:', currentFileName);
-                        $('#file-ai-insights').html(`
-                            <div class="ai-insight-box">
-                                ${response.analysis}
-                            </div>
-                        `);
-                        btn.prop('disabled', false).text('🔍 Get AI Insights & Recommendations');
-                    },
-                    error: function(xhr) {
-                        alert('Error analyzing file: ' + (xhr.responseJSON?.error || 'Unknown error'));
-                        btn.prop('disabled', false).text('🔍 Get AI Insights & Recommendations');
-                    }
+                let html = '<div>';
+                files.forEach((file, index) => {
+                    const fileIcon = getFileIcon(file.filename);
+                    html += `
+                        <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <strong>${fileIcon} ${file.filename}</strong>
+                            <p style="margin: 5px 0; color: #666; font-size: 12px;">Type: ${file.type} | Size: ${formatFileSize(file.size)}</p>
+                            ${file.preview ? `<div style="max-height: 150px; overflow-y: auto; background: #f9f9f9; padding: 10px; border-radius: 4px; margin-top: 5px;"><pre style="margin: 0; white-space: pre-wrap; font-size: 12px;">${escapeHtml(file.preview)}</pre></div>` : ''}
+                        </div>
+                    `;
                 });
-            });
+                html += '</div>';
+                
+                $('#file-content').html(html);
+                $('#file-content-viewer').show();
+            }
             
-            // File Chat Send
+            // File AI chat
             $('#file-chat-send-btn').on('click', function() {
                 sendFileChat();
             });
@@ -501,60 +667,265 @@
             });
             
             function sendFileChat() {
-                const question = $('#file-chat-input').val().trim();
-                if (!question || !currentFileContent) return;
+                const message = $('#file-chat-input').val().trim();
+                if (!message) return;
                 
-                console.log('Chatting about file:', currentFileName, 'Source:', currentFileSource, 'Content length:', currentFileContent.length);
-                
-                // Add user message
-                $('#file-chat-history').append(`
-                    <div class="chat-message user-message">
-                        <strong>You:</strong> ${escapeHtml(question)}
-                    </div>
-                `);
+                $('#file-chat-history').append(`<div style="margin-bottom: 10px;"><strong>You:</strong> ${escapeHtml(message)}</div>`);
                 $('#file-chat-input').val('');
                 
-                // Send to AI
                 $.ajax({
-                    url: '/chat-about-file',
+                    url: '/ask',
                     method: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({
-                        filename: currentFileName,
-                        content: currentFileContent,
-                        question: question
+                    data: JSON.stringify({ 
+                        prompt: message, 
+                        use_context: true,
+                        file_context: uploadedFileData.map(f => ({ filename: f.filename, content: f.preview }))
                     }),
-                    success: function(response) {
-                        console.log('Chat response received for:', currentFileName);
-                        $('#file-chat-history').append(`
-                            <div class="chat-message bot-message">
-                                <strong>AI:</strong> ${response.answer}
-                            </div>
-                        `);
+                    success: function(data) {
+                        $('#file-chat-history').append(`<div style="margin-bottom: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px;"><strong>AI:</strong> ${data.response}</div>`);
                         $('#file-chat-history').scrollTop($('#file-chat-history')[0].scrollHeight);
                     },
+                    error: function() {
+                        $('#file-chat-history').append('<div style="color: red;">Error occurred</div>');
+                    }
+                });
+            }
+
+            // Server file search functionality
+            $('#search-files-btn').on('click', function() {
+                const query = $('#file-search').val();
+                $.get(`/files/search?q=${query}`, function(data) {
+                    let html = '<h3>Search Results:</h3><ul>';
+                    data.files.forEach(file => {
+                        html += `<li class="file-item" data-path="${file}">${file}</li>`;
+                    });
+                    html += '</ul>';
+                    $('#file-list').html(html);
+                });
+            });
+
+            $(document).on('click', '.file-item', function() {
+                const path = $(this).data('path');
+                $.ajax({
+                    url: '/files/read',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ path: path }),
+                    success: function(data) {
+                        $('#file-content').html(`<h3>${path}</h3><pre>${data.content}</pre>`);
+                        $('#file-content-viewer').show();
+                    }
+                });
+            });
+            
+            // ==================== PATH MANAGER FUNCTIONALITY ====================
+            
+            // Browse path button
+            $('#browse-path-btn').on('click', function() {
+                $('#path-folder-browser').click();
+            });
+            
+            // Handle folder selection
+            $('#path-folder-browser').on('change', function(e) {
+                if (e.target.files.length > 0) {
+                    const firstFile = e.target.files[0];
+                    const folderPath = firstFile.webkitRelativePath.split('/')[0];
+                    // For browser, we get relative path, need to show user
+                    $('#path-location').val(folderPath);
+                }
+            });
+            
+            // Validate path
+            $('#validate-path-btn').on('click', function() {
+                const pathLocation = $('#path-location').val().trim();
+                if (!pathLocation) {
+                    showPathValidation('error', 'Please enter a path location');
+                    return;
+                }
+                
+                $.ajax({
+                    url: '/api/paths/validate',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ path: pathLocation }),
+                    success: function(response) {
+                        if (response.valid) {
+                            showPathValidation('success', `✓ Valid path: ${response.message}`);
+                        } else {
+                            showPathValidation('error', `✗ Invalid path: ${response.message}`);
+                        }
+                    },
+                    error: function() {
+                        showPathValidation('error', 'Error validating path');
+                    }
+                });
+            });
+            
+            // Add path
+            $('#add-path-btn').on('click', function() {
+                const name = $('#path-name').val().trim();
+                const location = $('#path-location').val().trim();
+                const description = $('#path-description').val().trim();
+                
+                if (!name || !location) {
+                    alert('Please provide path name and location');
+                    return;
+                }
+                
+                $.ajax({
+                    url: '/api/paths/add',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ name, location, description }),
+                    success: function(response) {
+                        alert('Path added successfully!');
+                        $('#path-name').val('');
+                        $('#path-location').val('');
+                        $('#path-description').val('');
+                        $('#path-validation-result').hide();
+                        loadConfiguredPaths();
+                    },
                     error: function(xhr) {
-                        $('#file-chat-history').append(`
-                            <div class="chat-message error-message">
-                                <strong>Error:</strong> ${xhr.responseJSON?.error || 'Unknown error'}
-                            </div>
-                        `);
+                        alert('Error adding path: ' + (xhr.responseJSON?.error || 'Unknown error'));
+                    }
+                });
+            });
+            
+            // Load configured paths
+            function loadConfiguredPaths() {
+                $.ajax({
+                    url: '/api/paths/',
+                    method: 'GET',
+                    success: function(response) {
+                        displayConfiguredPaths(response.paths || []);
+                    },
+                    error: function() {
+                        $('#configured-paths-list').html('<p style="text-align: center; color: #f44336;">Error loading paths</p>');
                     }
                 });
             }
             
-            $('#clear-file-chat-btn').on('click', function() {
-                $('#file-chat-history').html('');
-                $('#file-ai-insights').html('');
+            // Display configured paths
+            function displayConfiguredPaths(paths) {
+                if (paths.length === 0) {
+                    $('#configured-paths-list').html('<p style="text-align: center; color: #999;">No paths configured yet</p>');
+                    return;
+                }
+                
+                let html = '';
+                paths.forEach(path => {
+                    html += `
+                        <div style="padding: 15px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 10px; background: #fff;">
+                            <div style="display: flex; justify-content: space-between; align-items: start;">
+                                <div style="flex: 1;">
+                                    <strong style="font-size: 16px;">📁 ${escapeHtml(path.name)}</strong>
+                                    <p style="margin: 5px 0; color: #666; font-size: 14px;">${escapeHtml(path.location)}</p>
+                                    ${path.description ? `<p style="margin: 5px 0; color: #999; font-size: 13px;">${escapeHtml(path.description)}</p>` : ''}
+                                    <small style="color: #999;">Added: ${new Date(path.created_at).toLocaleString()}</small>
+                                </div>
+                                <div style="display: flex; gap: 5px;">
+                                    <button class="scan-path-btn small-btn" data-id="${path.id}">🔍 Scan</button>
+                                    <button class="remove-path-btn small-btn" data-id="${path.id}" style="background: #f44336; color: white;">🗑️ Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                $('#configured-paths-list').html(html);
+            }
+            
+            // Scan path
+            $(document).on('click', '.scan-path-btn', function() {
+                const pathId = $(this).data('id');
+                $(this).prop('disabled', true).text('⏳ Scanning...');
+                
+                $.ajax({
+                    url: `/api/paths/${pathId}/scan`,
+                    method: 'POST',
+                    success: function(response) {
+                        alert(`Scan complete!\nFiles found: ${response.files_found || 0}`);
+                        loadConfiguredPaths();
+                    },
+                    error: function(xhr) {
+                        alert('Error scanning path: ' + (xhr.responseJSON?.error || 'Unknown error'));
+                        loadConfiguredPaths();
+                    }
+                });
             });
-
+            
+            // Remove path
+            $(document).on('click', '.remove-path-btn', function() {
+                if (!confirm('Are you sure you want to remove this path?')) return;
+                
+                const pathId = $(this).data('id');
+                
+                $.ajax({
+                    url: `/api/paths/${pathId}`,
+                    method: 'DELETE',
+                    success: function() {
+                        alert('Path removed successfully');
+                        loadConfiguredPaths();
+                    },
+                    error: function(xhr) {
+                        alert('Error removing path: ' + (xhr.responseJSON?.error || 'Unknown error'));
+                    }
+                });
+            });
+            
+            // Refresh paths
+            $('#refresh-paths-btn').on('click', function() {
+                loadConfiguredPaths();
+            });
+            
+            // Show path validation result
+            function showPathValidation(type, message) {
+                const resultDiv = $('#path-validation-result');
+                resultDiv.show();
+                resultDiv.removeClass('success error');
+                
+                if (type === 'success') {
+                    resultDiv.css({'background': '#e8f5e9', 'color': '#2e7d32', 'border': '1px solid #4caf50'});
+                } else {
+                    resultDiv.css({'background': '#ffebee', 'color': '#c62828', 'border': '1px solid #f44336'});
+                }
+                
+                resultDiv.html(message);
+            }
+            
+            // ==================== HELPER FUNCTIONS ====================
+            
+            function getFileIcon(filename) {
+                const ext = filename.split('.').pop().toLowerCase();
+                const icons = {
+                    'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️', 'gif': '🖼️', 'bmp': '🖼️',
+                    'xlsx': '📊', 'xls': '📊', 'csv': '📊',
+                    'doc': '📄', 'docx': '📄',
+                    'pdf': '📕',
+                    'txt': '📝', 'md': '📝',
+                    'json': '📋'
+                };
+                return icons[ext] || '📄';
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes < 1024) return bytes + ' B';
+                if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+                return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+            }
+            
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
 
             // Decision support functionality
             $('#add-option-btn').on('click', function() {
                 const count = $('.option-input').length + 1;
                 $('#options-container').append(`<input type="text" class="option-input" placeholder="Option ${count}">`);
             });
-
 
             $('#decision-analyze-btn').on('click', function() {
                 const decision = $('#decision-title').val();
@@ -569,118 +940,66 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ decision, context, options }),
                     success: function(data) {
-                        $('#decision-result').html(`<h3>Decision Analysis:</h3>${data.analysis}`);
-                        $('#decision-export-buttons').show();
-                        
-                        // Store decision data for export
-                        window.lastDecisionData = {
-                            title: `Decision Analysis: ${decision}`,
-                            analysis: data.analysis,
-                            insights: extractInsights(data.analysis),
-                            recommendations: extractRecommendations(data.analysis),
-                            source: 'Decision Support Tool'
-                        };
+                        $('#decision-result').html(`<h3>Decision Analysis:</h3><pre>${data.analysis}</pre>`);
                     }
                 });
             });
-            
-            // Helper function to extract insights from HTML content
-            window.extractInsights = function(html) {
-                const insights = [];
-                const tempDiv = $('<div>').html(html);
-                
-                // Look for insights section
-                tempDiv.find('p, li').each(function() {
-                    const text = $(this).text().trim();
-                    if (text.toLowerCase().includes('insight') || 
-                        text.toLowerCase().includes('finding') ||
-                        text.toLowerCase().includes('pattern')) {
-                        insights.push(text);
-                    }
-                });
-                
-                return insights.length > 0 ? insights : [html];
-            };
-            
-            // Helper function to extract recommendations from HTML content
-            window.extractRecommendations = function(html) {
-                const recommendations = [];
-                const tempDiv = $('<div>').html(html);
-                
-                // Look for recommendations section
-                tempDiv.find('p, li').each(function() {
-                    const text = $(this).text().trim();
-                    if (text.toLowerCase().includes('recommend') || 
-                        text.toLowerCase().includes('suggest') ||
-                        text.toLowerCase().includes('action')) {
-                        recommendations.push(text);
-                    }
-                });
-                
-                return recommendations.length > 0 ? recommendations : [html];
-            };
-            
-            // Export analysis data
-            window.exportAnalysis = function(format) {
-                if (!window.lastAnalysisData) {
-                    alert('No analysis data available to export');
-                    return;
-                }
-                
-                exportData(window.lastAnalysisData, format);
-            };
-            
-            // Export decision data
-            window.exportDecision = function(format) {
-                if (!window.lastDecisionData) {
-                    alert('No decision analysis available to export');
-                    return;
-                }
-                
-                exportData(window.lastDecisionData, format);
-            };
-            
-            // Generic export function
-            function exportData(data, format) {
-                const button = event.target;
-                button.disabled = true;
-                button.innerHTML = format === 'excel' ? '⏳ Generating Excel...' : '⏳ Generating PDF...';
-                
-                $.ajax({
-                    url: `/export/${format}`,
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    xhrFields: {
-                        responseType: 'blob'
-                    },
-                    success: function(blob) {
-                        // Create download link
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.style.display = 'none';
-                        a.href = url;
-                        a.download = `AI_Analysis_${new Date().getTime()}.${format === 'excel' ? 'xlsx' : 'pdf'}`;
-                        document.body.appendChild(a);
-                        a.click();
-                        window.URL.revokeObjectURL(url);
-                        document.body.removeChild(a);
-                        
-                        button.disabled = false;
-                        button.innerHTML = format === 'excel' ? '📊 Export to Excel' : '📄 Export to PDF';
-                    },
-                    error: function(xhr) {
-                        alert(`Export failed: ${xhr.responseJSON?.error || 'Unknown error'}`);
-                        button.disabled = false;
-                        button.innerHTML = format === 'excel' ? '📊 Export to Excel' : '📄 Export to PDF';
-                    }
-                });
-            }
         });
+        
+        // Export functions (defined globally)
+        function exportToPDF(messageId) {
+            const messageElement = document.getElementById(messageId);
+            const content = messageElement.querySelector('.message-content').innerText;
+            
+            // Create a simple text-based PDF download
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `gemini-response-${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Note: For actual PDF generation, you would need a library like jsPDF
+            // For now, this downloads as text file
+        }
+        
+        function exportToDOC(messageId) {
+            const messageElement = document.getElementById(messageId);
+            const content = messageElement.querySelector('.message-content').innerHTML;
+            
+            // Create a simple HTML document for Word
+            const html = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="utf-8">
+                    <title>Gemini Response</title>
+                </head>
+                <body>
+                    ${content}
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([html], { 
+                type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `gemini-response-${Date.now()}.doc`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
     </script>
 
     <footer class="app-footer">
-        <p>💡 Developed by DSR | ✨ Inspired by LA | 🤖 Powered by Gemini AI</p>
+        <p>DSR | LA | Gemini AI</p>
     </footer>
 </body>
 </html>
