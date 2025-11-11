@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Mart AI Chat - Context-Aware Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chat-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .context-selector {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .context-selector select,
+        .context-selector input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .context-selector label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .context-selector input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.user {
+            align-items: flex-end;
+        }
+
+        .message.ai {
+            align-items: flex-start;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+        }
+
+        .message.ai .message-content {
+            background: white;
+            color: #333;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .progress-indicator {
+            display: none;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .progress-indicator.active {
+            display: flex;
+        }
+
+        .progress-content {
+            background: #e3f2fd;
+            border-left: 3px solid #2196F3;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1976D2;
+            max-width: 75%;
+        }
+
+        .progress-steps {
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .progress-step {
+            margin: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .progress-step::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+        }
+
+        .progress-step.complete {
+            color: #4CAF50;
+        }
+
+        .progress-step.active {
+            color: #2196F3;
+            font-weight: 600;
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #667eea;
+        }
+
+        .input-group button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .input-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .input-group button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .context-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #e3f2fd;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #1976D2;
+            margin: 4px;
+        }
+
+        .weather-info {
+            background: #fff3e0;
+            border-left: 3px solid #ff9800;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            padding: 6px 12px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-action-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🤖 V-Mart AI Assistant</h1>
+            <p>Context-aware insights with live weather & competitor analysis</p>
+        </div>
+
+        <div class="context-selector">
+            <select id="storeSelect">
+                <option value="">All Stores</option>
+                <option value="VM_DL_001">Delhi - Select Citywalk</option>
+                <option value="VM_GG_001">Gurgaon - Cyber Hub</option>
+                <option value="VM_ND_001">Noida - DLF Mall</option>
+                <option value="VM_MB_001">Mumbai - Phoenix Palladium</option>
+                <option value="VM_MB_002">Thane - Viviana Mall</option>
+                <option value="VM_BN_001">Bangalore - Orion Mall</option>
+                <option value="VM_BN_002">Bangalore - Phoenix Marketcity</option>
+                <option value="VM_HY_001">Hyderabad - Inorbit Mall</option>
+                <option value="VM_CH_001">Chennai - Express Avenue</option>
+                <option value="VM_PN_001">Pune - Phoenix Marketcity</option>
+                <option value="VM_KL_001">Kolkata - Quest Mall</option>
+            </select>
+
+            <label>
+                <input type="checkbox" id="weatherCheck" checked>
+                🌤️ Weather
+            </label>
+
+            <label>
+                <input type="checkbox" id="competitorCheck" checked>
+                🏪 Competitors
+            </label>
+
+            <label>
+                <input type="checkbox" id="analyticsCheck">
+                📊 Analytics
+            </label>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai">
+                <div class="message-content">
+                    👋 Hello! I'm your V-Mart AI Assistant with real-time context awareness.
+                    <br><br>
+                    <strong>I can help you with:</strong>
+                    <ul style="margin-top: 8px; padding-left: 20px;">
+                        <li>🌤️ Weather impact on sales and operations</li>
+                        <li>🏪 Competitive analysis and positioning</li>
+                        <li>📍 Store-specific insights and recommendations</li>
+                        <li>📊 Data-driven business decisions</li>
+                    </ul>
+                    <br>
+                    <strong>Select a store above and ask me anything!</strong>
+                </div>
+                <span class="message-time">Just now</span>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-action-btn" onclick="askQuestion('How will today\'s weather affect sales?')">
+                    🌤️ Weather Impact
+                </button>
+                <button class="quick-action-btn" onclick="askQuestion('What is the competitive situation?')">
+                    🏪 Competition Analysis
+                </button>
+                <button class="quick-action-btn" onclick="askQuestion('Give me a daily briefing')">
+                    📋 Daily Briefing
+                </button>
+                <button class="quick-action-btn" onclick="askQuestion('What products should I focus on today?')">
+                    🎯 Product Focus
+                </button>
+            </div>
+        </div>
+
+        <div class="progress-indicator" id="progressIndicator">
+            <div class="progress-content">
+                <div id="progressMessage">🔄 Processing...</div>
+                <div class="progress-steps" id="progressSteps"></div>
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    placeholder="Ask about weather, competitors, sales strategies..."
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button onclick="sendMessage()" id="sendButton">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let progressSteps = [];
+
+        function addMessage(content, type = 'ai', showTime = true) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = content;
+            
+            messageDiv.appendChild(contentDiv);
+            
+            if (showTime) {
+                const timeSpan = document.createElement('span');
+                timeSpan.className = 'message-time';
+                timeSpan.textContent = new Date().toLocaleTimeString();
+                messageDiv.appendChild(timeSpan);
+            }
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function showProgress(message) {
+            const indicator = document.getElementById('progressIndicator');
+            const messageEl = document.getElementById('progressMessage');
+            const stepsEl = document.getElementById('progressSteps');
+            
+            indicator.classList.add('active');
+            messageEl.textContent = message;
+            
+            // Add step to progress
+            progressSteps.push(message);
+            stepsEl.innerHTML = progressSteps.map((step, index) => {
+                const isComplete = index < progressSteps.length - 1;
+                const isActive = index === progressSteps.length - 1;
+                return `<div class="progress-step ${isComplete ? 'complete' : ''} ${isActive ? 'active' : ''}">${step}</div>`;
+            }).join('');
+            
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideProgress() {
+            const indicator = document.getElementById('progressIndicator');
+            indicator.classList.remove('active');
+            progressSteps = [];
+        }
+
+        function getContextBadges() {
+            const storeId = document.getElementById('storeSelect').value;
+            const weather = document.getElementById('weatherCheck').checked;
+            const competitor = document.getElementById('competitorCheck').checked;
+            const analytics = document.getElementById('analyticsCheck').checked;
+            
+            let badges = [];
+            if (storeId) badges.push(`📍 Store: ${storeId}`);
+            if (weather) badges.push('🌤️ Weather');
+            if (competitor) badges.push('🏪 Competitors');
+            if (analytics) badges.push('📊 Analytics');
+            
+            return badges.map(b => `<span class="context-badge">${b}</span>`).join('');
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            // Add user message
+            addMessage(question, 'user');
+            input.value = '';
+            
+            // Disable send button
+            const sendBtn = document.getElementById('sendButton');
+            sendBtn.disabled = true;
+            
+            // Get context settings
+            const storeId = document.getElementById('storeSelect').value;
+            const includeWeather = document.getElementById('weatherCheck').checked;
+            const includeCompetitors = document.getElementById('competitorCheck').checked;
+            const includeAnalytics = document.getElementById('analyticsCheck').checked;
+            
+            try {
+                // Use EventSource for streaming response
+                const queryParams = new URLSearchParams({
+                    question,
+                    ...(storeId && { store_id: storeId }),
+                    include_weather: includeWeather,
+                    include_competitors: includeCompetitors,
+                    include_analytics: includeAnalytics
+                });
+                
+                const eventSource = new EventSource(`/ai-chat/ask-stream?${queryParams}`);
+                
+                let responseText = '';
+                
+                eventSource.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    
+                    if (data.type === 'progress') {
+                        showProgress(data.message);
+                    } else if (data.type === 'response') {
+                        hideProgress();
+                        responseText = data.message;
+                        const contextBadges = getContextBadges();
+                        addMessage(`${contextBadges}<br><br>${responseText}`);
+                    } else if (data.type === 'complete') {
+                        eventSource.close();
+                        sendBtn.disabled = false;
+                    } else if (data.type === 'error') {
+                        hideProgress();
+                        addMessage(`❌ Error: ${data.message}`);
+                        eventSource.close();
+                        sendBtn.disabled = false;
+                    }
+                };
+                
+                eventSource.onerror = function() {
+                    hideProgress();
+                    addMessage('❌ Connection error. Please try again.');
+                    eventSource.close();
+                    sendBtn.disabled = false;
+                };
+                
+            } catch (error) {
+                hideProgress();
+                addMessage(`❌ Error: ${error.message}`);
+                sendBtn.disabled = false;
+            }
+        }
+
+        function askQuestion(question) {
+            document.getElementById('messageInput').value = question;
+            sendMessage();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Auto-focus input
+        document.getElementById('messageInput').focus();
+    </script>
+</body>
+</html>

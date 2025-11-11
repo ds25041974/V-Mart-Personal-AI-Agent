@@ -300,20 +300,83 @@ header h1 {
 }
 
 .user-message {
-    background: var(--primary-gradient);
-    color: white;
+    background: white;
+    color: #000000;
     margin-left: auto;
     text-align: right;
+    border: 1px solid #ddd;
     border-bottom-right-radius: 4px;
-    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+    box-shadow: var(--shadow);
 }
 
 .bot-message {
     background: white;
-    color: var(--text-dark);
+    color: #2196F3;
     border: 1px solid var(--border-color);
     border-bottom-left-radius: 4px;
     box-shadow: var(--shadow);
+}
+
+/* Enhanced formatting for AI responses */
+.bot-message p {
+    margin: 0 0 12px 0;
+    line-height: 1.7;
+    color: #2196F3;
+}
+
+.bot-message p:last-child {
+    margin-bottom: 0;
+}
+
+.bot-message strong, .bot-message h4 {
+    color: #667eea;
+    font-weight: 600;
+    display: block;
+    margin: 16px 0 8px 0;
+    font-size: 16px;
+}
+
+.bot-message h4:first-child {
+    margin-top: 0;
+}
+
+.bot-message table {
+    width: 100%;
+    margin: 15px 0;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.bot-message table th {
+    background: #667eea;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #ddd;
+}
+
+.bot-message table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+.bot-message table tr:nth-child(even) td {
+    background: white;
+}
+
+.bot-message table tr:hover td {
+    background: #f0f4ff;
+}
+
+.bot-message ul, .bot-message ol {
+    margin: 10px 0 10px 20px;
+    line-height: 1.8;
+}
+
+.bot-message li {
+    margin: 5px 0;
 }
 
 .error-message {
@@ -571,17 +634,29 @@ button:active {
     padding: 15px;
     margin-bottom: 20px;
     min-height: 100px;
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
 }
 
 .ai-insight-box {
     color: #333;
+    line-height: 1.7;
 }
 
 .ai-insight-box h4 {
     color: #667eea;
-    margin-bottom: 10px;
+    margin: 16px 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ai-insight-box h4:first-child {
+    margin-top: 0;
+}
+
+.ai-insight-box p {
+    margin: 0 0 12px 0;
+    line-height: 1.7;
 }
 
 .ai-insight-box pre {
@@ -589,6 +664,41 @@ button:active {
     word-wrap: break-word;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.ai-insight-box table {
+    width: 100%;
+    margin: 15px 0;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.ai-insight-box table th {
+    background: #667eea;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #ddd;
+}
+
+.ai-insight-box table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+.ai-insight-box table tr:nth-child(even) td {
+    background: white;
+}
+
+.ai-insight-box strong {
+    color: #667eea;
+    font-weight: 600;
 }
 
 .file-chat-container {
@@ -876,10 +986,61 @@ button:active {
     letter-spacing: 0.3px;
 }
 
+/* Export Buttons */
+.export-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+.export-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+}
+
+.export-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);
+}
+
+.export-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* Responsive Footer */
 @media (max-width: 768px) {
     .app-footer {
         padding: 12px 15px;
         font-size: 11px;
+    }
+    
+    .export-buttons {
+        flex-direction: column;
+    }
+    
+    .export-btn {
+        width: 100%;
+        justify-content: center;
     }
 }

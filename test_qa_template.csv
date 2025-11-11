@@ -1,0 +1,6 @@
+store_id,store_name,address,city,state,pincode,phone,manager_name,manager_email
+VM_DEL_001,V-Mart Delhi Store 1,"Sample Address 1, Delhi",Delhi,Delhi,110001,+91-9000000000,Manager 1,manager1@vmart.co.in
+VM_MUM_002,V-Mart Mumbai Store 2,"Sample Address 2, Mumbai",Mumbai,Maharashtra,400001,+91-9000000001,Manager 2,manager2@vmart.co.in
+VM_BAN_003,V-Mart Bangalore Store 3,"Sample Address 3, Bangalore",Bangalore,Karnataka,560001,+91-9000000002,Manager 3,manager3@vmart.co.in
+VM_KOL_004,V-Mart Kolkata Store 4,"Sample Address 4, Kolkata",Kolkata,West Bengal,700001,+91-9000000003,Manager 4,manager4@vmart.co.in
+VM_CHE_005,V-Mart Chennai Store 5,"Sample Address 5, Chennai",Chennai,Tamil Nadu,600001,+91-9000000004,Manager 5,manager5@vmart.co.in

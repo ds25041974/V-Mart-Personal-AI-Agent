@@ -8,9 +8,12 @@ Powered by: Gemini AI
 """
 
 import json
-from typing import Dict, List, Optional
+import time
+from typing import Callable, Dict, List, Optional
 
 import google.generativeai as genai
+
+from .context_manager import AIContextManager
 
 
 class GeminiAgent:
@@ -31,40 +34,158 @@ class GeminiAgent:
         self.conversation_history: List[Dict] = []
         self.max_history = 10
 
+        # AI Context Manager for store, weather, and competitor data
+        try:
+            self.context_manager = AIContextManager()
+        except Exception as e:
+            print(f"Warning: AI Context Manager initialization failed: {e}")
+            self.context_manager = None
+
         # System prompt for V-Mart context
         self.system_prompt = """You are a highly intelligent AI assistant for V-Mart Retail. 
         Your role is to help with business decisions, data analysis, and daily operations.
         You should be professional, analytical, and provide actionable recommendations.
-        Always consider V-Mart's retail context when providing responses."""
+        Always consider V-Mart's retail context when providing responses.
+        
+        When provided with store location, weather, and competitor data, ALWAYS analyze:
+        1. How weather conditions may affect customer footfall and sales
+        2. Competitive pressure from nearby stores
+        3. Location-specific opportunities and challenges
+        4. Data-driven recommendations for optimizing performance
+        
+        Use a reasoning approach:
+        - Break down complex questions into steps
+        - Cite specific data points from the context
+        - Explain your thought process
+        - Provide actionable recommendations with clear rationale"""
 
-    def get_response(self, prompt: str, use_context: bool = True) -> str:
+    def get_response(
+        self,
+        prompt: str,
+        use_context: bool = True,
+        analytics_context: Optional[str] = None,
+        store_id: Optional[str] = None,
+        city: Optional[str] = None,
+        include_weather: bool = True,
+        include_competitors: bool = True,
+        progress_callback: Optional[Callable[[str], None]] = None,
+    ) -> str:
         """
-        Gets a response from the Gemini LLM with context awareness.
+        Gets a response from the Gemini LLM with context awareness and retry logic.
 
         Args:
             prompt (str): The prompt to send to the LLM.
             use_context (bool): Whether to use conversation history.
+            analytics_context (str): Optional analytics data context to include.
+            store_id (str): Optional store ID to include location/weather/competitor context.
+            city (str): Optional city name for city-level context.
+            include_weather (bool): Include weather data in context.
+            include_competitors (bool): Include competitor data in context.
+            progress_callback (Callable): Optional callback function for progress updates.
 
         Returns:
             str: The response from the LLM.
         """
-        try:
-            if use_context and self.conversation_history:
-                # Build context-aware prompt
-                context = self._build_context()
-                full_prompt = f"{self.system_prompt}\n\nPrevious conversation:\n{context}\n\nUser: {prompt}"
-            else:
-                full_prompt = f"{self.system_prompt}\n\nUser: {prompt}"
+        max_retries = 5
+        base_delay = 2  # Start with 2 seconds
 
-            response = self.chat_model.generate_content(full_prompt)
-            response_text = response.text
+        def send_progress(message: str):
+            """Send progress update if callback is provided"""
+            if progress_callback:
+                progress_callback(message)
 
-            # Update conversation history
-            self._update_history(prompt, response_text)
+        for attempt in range(max_retries):
+            try:
+                send_progress("🔄 Gathering context data...")
 
-            return response_text
-        except Exception as e:
-            return f"An error occurred: {e}"
+                # Build full prompt with all contexts
+                prompt_parts = [self.system_prompt]
+
+                # Add store/weather/competitor context if requested
+                if self.context_manager and (store_id or city):
+                    send_progress("📍 Loading store location data...")
+
+                    if store_id:
+                        context_str = self.context_manager.format_context_for_ai(
+                            store_id=store_id
+                        )
+                        if context_str:
+                            prompt_parts.append(context_str)
+                            send_progress("✅ Store context loaded")
+                    elif city:
+                        context_str = self.context_manager.format_context_for_ai(
+                            city=city
+                        )
+                        if context_str:
+                            prompt_parts.append(context_str)
+                            send_progress("✅ City context loaded")
+
+                # Add analytics context if provided
+                if analytics_context:
+                    send_progress("📊 Loading analytics data...")
+                    prompt_parts.append(
+                        "\n=== CURRENT ANALYTICS DATA ===\n"
+                        + analytics_context
+                        + "\n=== END ANALYTICS DATA ===\n"
+                    )
+                    prompt_parts.append(
+                        "Use the analytics data above to provide data-driven insights and recommendations. "
+                        "Cite specific numbers and trends from the data when making recommendations."
+                    )
+                    send_progress("✅ Analytics data loaded")
+
+                # Add conversation history if requested
+                if use_context and self.conversation_history:
+                    send_progress("💭 Loading conversation history...")
+                    context = self._build_context()
+                    prompt_parts.append(f"\nPrevious conversation:\n{context}")
+
+                # Add user prompt
+                prompt_parts.append(f"\nUser: {prompt}")
+                prompt_parts.append(
+                    "\nProvide your response with clear reasoning, citing specific data points from the context. "
+                    "Break down complex analysis into steps."
+                )
+
+                full_prompt = "\n".join(prompt_parts)
+
+                send_progress("🤖 AI is analyzing your question...")
+                send_progress("🧠 Applying reasoning to data...")
+
+                response = self.chat_model.generate_content(full_prompt)
+                response_text = response.text
+
+                send_progress("✅ Analysis complete!")
+
+                # Update conversation history
+                self._update_history(prompt, response_text)
+
+                return response_text
+
+            except Exception as e:
+                error_message = str(e)
+
+                # Check if it's a rate limit error (429)
+                if (
+                    "429" in error_message
+                    or "Resource exhausted" in error_message
+                    or "quota" in error_message.lower()
+                ):
+                    if attempt < max_retries - 1:
+                        # Exponential backoff: 2s, 4s, 8s, 16s, 32s
+                        delay = base_delay * (2**attempt)
+                        print(
+                            f"Rate limit hit. Retrying in {delay} seconds... (Attempt {attempt + 1}/{max_retries})"
+                        )
+                        time.sleep(delay)
+                        continue
+                    else:
+                        return "⚠️ Rate limit exceeded. The API is currently busy. Please try again in a few minutes.\n\nTip: Try reducing the frequency of requests or wait 60 seconds before trying again."
+                else:
+                    # For non-rate-limit errors, return immediately
+                    return f"An error occurred: {error_message}"
+
+        return "Maximum retry attempts reached. Please try again later."
 
     def analyze_data(self, data: str, analysis_type: str = "general") -> str:
         """
@@ -117,7 +238,7 @@ Provide your response in the following JSON format:
             # Try to parse JSON response
             try:
                 return json.loads(response)
-            except:
+            except json.JSONDecodeError:
                 # If not valid JSON, return structured text
                 return {"raw_response": response, "status": "unstructured"}
         except Exception as e:

@@ -1,0 +1,11 @@
+store_id,store_name,address,city,state,pincode,phone,manager_name,manager_email
+VM_DEL_001,V-Mart Delhi Store 1,"Sample Address 1, Delhi",Delhi,Delhi,110001,+91-9000000000,Manager 1,manager1@vmart.co.in
+VM_MUM_002,V-Mart Mumbai Store 2,"Sample Address 2, Mumbai",Mumbai,Maharashtra,400001,+91-9000000001,Manager 2,manager2@vmart.co.in
+VM_BAN_003,V-Mart Bangalore Store 3,"Sample Address 3, Bangalore",Bangalore,Karnataka,560001,+91-9000000002,Manager 3,manager3@vmart.co.in
+VM_KOL_004,V-Mart Kolkata Store 4,"Sample Address 4, Kolkata",Kolkata,West Bengal,700001,+91-9000000003,Manager 4,manager4@vmart.co.in
+VM_CHE_005,V-Mart Chennai Store 5,"Sample Address 5, Chennai",Chennai,Tamil Nadu,600001,+91-9000000004,Manager 5,manager5@vmart.co.in
+VM_HYD_006,V-Mart Hyderabad Store 6,"Sample Address 6, Hyderabad",Hyderabad,Telangana,500001,+91-9000000005,Manager 6,manager6@vmart.co.in
+VM_PUN_007,V-Mart Pune Store 7,"Sample Address 7, Pune",Pune,Maharashtra,411001,+91-9000000006,Manager 7,manager7@vmart.co.in
+VM_AHM_008,V-Mart Ahmedabad Store 8,"Sample Address 8, Ahmedabad",Ahmedabad,Gujarat,380001,+91-9000000007,Manager 8,manager8@vmart.co.in
+VM_JAI_009,V-Mart Jaipur Store 9,"Sample Address 9, Jaipur",Jaipur,Rajasthan,302001,+91-9000000008,Manager 9,manager9@vmart.co.in
+VM_LUC_010,V-Mart Lucknow Store 10,"Sample Address 10, Lucknow",Lucknow,Uttar Pradesh,226001,+91-9000000009,Manager 10,manager10@vmart.co.in
