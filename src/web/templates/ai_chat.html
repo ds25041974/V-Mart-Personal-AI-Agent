@@ -261,6 +261,91 @@
             color: white;
             border-color: #667eea;
         }
+
+        /* File Upload Styles */
+        .attach-btn {
+            padding: 10px 16px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .attach-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: rotate(45deg);
+        }
+
+        .attached-files {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .file-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #e3f2fd;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #1976D2;
+        }
+
+        .file-chip .remove-file {
+            cursor: pointer;
+            color: #d32f2f;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+
+        .file-chip .remove-file:hover {
+            color: #b71c1c;
+        }
+
+        /* Export Buttons */
+        .export-buttons {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 8px;
+        }
+
+        .export-btn {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .export-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .export-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -344,7 +429,17 @@
         </div>
 
         <div class="chat-input">
+            <div class="attached-files" id="attachedFiles"></div>
             <div class="input-group">
+                <button class="attach-btn" id="attachBtn" onclick="document.getElementById('fileInput').click()" title="Attach files">+</button>
+                <input 
+                    type="file" 
+                    id="fileInput" 
+                    multiple 
+                    accept="image/*,.pdf,.xlsx,.csv,.txt,.docx"
+                    style="display: none;"
+                    onchange="handleFileSelect(event)"
+                >
                 <input 
                     type="text" 
                     id="messageInput" 
@@ -359,7 +454,7 @@
     <script>
         let progressSteps = [];
 
-        function addMessage(content, type = 'ai', showTime = true) {
+        function addMessage(content, type = 'ai', showTime = true, enableExport = false) {
             const messagesDiv = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
@@ -379,6 +474,11 @@
             
             messagesDiv.appendChild(messageDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            // Add export buttons for AI responses
+            if (type === 'ai' && enableExport) {
+                addExportButtons(content, messageDiv);
+            }
         }
 
         function showProgress(message) {
@@ -429,12 +529,27 @@
             if (!question) return;
             
             // Add user message
-            addMessage(question, 'user');
+            let userMessage = question;
+            if (attachedFiles.length > 0) {
+                const fileList = attachedFiles.map(f => getFileIcon(f.name) + ' ' + f.name).join(', ');
+                userMessage += `<br><small>📎 Attached: ${fileList}</small>`;
+            }
+            addMessage(userMessage, 'user');
             input.value = '';
             
             // Disable send button
             const sendBtn = document.getElementById('sendButton');
             sendBtn.disabled = true;
+            
+            // Upload files if any
+            let fileData = null;
+            if (attachedFiles.length > 0) {
+                fileData = await uploadFiles();
+                if (!fileData) {
+                    sendBtn.disabled = false;
+                    return;
+                }
+            }
             
             // Get context settings
             const storeId = document.getElementById('storeSelect').value;
@@ -449,7 +564,8 @@
                     ...(storeId && { store_id: storeId }),
                     include_weather: includeWeather,
                     include_competitors: includeCompetitors,
-                    include_analytics: includeAnalytics
+                    include_analytics: includeAnalytics,
+                    ...(fileData && { file_context: JSON.stringify(fileData) })
                 });
                 
                 const eventSource = new EventSource(`/ai-chat/ask-stream?${queryParams}`);
@@ -465,7 +581,7 @@
                         hideProgress();
                         responseText = data.message;
                         const contextBadges = getContextBadges();
-                        addMessage(`${contextBadges}<br><br>${responseText}`);
+                        addMessage(`${contextBadges}<br><br>${responseText}`, 'ai', true, true); // Enable export
                     } else if (data.type === 'complete') {
                         eventSource.close();
                         sendBtn.disabled = false;
@@ -499,6 +615,161 @@
         function handleKeyPress(event) {
             if (event.key === 'Enter') {
                 sendMessage();
+            }
+        }
+
+        // File handling
+        let attachedFiles = [];
+
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            attachedFiles = attachedFiles.concat(files);
+            displayAttachedFiles();
+            event.target.value = ''; // Reset input
+        }
+
+        function displayAttachedFiles() {
+            const container = document.getElementById('attachedFiles');
+            container.innerHTML = attachedFiles.map((file, index) => {
+                const icon = getFileIcon(file.name);
+                return `
+                    <div class="file-chip">
+                        ${icon} ${file.name} (${formatFileSize(file.size)})
+                        <span class="remove-file" onclick="removeFile(${index})">×</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function removeFile(index) {
+            attachedFiles.splice(index, 1);
+            displayAttachedFiles();
+        }
+
+        function getFileIcon(filename) {
+            const ext = filename.toLowerCase().split('.').pop();
+            const icons = {
+                'pdf': '📄',
+                'xlsx': '📊',
+                'xls': '📊',
+                'csv': '📊',
+                'txt': '📝',
+                'docx': '📝',
+                'doc': '📝',
+                'jpg': '🖼️',
+                'jpeg': '🖼️',
+                'png': '🖼️',
+                'gif': '🖼️'
+            };
+            return icons[ext] || '📎';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        async function uploadFiles() {
+            if (attachedFiles.length === 0) return null;
+
+            showProgress('📤 Uploading files...');
+
+            const formData = new FormData();
+            attachedFiles.forEach((file, index) => {
+                formData.append('files', file);
+            });
+
+            try {
+                const response = await fetch('/ai-chat/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('File upload failed');
+                }
+
+                const result = await response.json();
+                attachedFiles = []; // Clear attached files
+                displayAttachedFiles();
+                return result.file_data;
+            } catch (error) {
+                hideProgress();
+                addMessage(`❌ File upload error: ${error.message}`);
+                return null;
+            }
+        }
+
+        function addExportButtons(messageContent, messageDiv) {
+            const exportDiv = document.createElement('div');
+            exportDiv.className = 'export-buttons';
+            exportDiv.innerHTML = `
+                <button class="export-btn" onclick="exportToPDF(this)">
+                    📄 Export PDF
+                </button>
+                <button class="export-btn" onclick="exportToDOCX(this)">
+                    📝 Export DOCX
+                </button>
+            `;
+            
+            // Store message content in data attribute
+            const contentDiv = messageDiv.querySelector('.message-content');
+            contentDiv.appendChild(exportDiv);
+            exportDiv.dataset.content = messageContent;
+        }
+
+        async function exportToPDF(button) {
+            button.disabled = true;
+            const content = button.closest('.export-buttons').dataset.content;
+            
+            try {
+                const response = await fetch('/ai-chat/export-pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content })
+                });
+
+                if (!response.ok) throw new Error('Export failed');
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `vmart_insights_${new Date().getTime()}.pdf`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                alert('PDF export failed: ' + error.message);
+            } finally {
+                button.disabled = false;
+            }
+        }
+
+        async function exportToDOCX(button) {
+            button.disabled = true;
+            const content = button.closest('.export-buttons').dataset.content;
+            
+            try {
+                const response = await fetch('/ai-chat/export-docx', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content })
+                });
+
+                if (!response.ok) throw new Error('Export failed');
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `vmart_insights_${new Date().getTime()}.docx`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                alert('DOCX export failed: ' + error.message);
+            } finally {
+                button.disabled = false;
             }
         }
 
