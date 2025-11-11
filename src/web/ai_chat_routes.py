@@ -19,8 +19,13 @@ from flask import (
     render_template,
     request,
     stream_with_context,
+    send_file,
 )
 from src.agent.gemini_agent import GeminiAgent
+from src.utils.path_manager import path_manager
+from src.utils.file_processor import process_uploaded_file
+from src.utils.export_generator import generate_pdf, generate_docx
+import io
 
 # Create blueprint
 ai_chat_bp = Blueprint("ai_chat", __name__, url_prefix="/ai-chat")
@@ -148,6 +153,9 @@ def ask_with_progress():
             except:
                 pass
         
+        # Check if we should use configured paths
+        use_paths = request.args.get("use_paths", "true").lower() == "true"
+        
         # Create a queue for progress updates
         progress_queue = Queue()
 
@@ -175,13 +183,15 @@ def ask_with_progress():
                 except Exception as e:
                     yield f"data: {json.dumps({'type': 'warning', 'message': f'⚠️ Analytics unavailable: {str(e)}'})}\n\n"
             
-            # Process file context if provided
+            # Build complete file context
+            file_summary = ""
+            
+            # Process uploaded file context if provided
             if file_context:
                 try:
                     yield f"data: {json.dumps({'type': 'progress', 'message': f'📎 Processing {len(file_context)} attached file(s)...'})}\n\n"
                     
-                    # Build file context summary
-                    file_summary = "\n\n**Attached Files:**\n"
+                    file_summary += "\n\n**Attached Files:**\n"
                     for file_info in file_context:
                         filename = file_info.get('filename', 'Unknown')
                         content = file_info.get('content', '')
@@ -194,13 +204,63 @@ def ask_with_progress():
                             if len(content) > 2000:
                                 file_summary += f"... (truncated, total {len(content)} characters)\n"
                     
-                    # Prepend file context to the question
-                    question_with_files = f"{file_summary}\n\n**User Question:** {question}"
-                    
-                    yield f"data: {json.dumps({'type': 'progress', 'message': '✅ Files processed'})}\n\n"
+                    yield f"data: {json.dumps({'type': 'progress', 'message': '✅ Attached files processed'})}\n\n"
                 except Exception as e:
                     yield f"data: {json.dumps({'type': 'warning', 'message': f'⚠️ File processing warning: {str(e)}'})}\n\n"
-                    question_with_files = question
+            
+            # Process files from configured paths if enabled
+            if use_paths:
+                try:
+                    paths = path_manager.get_all_paths()
+                    if paths:
+                        yield f"data: {json.dumps({'type': 'progress', 'message': f'🔍 Searching {len(paths)} configured path(s)...'})}\n\n"
+                        
+                        # Search for relevant files based on question keywords
+                        search_results = path_manager.search_files(question, limit=10)
+                        
+                        if search_results:
+                            yield f"data: {json.dumps({'type': 'progress', 'message': f'📁 Found {len(search_results)} relevant file(s) from configured paths'})}\n\n"
+                            
+                            file_summary += "\n\n**Files from Configured Paths:**\n"
+                            
+                            for result in search_results[:5]:  # Limit to 5 most relevant files
+                                file_path = result.get('path', '')
+                                file_name = result.get('name', '')
+                                
+                                try:
+                                    # Read file content
+                                    with open(file_path, 'rb') as f:
+                                        file_bytes = f.read()
+                                    
+                                    # Process file using file_processor
+                                    processed = process_uploaded_file(file_bytes, file_name)
+                                    
+                                    if processed.get('success'):
+                                        content = processed.get('text', '')
+                                        file_type = processed.get('file_type', '')
+                                        
+                                        file_summary += f"\n**File: {file_name}** (Type: {file_type})\n"
+                                        file_summary += f"Path: {file_path}\n"
+                                        
+                                        # Limit content to first 2000 characters per file
+                                        if content:
+                                            file_summary += f"{content[:2000]}\n"
+                                            if len(content) > 2000:
+                                                file_summary += f"... (truncated, total {len(content)} characters)\n"
+                                
+                                except Exception as file_error:
+                                    file_summary += f"\n**File: {file_name}** - Error: {str(file_error)}\n"
+                            
+                            yield f"data: {json.dumps({'type': 'progress', 'message': '✅ Path files processed'})}\n\n"
+                        else:
+                            yield f"data: {json.dumps({'type': 'info', 'message': '📁 No relevant files found in configured paths'})}\n\n"
+                
+                except Exception as e:
+                    yield f"data: {json.dumps({'type': 'warning', 'message': f'⚠️ Path search warning: {str(e)}'})}\n\n"
+            
+            # Combine file summary with question
+            if file_summary:
+                question_with_files = f"{file_summary}\n\n**User Question:** {question}"
             else:
                 question_with_files = question
 
@@ -516,3 +576,104 @@ def export_docx():
         return jsonify({"error": f"DOCX generation not available: {str(e)}"}), 500
     except Exception as e:
         return jsonify({"error": f"DOCX generation failed: {str(e)}"}), 500
+
+
+# ===== Path Configuration Endpoints =====
+
+@ai_chat_bp.route("/paths", methods=["GET"])
+def get_configured_paths():
+    """Get all configured local paths"""
+    try:
+        paths = path_manager.get_all_paths()
+        return jsonify({"success": True, "paths": paths})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@ai_chat_bp.route("/paths", methods=["POST"])
+def add_configured_path():
+    """Add a new path configuration"""
+    try:
+        data = request.get_json()
+        name = data.get("name")
+        location = data.get("location")
+        description = data.get("description", "")
+
+        if not name or not location:
+            return jsonify({"error": "Name and location are required"}), 400
+
+        path_config = path_manager.add_path(name, location, description)
+        return jsonify({"success": True, "path": path_config})
+    
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@ai_chat_bp.route("/paths/<int:path_id>", methods=["DELETE"])
+def remove_configured_path(path_id: int):
+    """Remove a path configuration"""
+    try:
+        success = path_manager.remove_path(path_id)
+        
+        if success:
+            return jsonify({"success": True, "message": "Path removed"})
+        else:
+            return jsonify({"error": "Failed to remove path"}), 500
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@ai_chat_bp.route("/paths/<int:path_id>/scan", methods=["POST"])
+def scan_configured_path(path_id: int):
+    """Scan a configured path and count files"""
+    try:
+        result = path_manager.scan_path(path_id)
+        return jsonify({"success": True, **result})
+    
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@ai_chat_bp.route("/paths/<int:path_id>/files", methods=["GET"])
+def get_path_files(path_id: int):
+    """Get list of files from a configured path"""
+    try:
+        limit = int(request.args.get("limit", 100))
+        extensions = request.args.get("extensions")
+        
+        file_extensions = None
+        if extensions:
+            file_extensions = [ext.strip() for ext in extensions.split(",")]
+        
+        files = path_manager.get_files_from_path(path_id, limit, file_extensions)
+        
+        return jsonify({"success": True, "files": files, "count": len(files)})
+    
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@ai_chat_bp.route("/paths/search", methods=["GET"])
+def search_path_files():
+    """Search for files across configured paths"""
+    try:
+        query = request.args.get("query")
+        
+        if not query:
+            return jsonify({"error": "Query parameter is required"}), 400
+        
+        limit = int(request.args.get("limit", 50))
+        
+        results = path_manager.search_files(query, limit=limit)
+        
+        return jsonify({"success": True, "results": results, "count": len(results)})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

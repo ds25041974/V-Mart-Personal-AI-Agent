@@ -38,6 +38,7 @@
             color: white;
             padding: 20px;
             text-align: center;
+            position: relative;
         }
 
         .chat-header h1 {
@@ -48,6 +49,25 @@
         .chat-header p {
             font-size: 14px;
             opacity: 0.9;
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
         }
 
         .context-selector {
@@ -346,11 +366,246 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+
+        /* Path Configuration Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .path-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .paths-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .path-item {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .path-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .path-info {
+            flex: 1;
+        }
+
+        .path-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .path-location {
+            font-size: 13px;
+            color: #666;
+            font-family: monospace;
+            margin-bottom: 4px;
+        }
+
+        .path-description {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .path-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .icon-btn.delete:hover {
+            background: #ffebee;
+            border-color: #ef5350;
+            color: #d32f2f;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .path-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #e3f2fd;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #1976D2;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="chat-container">
         <div class="chat-header">
+            <button class="settings-btn" onclick="openPathSettings()">⚙️ Configure Paths</button>
             <h1>🤖 V-Mart AI Assistant</h1>
             <p>Context-aware insights with live weather & competitor analysis</p>
         </div>
@@ -447,6 +702,48 @@
                     onkeypress="handleKeyPress(event)"
                 >
                 <button onclick="sendMessage()" id="sendButton">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Path Configuration Modal -->
+    <div class="modal" id="pathModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📁 Configure Local Paths</h2>
+                <button class="close-btn" onclick="closePathSettings()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="path-form">
+                    <div class="form-group">
+                        <label for="pathName">Path Name</label>
+                        <input type="text" id="pathName" placeholder="e.g., Sales Reports, Product Images" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pathLocation">File/Folder Path</label>
+                        <input type="text" id="pathLocation" placeholder="e.g., /Users/username/Documents/Reports" />
+                        <small style="color: #888; font-size: 12px;">💡 Tip: Absolute path to file or folder on your local system</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="pathDescription">Description (Optional)</label>
+                        <textarea id="pathDescription" placeholder="e.g., Monthly sales reports in Excel format"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-primary" onclick="addPath()">➕ Add Path</button>
+                        <button class="btn-secondary" onclick="clearPathForm()">Clear</button>
+                    </div>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 24px 0;">
+
+                <h3 style="margin-bottom: 16px; font-size: 16px; color: #333;">Configured Paths</h3>
+                <div class="paths-list" id="pathsList">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📂</div>
+                        <p>No paths configured yet</p>
+                        <small style="color: #aaa;">Add local paths to enable AI to read files directly</small>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -775,6 +1072,158 @@
 
         // Auto-focus input
         document.getElementById('messageInput').focus();
+
+        // Path Configuration Management
+        let configuredPaths = [];
+
+        async function loadConfiguredPaths() {
+            try {
+                const response = await fetch('/ai-chat/paths');
+                if (response.ok) {
+                    const data = await response.json();
+                    configuredPaths = data.paths || [];
+                    renderPathsList();
+                }
+            } catch (error) {
+                console.error('Failed to load paths:', error);
+            }
+        }
+
+        function renderPathsList() {
+            const container = document.getElementById('pathsList');
+            
+            if (configuredPaths.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📂</div>
+                        <p>No paths configured yet</p>
+                        <small style="color: #aaa;">Add local paths to enable AI to read files directly</small>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = configuredPaths.map((path, index) => `
+                <div class="path-item">
+                    <div class="path-info">
+                        <div class="path-name">
+                            <span class="path-badge">${path.type || 'folder'}</span>
+                            ${path.name}
+                        </div>
+                        <div class="path-location">${path.location}</div>
+                        ${path.description ? `<div class="path-description">${path.description}</div>` : ''}
+                        ${path.file_count ? `<small style="color: #888; font-size: 11px;">📄 ${path.file_count} files indexed</small>` : ''}
+                    </div>
+                    <div class="path-actions">
+                        <button class="icon-btn" onclick="scanPath(${index})" title="Scan for files">🔍</button>
+                        <button class="icon-btn delete" onclick="deletePath(${index})" title="Remove path">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function addPath() {
+            const name = document.getElementById('pathName').value.trim();
+            const location = document.getElementById('pathLocation').value.trim();
+            const description = document.getElementById('pathDescription').value.trim();
+
+            if (!name || !location) {
+                alert('Please provide both path name and location');
+                return;
+            }
+
+            try {
+                const response = await fetch('/ai-chat/paths', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, location, description })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to add path');
+                }
+
+                const result = await response.json();
+                configuredPaths.push(result.path);
+                renderPathsList();
+                clearPathForm();
+                
+                // Show success message
+                alert('✅ Path added successfully!');
+            } catch (error) {
+                alert('❌ Failed to add path: ' + error.message);
+            }
+        }
+
+        async function deletePath(index) {
+            if (!confirm('Are you sure you want to remove this path?')) {
+                return;
+            }
+
+            try {
+                const path = configuredPaths[index];
+                const response = await fetch(`/ai-chat/paths/${path.id || index}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete path');
+                }
+
+                configuredPaths.splice(index, 1);
+                renderPathsList();
+                alert('✅ Path removed successfully!');
+            } catch (error) {
+                alert('❌ Failed to remove path: ' + error.message);
+            }
+        }
+
+        async function scanPath(index) {
+            const path = configuredPaths[index];
+            
+            try {
+                const response = await fetch(`/ai-chat/paths/${path.id || index}/scan`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to scan path');
+                }
+
+                const result = await response.json();
+                configuredPaths[index].file_count = result.file_count;
+                renderPathsList();
+                alert(`✅ Scan complete! Found ${result.file_count} files`);
+            } catch (error) {
+                alert('❌ Scan failed: ' + error.message);
+            }
+        }
+
+        function clearPathForm() {
+            document.getElementById('pathName').value = '';
+            document.getElementById('pathLocation').value = '';
+            document.getElementById('pathDescription').value = '';
+        }
+
+        function openPathSettings() {
+            document.getElementById('pathModal').classList.add('active');
+            loadConfiguredPaths();
+        }
+
+        function closePathSettings() {
+            document.getElementById('pathModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('pathModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePathSettings();
+            }
+        });
+
+        // Load paths on page load
+        loadConfiguredPaths();
     </script>
 </body>
 </html>
