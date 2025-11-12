@@ -412,6 +412,7 @@ def ask():
     use_context = data.get("use_context", True)
     browsed_file = data.get("browsed_file")  # {name, content, source}
     file_context = data.get("file_context", [])  # Files uploaded from File Browser
+    catalogue_context = data.get("catalogue_context")  # Data Catalogue Configuration
 
     if not prompt:
         return jsonify({"error": "Please provide a prompt."}), 400
@@ -423,57 +424,53 @@ def ask():
     try:
         prompt_lower = prompt.lower().strip()
 
-        # SMART DETECTION: Check if it's just a greeting or casual query
-        greetings = [
+        # PRIORITY 0: Simple Greeting Detection - No Gemini call, instant response
+        # Returns simple greeting without any analysis, file reading, or database queries
+        SIMPLE_GREETINGS = [
             "hi",
             "hello",
             "hey",
             "good morning",
             "good afternoon",
             "good evening",
-            "how are you",
-            "what's up",
-            "whats up",
-            "sup",
             "greetings",
-        ]
-        simple_queries = [
-            "thanks",
-            "thank you",
-            "ok",
-            "okay",
-            "yes",
-            "no",
-            "sure",
-            "got it",
-            "understood",
-            "bye",
-            "goodbye",
+            "namaste",
+            "hola",
+            "bonjour",
         ]
 
-        # Check if the entire prompt is just a greeting or simple response
-        is_simple_greeting = (
-            prompt_lower in greetings
-            or prompt_lower in simple_queries
-            or any(prompt_lower == greeting for greeting in greetings)
-            or (
-                len(prompt.split()) <= 3
-                and any(greeting in prompt_lower for greeting in greetings)
-            )
-        )
+        if prompt_lower in SIMPLE_GREETINGS:
+            print("🎯 Simple greeting detected - returning instant response")
+            return jsonify({"response": "Hi! I am V-Mart Personal AI Agent"})
 
-        # If it's just a greeting, respond naturally without analyzing files
-        if is_simple_greeting:
-            response = gemini_agent.get_response(prompt, use_context=use_context)
-            formatted_response = format_ai_response(response)
-            return jsonify({"response": formatted_response})
-
-        # PRIORITY 0: Handle uploaded files from File Browser (highest priority for data analysis)
+        # PRIORITY 1: Handle uploaded files from File Browser (highest priority for data analysis)
         if file_context and len(file_context) > 0:
             print(f"\n{'=' * 80}")
             print(
                 f"📎 FILE CONTEXT DETECTED: {len(file_context)} file(s) uploaded from File Browser"
             )
+
+            # Check if too many files - recommend batch processing
+            if len(file_context) > 5:
+                return jsonify(
+                    {
+                        "response": f"""⚠️ **Too Many Files for Single Analysis**
+
+You've uploaded **{len(file_context)} files**, which may cause rate limit issues.
+
+**Recommended approach:**
+1. ✅ Analyze **3-5 files at a time** for best results
+2. ✅ Start with the most important files first
+3. ✅ Ask specific questions about each batch
+
+**Why this helps:**
+- Prevents API rate limit errors
+- Faster responses
+- More focused analysis
+
+**Please upload fewer files (max 5) and try again.**"""
+                    }
+                )
 
             # Build comprehensive file analysis context
             files_summary = []
@@ -491,25 +488,48 @@ def ask():
 
                 files_summary.append(f"- {filename} ({file_type})")
 
-                # Add file content with clear markers
+                # Add file content with clear markers - limit to 20KB per file to prevent rate limits
+                content_preview = content[:20000]  # Reduced from 50000 to 20000
+                truncated = len(content) > 20000
+
                 full_file_content.append(f"""
 {"=" * 80}
 FILE {idx}: {filename}
 TYPE: {file_type}
 METADATA: {metadata}
+SIZE: {len(content)} characters{" (showing first 20,000)" if truncated else ""}
 {"=" * 80}
-{content[:50000]}  
+{content_preview}
+{f"... [Content truncated - {len(content) - 20000} more characters. Ask specific questions about this file.]" if truncated else ""}
 {"=" * 80}
 """)
 
-            # Create enhanced prompt for V-Mart retail analysis
+            # Create enhanced prompt for V-Mart retail analysis with multi-file correlation
             context_info.append(f"Analyzing {len(file_context)} uploaded file(s)")
+
+            # Enhanced prompt with correlation instructions
+            correlation_hint = ""
+            if len(file_context) > 1:
+                correlation_hint = f"""
+
+**🔗 MULTI-FILE CORRELATION REQUIRED:**
+You have {len(file_context)} files to analyze together. You MUST:
+1. Find common fields/IDs across files (e.g., Store_ID, Product_ID, Item_Code, Region, Date)
+2. Join/correlate data based on matching fields
+3. Identify patterns that emerge from cross-file analysis
+4. Highlight discrepancies or anomalies across files
+
+Examples:
+- If file1 has Store_ID and file2 has Store_ID → analyze by store
+- If file1 has Product_Code and file2 has Item_ID → check if they match
+- If both have dates → perform temporal correlation
+"""
 
             enhanced_prompt = f"""**🚨 ABSOLUTE CRITICAL INSTRUCTION FOR AI 🚨**
 
 You are analyzing ATTACHED/UPLOADED FILES ONLY. You MUST follow these rules WITHOUT EXCEPTION:
 
-❌ DO NOT use any stored data or databases
+❌ DO NOT use any stored data or databases (except the files below)
 ❌ DO NOT use your training knowledge about V-Mart or retail
 ❌ DO NOT use general knowledge or assumptions
 ❌ DO NOT reference information not in the files below
@@ -520,6 +540,7 @@ You are analyzing ATTACHED/UPLOADED FILES ONLY. You MUST follow these rules WITH
 ✅ ONLY cite data explicitly visible in these files
 ✅ ONLY quote exact values, names, IDs from the files
 ✅ If information is NOT in the files, respond: "This information is not available in the uploaded files"
+{correlation_hint}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📎 UPLOADED FILES ({len(file_context)} file(s)):
@@ -534,7 +555,41 @@ You are analyzing ATTACHED/UPLOADED FILES ONLY. You MUST follow these rules WITH
 
 **User's Question:** {prompt}
 
-**MANDATORY REQUIREMENTS:**
+**MANDATORY RESPONSE STRUCTURE:**
+
+📊 **INSIGHTS** (What the data reveals):
+[If numbers/metrics, present in clean tables]
+[If text observations, write in proper paragraphs]
+
+Format for tables (when presenting numerical data):
+| Metric | Value | Analysis |
+|--------|-------|----------|
+| Sales  | $XXX  | Insight  |
+
+Format for text paragraphs:
+Write in complete sentences using only commas, periods and question marks when needed. No special characters like asterisks, hyphens or bullet points. Present insights as flowing paragraphs.
+
+💡 **RECOMMENDATIONS** (What should be done):
+[If multiple recommendations with priorities, use tables]
+[If narrative recommendations, use paragraphs]
+
+Format for recommendations table:
+| Priority | Recommendation | Expected Impact |
+|----------|----------------|-----------------|
+| High     | Action item    | Impact desc     |
+
+✅ **ACTIONABLES** (Precise steps with timelines):
+Always present as a table:
+
+| Step | Action | Timeline | Owner |
+|------|--------|----------|-------|
+| 1    | Do X   | 2 weeks  | Team  |
+| 2    | Do Y   | 1 month  | Dept  |
+
+🎯 **STRATEGY** (Long-term approach):
+Write as proper paragraphs without special characters. Use only commas, periods and question marks. Present strategic direction in flowing narrative form.
+
+**CITATION REQUIREMENTS:**
 1. Source every fact with the file name it came from
 2. Use exact values as they appear in the files (no rounding or estimates)
 3. If a store/product/metric isn't in the files, it doesn't exist for this analysis
@@ -548,11 +603,326 @@ You are analyzing ATTACHED/UPLOADED FILES ONLY. You MUST follow these rules WITH
 - Using "typical" or "usually" or "generally" statements
 - Citing V-Mart information from your training data
 
-BEGIN ANALYSIS (FILE DATA ONLY):"""
+BEGIN DEEP ANALYSIS WITH INSIGHTS, RECOMMENDATIONS, ACTIONABLES & STRATEGY:"""
 
             print(f"{'=' * 80}\n")
 
-        # PRIORITY 1: If user has browsed a file AND asking about it, use it directly
+            # Send to Gemini for FILE-ONLY analysis
+            response = gemini_agent.get_response(enhanced_prompt, use_context=False)
+            formatted_response = format_ai_response(response)
+
+            # Add file browser indicator
+            formatted_response = f"""<div class="file-browser-response">
+    <p><strong>📎 File Browser Analysis ({len(file_context)} file(s))</strong></p>
+    {formatted_response}
+</div>"""
+
+            return jsonify({"response": formatted_response})
+
+        # PRIORITY 2: Handle Data Catalogue Configuration context
+        # Enhanced to also use File Browser uploaded files for correlation
+        if catalogue_context and catalogue_context.get("has_data"):
+            print(f"\n{'=' * 80}")
+            print("📚 DATA CATALOGUE CONTEXT DETECTED")
+
+            catalogue_data = catalogue_context.get("data", {})
+            catalogue_metadata = catalogue_context.get("metadata", {})
+            catalogue_summary = catalogue_context.get("summary", "")
+
+            # Check if File Browser files are also available for correlation
+            has_file_browser_data = file_context and len(file_context) > 0
+            if has_file_browser_data:
+                print(
+                    f"   + File Browser data available for correlation: {len(file_context)} file(s)"
+                )
+
+            # Build catalogue context sections
+            catalogue_sections = []
+
+            if catalogue_data.get("itemMaster"):
+                items = catalogue_data["itemMaster"]
+                meta = catalogue_metadata.get("itemMaster", {})
+                catalogue_sections.append(f"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 ITEM MASTER DATA
+File: {meta.get("originalFilename", "N/A")}
+Records: {meta.get("recordCount", 0)}
+Uploaded: {meta.get("uploadTimestamp", "N/A")}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{items[:30000]}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+""")
+
+            if catalogue_data.get("storeMaster"):
+                stores = catalogue_data["storeMaster"]
+                meta = catalogue_metadata.get("storeMaster", {})
+                catalogue_sections.append(f"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏪 STORE MASTER DATA
+File: {meta.get("originalFilename", "N/A")}
+Records: {meta.get("recordCount", 0)}
+Uploaded: {meta.get("uploadTimestamp", "N/A")}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{stores[:30000]}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+""")
+
+            if catalogue_data.get("competitionMaster"):
+                competition = catalogue_data["competitionMaster"]
+                meta = catalogue_metadata.get("competitionMaster", {})
+                catalogue_sections.append(f"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 COMPETITION MASTER DATA
+File: {meta.get("originalFilename", "N/A")}
+Records: {meta.get("recordCount", 0)}
+Uploaded: {meta.get("uploadTimestamp", "N/A")}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{competition[:30000]}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+""")
+
+            if catalogue_data.get("marketingPlan"):
+                marketing = catalogue_data["marketingPlan"]
+                meta = catalogue_metadata.get("marketingPlan", {})
+                catalogue_sections.append(f"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📢 MARKETING PLAN DATA
+File: {meta.get("originalFilename", "N/A")}
+Records: {meta.get("recordCount", 0)}
+Uploaded: {meta.get("uploadTimestamp", "N/A")}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{marketing[:30000]}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+""")
+
+            # Create enhanced prompt with catalogue correlation and master data joins
+            context_info.append(f"Data Catalogue: {catalogue_summary}")
+
+            # Identify available masters for correlation guidance
+            available_masters = []
+            if catalogue_data.get("itemMaster"):
+                available_masters.append("Item Master")
+            if catalogue_data.get("storeMaster"):
+                available_masters.append("Store Master")
+            if catalogue_data.get("competitionMaster"):
+                available_masters.append("Competition Master")
+            if catalogue_data.get("marketingPlan"):
+                available_masters.append("Marketing Plan")
+
+            # Build master join instructions based on available data
+            join_instructions = ""
+            if len(available_masters) > 1:
+                join_instructions = f"""
+
+**🔗 MASTER DATA JOIN INSTRUCTIONS:**
+
+You have {len(available_masters)} master datasets. Perform intelligent joins:
+
+1. **Store Master ↔ Competition Master:**
+   - Join on: Store_ID, Region, City, or Geographic proximity
+   - Analysis: Competitive landscape impact on store performance
+   - Look for: Stores with high competition vs revenue patterns
+
+2. **Item Master ↔ Marketing Plan:**
+   - Join on: Item_ID, Product_Code, Category
+   - Analysis: Marketing campaign effectiveness by product
+   - Look for: ROI of campaigns on specific items/categories
+
+3. **Store Master ↔ Marketing Plan:**
+   - Join on: Store_ID, Region, City
+   - Analysis: Regional marketing effectiveness
+   - Look for: Campaign impact by store location/region
+
+4. **Item Master ↔ Store Master:**
+   - Join on: Store_ID with Item performance data
+   - Analysis: Product performance by store location
+   - Look for: Best-selling items by geography
+
+**JOIN KEY EXAMPLES:**
+- Store_ID (primary key for store-related joins)
+- Item_ID / Product_ID / SKU (for item-related joins)
+- Region / City / State (geographical joins)
+- Date / Month / Quarter (temporal joins)
+- Category / Department (categorical joins)
+
+**CRITICAL:** Always cite which masters you're joining and on which keys!
+"""
+
+            # Add File Browser files to correlation if available
+            file_browser_section = ""
+            if has_file_browser_data:
+                files_list = []
+                file_contents = []
+
+                for idx, file_info in enumerate(file_context, 1):
+                    filename = file_info.get("filename", f"file_{idx}")
+                    file_type = file_info.get("type", "unknown")
+                    content = file_info.get("content", "")
+
+                    files_list.append(f"- {filename} ({file_type})")
+
+                    # Add file content (limited to 15KB to leave room for masters)
+                    content_preview = content[:15000]
+                    truncated = len(content) > 15000
+
+                    file_contents.append(f"""
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📎 FILE BROWSER FILE {idx}: {filename}
+Type: {file_type}
+Size: {len(content)} characters{" (showing first 15,000)" if truncated else ""}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{content_preview}
+{f"... [Truncated - {len(content) - 15000} more characters]" if truncated else ""}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+""")
+
+                file_browser_section = f"""
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📎 FILE BROWSER UPLOADED FILES ({len(file_context)} file(s))
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**ADDITIONAL CORRELATION REQUIRED:**
+You also have {len(file_context)} file(s) uploaded via File Browser.
+You MUST correlate these files with the master data above!
+
+**Files Available:**
+{chr(10).join(files_list)}
+
+**FILE CONTENT FOR CORRELATION:**
+{"".join(file_contents)}
+
+**CORRELATION INSTRUCTIONS:**
+1. Find common fields between uploaded files and masters
+2. Join File Browser data with relevant masters
+3. Examples:
+   - If uploaded file has Store_ID → Join with Store Master
+   - If uploaded file has Product_ID → Join with Item Master
+   - If uploaded file has sales data → Correlate with Marketing Plan
+   - If uploaded file has competitor data → Join with Competition Master
+4. Provide insights from both master data AND uploaded files together
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+
+            enhanced_prompt = f"""**🚨 V-MART DATA CATALOGUE CORRELATION ANALYSIS 🚨**
+
+You are analyzing V-Mart's operational data from the Data Catalogue Configuration system{" AND File Browser uploaded files" if has_file_browser_data else ""}.
+Your task is to perform DEEP CORRELATION ANALYSIS with MASTER DATA JOINS across multiple sources.
+
+**CRITICAL INSTRUCTIONS:**
+✅ Perform intelligent joins across master datasets (use join keys: Store_ID, Item_ID, Region, Date, etc.)
+{f"✅ ALSO join File Browser uploaded files with master data" if has_file_browser_data else ""}
+✅ Analyze ALL available master data sources together{" with uploaded files" if has_file_browser_data else ""}
+✅ Find correlations, patterns, and relationships across joined datasets
+✅ Provide actionable insights based on cross-referenced data
+✅ Consider temporal, geographical, and categorical relationships
+✅ ONLY use the exact data provided below - no assumptions
+
+❌ DO NOT use external knowledge or assumptions beyond the masters{" and uploaded files" if has_file_browser_data else ""}
+❌ DO NOT reference data not in the catalogue{" or uploaded files" if has_file_browser_data else ""}
+❌ DO NOT make estimates - use exact values only from masters{" and files" if has_file_browser_data else ""}
+❌ DO NOT ignore relationships between masters{" and uploaded files" if has_file_browser_data else ""}
+{join_instructions}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 DATA CATALOGUE SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{catalogue_summary}
+
+📊 AVAILABLE MASTERS: {", ".join(available_masters)}
+{f"📎 ADDITIONAL FILES: {len(file_context)} uploaded file(s) from File Browser" if has_file_browser_data else ""}
+
+📊 MASTER DATA SOURCES (WITH JOIN KEYS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{"".join(catalogue_sections)}
+{file_browser_section}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**User's Question:** {prompt}
+
+**MANDATORY RESPONSE STRUCTURE:**
+
+📊 **MASTER DATA JOINS PERFORMED:**
+Present as a simple table:
+
+| Join | Masters Connected | Join Key | Purpose |
+|------|-------------------|----------|---------|
+| 1    | Store ↔ Competition | Store_ID | Analyze competitive impact |
+| 2    | Item ↔ Marketing | Product_ID | Campaign effectiveness |
+
+📈 **INSIGHTS** (What correlated data reveals):
+[If numerical metrics, use tables]
+[If observations, use proper paragraphs]
+
+For tables with numbers:
+| Store ID | Revenue | Competition Count | Impact Analysis |
+|----------|---------|-------------------|-----------------|
+| S001     | $XXX    | 3                 | Insight         |
+
+For text insights:
+Write in flowing paragraphs using only commas, periods and question marks. No special characters or bullet points. Present findings as complete sentences in narrative form.
+
+💡 **RECOMMENDATIONS** (Based on master correlations):
+Present as clean table:
+
+| Priority | Recommendation | Data Source | Expected Impact |
+|----------|----------------|-------------|-----------------|
+| High     | Action         | Master(s)   | Impact          |
+| Medium   | Action         | Master(s)   | Impact          |
+
+✅ **ACTIONABLES** (Precise steps with timelines):
+Always present as structured table:
+
+| Step | Action | Timeline | Owner | Master Data Used |
+|------|--------|----------|-------|------------------|
+| 1    | Do X   | 2 weeks  | Team  | Store Master     |
+| 2    | Do Y   | 1 month  | Dept  | Item Master      |
+
+🎯 **STRATEGY** (Long-term approach based on masters):
+Write as proper paragraphs without special characters. Use only commas, periods and question marks when needed. Present strategic direction as flowing narrative based on master data relationships.
+
+**CITATION REQUIREMENTS:**
+1. Always state which master file(s) you're using
+2. Specify join keys used for correlation
+3. Use exact values from masters (no rounding)
+4. Reference record IDs when possible
+5. Cite temporal context (dates from data)
+
+**CORRELATION EXAMPLES TO ANALYZE:**
+- Store revenue (Store Master) vs competition intensity (Competition Master)
+- Item sales patterns (Item Master) vs marketing campaigns (Marketing Plan)
+- Store performance by region (Store Master) vs regional marketing spend (Marketing Plan)
+- Product pricing (Item Master) vs competitor pricing (Competition Master)
+- Marketing ROI by store location (Store Master + Marketing Plan)
+
+BEGIN MASTER DATA CORRELATION ANALYSIS WITH JOINS:"""
+
+            print(f"{'=' * 80}\n")
+
+            # Send to Gemini for correlation analysis
+            response = gemini_agent.get_response(enhanced_prompt, use_context=False)
+            formatted_response = format_ai_response(response)
+
+            # Add catalogue indicator with File Browser info if applicable
+            if has_file_browser_data:
+                formatted_response = f"""<div class="catalogue-response">
+    <p><strong>📚 Data Catalogue + File Browser Correlation Analysis</strong></p>
+    <p><em>{catalogue_summary} + {len(file_context)} uploaded file(s)</em></p>
+    {formatted_response}
+</div>"""
+            else:
+                formatted_response = f"""<div class="catalogue-response">
+    <p><strong>📚 Data Catalogue Correlation Analysis</strong></p>
+    <p><em>{catalogue_summary}</em></p>
+    {formatted_response}
+</div>"""
+
+            return jsonify({"response": formatted_response})
+
+        # PRIORITY 2: If user has browsed a file AND asking about it, use it directly
         elif browsed_file and browsed_file.get("content"):
             file_name = browsed_file.get("name", "unknown file")
             file_content = browsed_file.get("content", "")
@@ -744,49 +1114,50 @@ Please answer the question using the files provided above from the configured pa
     enhanced_prompt += formatting_instructions
 
     # ========== ANALYTICS CONTEXT INTEGRATION ==========
-    # Detect if this is a business/analytics question and add relevant data
+    # STRICT RESTRICTION: For general queries (no files/catalogue), ONLY use live weather data
+    # NO stored database data except weather API
     analytics_context_text = None
     try:
         from analytics.context_provider import AnalyticsContextProvider
 
-        analytics_keywords = [
-            "sales",
-            "revenue",
-            "inventory",
-            "stock",
+        # Check if this is a weather-related query
+        weather_keywords = [
             "weather",
-            "competition",
-            "competitor",
-            "market",
-            "trend",
-            "growth",
-            "performance",
-            "store",
-            "recommend",
-            "insight",
-            "analysis",
+            "temperature",
+            "climate",
+            "rain",
+            "sunny",
             "forecast",
-            "demand",
+            "humidity",
+            "wind",
+            "storm",
+            "hot",
+            "cold",
         ]
 
-        # Check if question is analytics-related
-        is_analytics_query = any(
-            keyword in prompt_lower for keyword in analytics_keywords
-        )
+        is_weather_query = any(keyword in prompt_lower for keyword in weather_keywords)
 
-        if is_analytics_query:
-            # Get analytics context
+        # CRITICAL: Only allow weather data for general queries
+        if is_weather_query:
+            # Get ONLY weather context (live API data)
             context_provider = AnalyticsContextProvider()
-            analytics_context = context_provider.get_context_for_prompt(prompt, days=30)
+            analytics_context = context_provider.get_context_for_prompt(
+                prompt, days=0
+            )  # days=0 for live data only
 
             if analytics_context.get("has_data"):
-                # Format context for AI
+                # Format context for AI - weather only
                 analytics_context_text = context_provider.format_context_for_ai(
                     analytics_context
                 )
-                context_info.append(
-                    f"Analytics: {analytics_context.get('context_summary', 'Live data')}"
-                )
+                context_info.append("Live Weather Data")
+        else:
+            # NOT a weather query and no files uploaded
+            # Block access to stored database/analytics data
+            print(
+                "🚫 General query without files/catalogue - database access restricted to weather only"
+            )
+            # No analytics context for non-weather general queries
 
     except Exception as e:
         print(f"⚠ Analytics context not available: {e}")

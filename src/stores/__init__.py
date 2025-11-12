@@ -6,6 +6,7 @@ Handles store locations, competitor analysis, weather tracking, and geo-mapping
 from .analyzer import StoreAnalyzer
 from .database import StoreDatabase
 from .initial_data import initialize_stores
+from .location_service import LocationService, create_location_service
 from .models import (
     CompetitorAnalysis,
     GeoLocation,
@@ -26,6 +27,8 @@ __all__ = [
     "StoreDatabase",
     "WeatherService",
     "StoreAnalyzer",
+    "LocationService",
+    "create_location_service",
     "initialize_stores",
     "get_weather_icon",
     "get_temperature_color",

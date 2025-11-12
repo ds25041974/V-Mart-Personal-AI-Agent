@@ -268,7 +268,7 @@
                 <button class="tab-btn active" data-tab="chat">💬 Chat</button>
                 <button class="tab-btn" data-tab="analyze">📊 Analysis</button>
                 <button class="tab-btn" data-tab="files">📁 Files</button>
-                <button class="tab-btn" data-tab="paths">🗂️ Path Manager</button>
+                <button class="tab-btn" data-tab="catalogue">� Data Catalogue Configuration</button>
                 <button class="tab-btn" data-tab="decision">🎯 Decision Support</button>
             </div>
 
@@ -358,55 +358,92 @@
                 </div>
             </div>
 
-            <!-- Path Manager Tab -->
-            <div id="paths-tab" class="tab-content">
+            <!-- Data Catalogue Configuration Tab -->
+            <div id="catalogue-tab" class="tab-content">
                 <div class="form-section">
-                    <h2>🗂️ Path Manager</h2>
+                    <h2>� Data Catalogue Configuration</h2>
                     <p style="color: #666; margin-bottom: 20px;">
-                        Configure local paths for AI to access directly. Once configured, AI will automatically read data from these paths.
+                        Upload master data files for AI to analyze with deep correlation insights across Item, Store, Competition, and Marketing data.
                     </p>
                     
-                    <!-- Add Path Section -->
-                    <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                        <h3 style="font-size: 16px; margin-bottom: 15px;">Add New Path</h3>
+                    <!-- Item Master Browser -->
+                    <div class="master-data-section" style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h3 style="font-size: 16px; margin-bottom: 15px;">📦 Item Master</h3>
                         
                         <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Path Name:</label>
-                            <input type="text" id="path-name" placeholder="e.g., My Documents" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                            <input type="file" id="item-master-file" accept=".xlsx,.xls,.csv" style="display: none;">
+                            <button id="browse-item-master-btn" class="primary-btn" onclick="document.getElementById('item-master-file').click();">
+                                📂 Browse Item Master File
+                            </button>
                         </div>
                         
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Path Location:</label>
-                            <div style="display: flex; gap: 10px;">
-                                <input type="text" id="path-location" placeholder="/path/to/folder or C:\path\to\folder" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                                <input type="file" id="path-folder-browser" webkitdirectory directory multiple style="display: none;">
-                                <button id="browse-path-btn" class="secondary-btn">📁 Browse</button>
-                            </div>
-                            <small style="color: #666;">Click Browse to select folder or enter path manually</small>
+                        <div id="item-master-info" style="padding: 10px; background: white; border-radius: 4px; display: none;">
+                            <p><strong>Selected File:</strong> <span id="item-master-filename"></span></p>
+                            <p><strong>Last Updated:</strong> <span id="item-master-date"></span></p>
+                            <p><strong>Records:</strong> <span id="item-master-records">0</span></p>
+                            <button id="remove-item-master-btn" class="secondary-btn" style="margin-top: 10px;">🗑️ Remove</button>
                         </div>
-                        
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Description (Optional):</label>
-                            <textarea id="path-description" placeholder="Brief description..." rows="2" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
-                        </div>
-                        
-                        <div style="display: flex; gap: 10px;">
-                            <button id="validate-path-btn" class="secondary-btn">🔍 Validate Path</button>
-                            <button id="add-path-btn" class="primary-btn">➕ Add Path</button>
-                        </div>
-                        <div id="path-validation-result" style="margin-top: 10px; padding: 10px; border-radius: 4px; display: none;"></div>
                     </div>
                     
-                    <!-- Configured Paths List -->
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <h3 style="font-size: 16px; margin: 0;">Configured Paths</h3>
-                            <button id="refresh-paths-btn" class="small-btn">🔄 Refresh</button>
+                    <!-- Store Master Browser -->
+                    <div class="master-data-section" style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h3 style="font-size: 16px; margin-bottom: 15px;">🏪 Store Master</h3>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <input type="file" id="store-master-file" accept=".xlsx,.xls,.csv" style="display: none;">
+                            <button id="browse-store-master-btn" class="primary-btn" onclick="document.getElementById('store-master-file').click();">
+                                📂 Browse Store Master File
+                            </button>
                         </div>
-                        <div id="configured-paths-list" style="border: 1px solid #ddd; border-radius: 4px; padding: 10px; min-height: 100px;">
-                            <p style="text-align: center; color: #999;">Loading paths...</p>
+                        
+                        <div id="store-master-info" style="padding: 10px; background: white; border-radius: 4px; display: none;">
+                            <p><strong>Selected File:</strong> <span id="store-master-filename"></span></p>
+                            <p><strong>Last Updated:</strong> <span id="store-master-date"></span></p>
+                            <p><strong>Records:</strong> <span id="store-master-records">0</span></p>
+                            <button id="remove-store-master-btn" class="secondary-btn" style="margin-top: 10px;">🗑️ Remove</button>
                         </div>
                     </div>
+                    
+                    <!-- Competition Master Browser -->
+                    <div class="master-data-section" style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h3 style="font-size: 16px; margin-bottom: 15px;">🎯 Competition Master</h3>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <input type="file" id="competition-master-file" accept=".xlsx,.xls,.csv" style="display: none;">
+                            <button id="browse-competition-master-btn" class="primary-btn" onclick="document.getElementById('competition-master-file').click();">
+                                📂 Browse Competition Master File
+                            </button>
+                        </div>
+                        
+                        <div id="competition-master-info" style="padding: 10px; background: white; border-radius: 4px; display: none;">
+                            <p><strong>Selected File:</strong> <span id="competition-master-filename"></span></p>
+                            <p><strong>Last Updated:</strong> <span id="competition-master-date"></span></p>
+                            <p><strong>Records:</strong> <span id="competition-master-records">0</span></p>
+                            <button id="remove-competition-master-btn" class="secondary-btn" style="margin-top: 10px;">🗑️ Remove</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Marketing Plan Browser -->
+                    <div class="master-data-section" style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h3 style="font-size: 16px; margin-bottom: 15px;">📈 Marketing Plan</h3>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <input type="file" id="marketing-plan-file" accept=".xlsx,.xls,.csv" style="display: none;">
+                            <button id="browse-marketing-plan-btn" class="primary-btn" onclick="document.getElementById('marketing-plan-file').click();">
+                                � Browse Marketing Plan File
+                            </button>
+                        </div>
+                        
+                        <div id="marketing-plan-info" style="padding: 10px; background: white; border-radius: 4px; display: none;">
+                            <p><strong>Selected File:</strong> <span id="marketing-plan-filename"></span></p>
+                            <p><strong>Last Updated:</strong> <span id="marketing-plan-date"></span></p>
+                            <p><strong>Records:</strong> <span id="marketing-plan-records">0</span></p>
+                            <button id="remove-marketing-plan-btn" class="secondary-btn" style="margin-top: 10px;">🗑️ Remove</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Status Message -->
+                    <div id="catalogue-status" style="margin-top: 20px; padding: 15px; border-radius: 4px; display: none;"></div>
                 </div>
             </div>
 
@@ -430,11 +467,15 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='catalogue.js') }}"></script>
     <script>
         $(document).ready(function() {
             // Global variables for file management
             let selectedFiles = [];
             let uploadedFileData = [];
+            
+            // Initialize Catalogue DB on page load
+            initCatalogueDB().catch(err => console.error('Failed to init catalogue DB:', err));
             
             // Tab switching
             $('.tab-btn').on('click', function() {
@@ -444,9 +485,166 @@
                 $(this).addClass('active');
                 $(`#${tab}-tab`).addClass('active');
                 
-                // Load paths when Path Manager tab is opened
-                if (tab === 'paths') {
-                    loadConfiguredPaths();
+                // Load catalogue data when Data Catalogue tab is opened
+                if (tab === 'catalogue') {
+                    loadCatalogueData();
+                }
+            });
+
+            // ==================== DATA CATALOGUE CONFIGURATION ====================
+            
+            // Show catalogue status message
+            function showCatalogueStatus(type, message) {
+                const statusDiv = $('#catalogue-status');
+                statusDiv.show();
+                
+                if (type === 'success') {
+                    statusDiv.css({'background': '#e8f5e9', 'color': '#2e7d32', 'border': '1px solid #4caf50'});
+                } else if (type === 'error') {
+                    statusDiv.css({'background': '#ffebee', 'color': '#c62828', 'border': '1px solid #f44336'});
+                } else {
+                    statusDiv.css({'background': '#e3f2fd', 'color': '#1565c0', 'border': '1px solid #2196f3'});
+                }
+                
+                statusDiv.html(message);
+                setTimeout(() => statusDiv.fadeOut(), 5000);
+            }
+            
+            // Update master info display
+            function updateMasterInfo(masterType) {
+                getMetadata(masterType).then(metadata => {
+                    if (metadata) {
+                        const prefix = masterType.replace('Master', '').replace('Plan', '').toLowerCase();
+                        const infoId = prefix === 'item' ? 'item' : prefix === 'store' ? 'store' : 
+                                      prefix === 'competition' ? 'competition' : 'marketing-plan';
+                        $(`#${infoId}-master-filename`).text(metadata.filename);
+                        $(`#${infoId}-master-date`).text(new Date(metadata.uploadDate).toLocaleString());
+                        $(`#${infoId}-master-records`).text(metadata.recordCount);
+                        $(`#${infoId}-master-info`).show();
+                    }
+                }).catch(err => console.error('Error loading metadata:', err));
+            }
+            
+            // Load catalogue data
+            function loadCatalogueData() {
+                updateMasterInfo('itemMaster');
+                updateMasterInfo('storeMaster');
+                updateMasterInfo('competitionMaster');
+                updateMasterInfo('marketingPlan');
+            }
+            
+            // Handle file selection for each master
+            function handleMasterFileSelection(masterType, fileInput) {
+                const file = fileInput.files[0];
+                if (!file) return;
+                
+                // Validate file extension
+                const validExtensions = ['.csv', '.xlsx', '.xls'];
+                const fileExt = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+                if (!validExtensions.includes(fileExt)) {
+                    showCatalogueStatus('error', '❌ Only CSV and Excel files are supported');
+                    fileInput.value = '';
+                    return;
+                }
+                
+                // Validate filename matches master type
+                if (!validateMasterFileName(file.name, masterType)) {
+                    const confirmUpload = confirm(
+                        `⚠️ Warning: The filename "${file.name}" doesn't contain expected keywords for ${masterType.toUpperCase()} master.\\n\\nExpected keywords: ${getMasterKeywords(masterType)}\\n\\nDo you want to proceed anyway?`
+                    );
+                    if (!confirmUpload) {
+                        fileInput.value = '';
+                        return;
+                    }
+                }
+                
+                // Show processing indicator
+                showCatalogueStatus('info', `⏳ Processing ${file.name}...`);
+                
+                // Parse and store the file
+                parseMasterFile(file)
+                    .then(data => {
+                        console.log(`Parsed ${data.length} records from ${file.name}`);
+                        const storeName = masterType + 'Master';
+                        return storeMasterData(storeName, data, { 
+                            filename: file.name,
+                            fileSize: file.size 
+                        });
+                    })
+                    .then(recordCount => {
+                        showCatalogueStatus('success', `✅ Successfully uploaded ${recordCount} records from ${file.name}`);
+                        updateMasterInfo(masterType + 'Master');
+                    })
+                    .catch(error => {
+                        console.error('Error processing file:', error);
+                        showCatalogueStatus('error', `❌ Error: ${error.message}`);
+                        fileInput.value = '';
+                    });
+            }
+            
+            // File selection event handlers
+            $('#item-master-file').on('change', function() {
+                handleMasterFileSelection('item', this);
+            });
+            
+            $('#store-master-file').on('change', function() {
+                handleMasterFileSelection('store', this);
+            });
+            
+            $('#competition-master-file').on('change', function() {
+                handleMasterFileSelection('competition', this);
+            });
+            
+            $('#marketing-plan-file').on('change', function() {
+                handleMasterFileSelection('marketing', this);
+            });
+            
+            // Remove button event handlers
+            $('#remove-item-master-btn').on('click', function() {
+                if (confirm('Are you sure you want to remove Item Master data?')) {
+                    clearMasterData('itemMaster').then(() => {
+                        $('#item-master-info').hide();
+                        $('#item-master-file').val('');
+                        showCatalogueStatus('success', '✅ Item Master data removed');
+                    }).catch(err => {
+                        showCatalogueStatus('error', '❌ Error removing data: ' + err.message);
+                    });
+                }
+            });
+            
+            $('#remove-store-master-btn').on('click', function() {
+                if (confirm('Are you sure you want to remove Store Master data?')) {
+                    clearMasterData('storeMaster').then(() => {
+                        $('#store-master-info').hide();
+                        $('#store-master-file').val('');
+                        showCatalogueStatus('success', '✅ Store Master data removed');
+                    }).catch(err => {
+                        showCatalogueStatus('error', '❌ Error removing data: ' + err.message);
+                    });
+                }
+            });
+            
+            $('#remove-competition-master-btn').on('click', function() {
+                if (confirm('Are you sure you want to remove Competition Master data?')) {
+                    clearMasterData('competitionMaster').then(() => {
+                        $('#competition-master-info').hide();
+                        $('#competition-master-file').val('');
+                        showCatalogueStatus('success', '✅ Competition Master data removed');
+                    }).catch(err => {
+                        showCatalogueStatus('error', '❌ Error removing data: ' + err.message);
+                    });
+                }
+            });
+            
+            $('#remove-marketing-plan-btn').on('click', function() {
+                if (confirm('Are you sure you want to remove Marketing Plan data?')) {
+                    clearMasterData('marketingPlan').then(() => {
+                        $('#marketing-plan-info').hide();
+                        $('#marketing-plan-file').val('');
+                        showCatalogueStatus('success', '✅ Marketing Plan data removed');
+                    }).catch(err => {
+                        showCatalogueStatus('error', '❌ Error removing data: ' + err.message);
+                    });
                 }
             });
 
@@ -486,7 +684,36 @@
                     }));
                     console.log(`📎 Including ${uploadedFileData.length} uploaded file(s) in chat context`);
                 }
-
+                
+                // Include Data Catalogue master data for correlation analysis
+                if (typeof getAllCatalogueDataForGemini === 'function') {
+                    getAllCatalogueDataForGemini().then(catalogueData => {
+                        if (catalogueData.summary.itemCount > 0 || catalogueData.summary.storeCount > 0 || 
+                            catalogueData.summary.competitionCount > 0 || catalogueData.summary.marketingCount > 0) {
+                            
+                            requestData.catalogue_context = {
+                                data: catalogueData.data,
+                                metadata: catalogueData.metadata,
+                                summary: catalogueData.summary
+                            };
+                            console.log(`📚 Including Data Catalogue: Items(${catalogueData.summary.itemCount}), Stores(${catalogueData.summary.storeCount}), Competition(${catalogueData.summary.competitionCount}), Marketing(${catalogueData.summary.marketingCount})`);
+                        }
+                        
+                        // Send the request with all context
+                        sendChatRequest(requestData, thinkingId);
+                    }).catch(err => {
+                        console.warn('Could not load catalogue data:', err);
+                        // Send request without catalogue data
+                        sendChatRequest(requestData, thinkingId);
+                    });
+                } else {
+                    // Catalogue not available, send request normally
+                    sendChatRequest(requestData, thinkingId);
+                }
+            }
+            
+            // Send chat request to backend
+            function sendChatRequest(requestData, thinkingId) {
                 $.ajax({
                     url: '/ask',
                     method: 'POST',

@@ -9,10 +9,12 @@ from datetime import date, datetime
 from flask import Blueprint, jsonify, render_template_string, request
 
 from src.stores import (
+    LocationService,
     StoreAnalyzer,
     StoreChain,
     StoreDatabase,
     WeatherService,
+    create_location_service,
     get_temperature_color,
     get_weather_icon,
     initialize_stores,
@@ -25,6 +27,7 @@ stores_bp = Blueprint("stores", __name__, url_prefix="/stores")
 db = StoreDatabase("data/stores.db")
 weather_service = WeatherService(os.getenv("OPENWEATHER_API_KEY"))
 analyzer = StoreAnalyzer(db)
+location_service = create_location_service()
 
 
 @stores_bp.route("/initialize", methods=["POST"])
@@ -533,5 +536,185 @@ def show_stores_map():
 
         return html
 
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+# ========== NEW ENHANCED FEATURES ==========
+
+
+@stores_bp.route("/geocode", methods=["GET"])
+def geocode_location():
+    """
+    Geocode a location (address or city) to coordinates
+
+    Query params:
+        query: Address or city name (e.g., "Mumbai" or "Connaught Place, Delhi")
+        prefer: Preferred API - "google" or "weather" (default: "google")
+    """
+    try:
+        query = request.args.get("query")
+        prefer = request.args.get("prefer", "google")
+
+        if not query:
+            return jsonify(
+                {"success": False, "error": "Missing 'query' parameter"}
+            ), 400
+
+        location = location_service.geocode(query, prefer=prefer)
+
+        if location:
+            return jsonify(
+                {
+                    "success": True,
+                    "location": {
+                        "latitude": location.latitude,
+                        "longitude": location.longitude,
+                        "address": location.address,
+                        "city": location.city,
+                        "state": location.state,
+                    },
+                }
+            )
+        else:
+            return jsonify({"success": False, "error": "Location not found"}), 404
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@stores_bp.route("/reverse-geocode", methods=["GET"])
+def reverse_geocode_location():
+    """
+    Reverse geocode coordinates to location name
+
+    Query params:
+        lat: Latitude
+        lon: Longitude
+    """
+    try:
+        lat = request.args.get("lat")
+        lon = request.args.get("lon")
+
+        if not lat or not lon:
+            return jsonify(
+                {"success": False, "error": "Missing lat/lon parameters"}
+            ), 400
+
+        result = location_service.reverse_geocode(float(lat), float(lon))
+
+        if result:
+            return jsonify({"success": True, "location": result})
+        else:
+            return jsonify({"success": False, "error": "Location not found"}), 404
+
+    except ValueError:
+        return jsonify({"success": False, "error": "Invalid lat/lon values"}), 400
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@stores_bp.route("/air-quality/<latitude>/<longitude>", methods=["GET"])
+def get_air_quality_for_location(latitude, longitude):
+    """Get air quality data for coordinates"""
+    try:
+        from src.stores.models import GeoLocation
+
+        lat = float(latitude)
+        lon = float(longitude)
+
+        location = GeoLocation(
+            latitude=lat,
+            longitude=lon,
+            address="",
+            city=request.args.get("city", "Unknown"),
+            state=request.args.get("state", "Unknown"),
+            pincode="",
+        )
+
+        air_quality = weather_service.get_air_quality(location)
+
+        if air_quality:
+            return jsonify({"success": True, "air_quality": air_quality})
+        else:
+            return jsonify(
+                {"success": False, "error": "Air quality data unavailable"}
+            ), 500
+
+    except ValueError:
+        return jsonify({"success": False, "error": "Invalid coordinates"}), 400
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@stores_bp.route("/weather-alerts/<latitude>/<longitude>", methods=["GET"])
+def get_weather_alerts_for_location(latitude, longitude):
+    """Get weather alerts/warnings for coordinates"""
+    try:
+        from src.stores.models import GeoLocation
+
+        lat = float(latitude)
+        lon = float(longitude)
+
+        location = GeoLocation(
+            latitude=lat,
+            longitude=lon,
+            address="",
+            city=request.args.get("city", "Unknown"),
+            state=request.args.get("state", "Unknown"),
+            pincode="",
+        )
+
+        alerts = weather_service.get_weather_alerts(location)
+
+        if alerts is not None:
+            return jsonify({"success": True, "count": len(alerts), "alerts": alerts})
+        else:
+            return jsonify(
+                {
+                    "success": False,
+                    "error": "Weather alerts unavailable (requires One Call API 3.0 subscription)",
+                }
+            ), 503
+
+    except ValueError:
+        return jsonify({"success": False, "error": "Invalid coordinates"}), 400
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@stores_bp.route("/location-with-weather", methods=["GET"])
+def get_location_with_weather():
+    """
+    Get location details WITH weather in one call
+
+    Query params:
+        query: City or address name
+    """
+    try:
+        query = request.args.get("query")
+
+        if not query:
+            return jsonify(
+                {"success": False, "error": "Missing 'query' parameter"}
+            ), 400
+
+        result = location_service.get_location_with_weather(query)
+
+        if result:
+            return jsonify({"success": True, "data": result})
+        else:
+            return jsonify({"success": False, "error": "Location not found"}), 404
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@stores_bp.route("/capabilities", methods=["GET"])
+def get_service_capabilities():
+    """Get information about available API capabilities"""
+    try:
+        caps = location_service.get_capabilities()
+        return jsonify({"success": True, "capabilities": caps})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500

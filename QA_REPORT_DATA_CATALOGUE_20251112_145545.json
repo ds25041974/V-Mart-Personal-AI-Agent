@@ -1,0 +1,42 @@
+{
+  "test_suite": "Data Catalogue Configuration QA",
+  "timestamp": "2025-11-12T14:55:45.271075",
+  "tests_run": 56,
+  "tests_passed": 50,
+  "tests_failed": 6,
+  "errors": [
+    {
+      "test": "Data Catalogue tab button",
+      "error": "Tab button text not found in HTML"
+    },
+    {
+      "test": "File browser 'item-master-browser'",
+      "error": "Browser element not found"
+    },
+    {
+      "test": "File browser 'store-master-browser'",
+      "error": "Browser element not found"
+    },
+    {
+      "test": "File browser 'competition-master-browser'",
+      "error": "Browser element not found"
+    },
+    {
+      "test": "File browser 'marketing-plan-browser'",
+      "error": "Browser element not found"
+    },
+    {
+      "test": "catalogue.js script tag",
+      "error": "Script tag not found in HTML"
+    }
+  ],
+  "warnings": [
+    "Validation pattern 'item.*master' might be missing or different",
+    "Validation pattern 'store.*master' might be missing or different",
+    "Validation pattern 'competition.*master' might be missing or different",
+    "Validation pattern 'marketing.*plan' might be missing or different"
+  ],
+  "recommendations": [
+    "Address all critical errors before testing"
+  ]
+}

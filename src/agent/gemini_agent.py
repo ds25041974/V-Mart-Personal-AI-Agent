@@ -9,6 +9,7 @@ Powered by: Gemini AI
 
 import json
 import time
+from collections import deque
 from typing import Callable, Dict, List, Optional
 
 import google.generativeai as genai
@@ -29,6 +30,12 @@ class GeminiAgent:
         # Initialize models - using latest free tier Gemini 2.0 Flash (free for all users)
         self.chat_model = genai.GenerativeModel("gemini-2.0-flash")
         self.vision_model = genai.GenerativeModel("gemini-2.0-flash")
+
+        # Rate limiting (15 requests per minute for free tier)
+        self.request_times = deque(maxlen=15)  # Track last 15 requests
+        self.min_delay_between_requests = (
+            4.5  # 4.5 seconds = ~13 requests/minute (safer than 15/min)
+        )
 
         # Context management
         self.conversation_history: List[Dict] = []
@@ -100,6 +107,34 @@ class GeminiAgent:
         - Cite specific data points to support conclusions
         - Provide actionable recommendations with expected outcomes"""
 
+    def _check_rate_limit(self) -> float:
+        """
+        Check if we're hitting rate limits and return delay needed.
+
+        Returns:
+            float: Number of seconds to wait (0 if no wait needed)
+        """
+        current_time = time.time()
+
+        # Remove requests older than 60 seconds
+        while self.request_times and (current_time - self.request_times[0]) > 60:
+            self.request_times.popleft()
+
+        # If we have 15 requests in the last 60 seconds, wait
+        if len(self.request_times) >= 15:
+            oldest_request = self.request_times[0]
+            wait_time = 60 - (current_time - oldest_request)
+            return max(wait_time, 0)
+
+        # Check minimum delay between consecutive requests
+        if self.request_times:
+            last_request = self.request_times[-1]
+            time_since_last = current_time - last_request
+            if time_since_last < self.min_delay_between_requests:
+                return self.min_delay_between_requests - time_since_last
+
+        return 0
+
     def get_response(
         self,
         prompt: str,
@@ -127,8 +162,8 @@ class GeminiAgent:
         Returns:
             str: The response from the LLM.
         """
-        max_retries = 5
-        base_delay = 2  # Start with 2 seconds
+        max_retries = 3  # Reduced to 3 for faster failure feedback
+        base_delay = 2  # 2 seconds base delay
 
         def send_progress(message: str):
             """Send progress update if callback is provided"""
@@ -137,6 +172,14 @@ class GeminiAgent:
 
         for attempt in range(max_retries):
             try:
+                # Check rate limit before making request
+                wait_time = self._check_rate_limit()
+                if wait_time > 0:
+                    send_progress(
+                        f"⏳ Rate limit protection: waiting {wait_time:.1f} seconds..."
+                    )
+                    time.sleep(wait_time)
+
                 send_progress("🔄 Gathering context data...")
 
                 # Build full prompt with all contexts
@@ -193,6 +236,9 @@ class GeminiAgent:
                 send_progress("🤖 AI is analyzing your question...")
                 send_progress("🧠 Applying reasoning to data...")
 
+                # Record request time for rate limiting
+                self.request_times.append(time.time())
+
                 response = self.chat_model.generate_content(full_prompt)
                 response_text = response.text
 
@@ -211,22 +257,45 @@ class GeminiAgent:
                     "429" in error_message
                     or "Resource exhausted" in error_message
                     or "quota" in error_message.lower()
+                    or "rate limit" in error_message.lower()
+                    or "busy" in error_message.lower()
                 ):
                     if attempt < max_retries - 1:
-                        # Exponential backoff: 2s, 4s, 8s, 16s, 32s
+                        # Exponential backoff: 2s, 4s, 8s
                         delay = base_delay * (2**attempt)
+                        send_progress(
+                            f"⏳ API busy, retrying in {delay}s... (attempt {attempt + 1}/{max_retries})"
+                        )
                         print(
-                            f"Rate limit hit. Retrying in {delay} seconds... (Attempt {attempt + 1}/{max_retries})"
+                            f"⚠️  Rate limit detected. Auto-retry in {delay}s (Attempt {attempt + 1}/{max_retries})"
                         )
                         time.sleep(delay)
+                        send_progress("🔄 Retrying...")
                         continue
                     else:
-                        return "⚠️ Rate limit exceeded. The API is currently busy. Please try again in a few minutes.\n\nTip: Try reducing the frequency of requests or wait 60 seconds before trying again."
+                        # After all retries exhausted - simpler message
+                        return """⚠️ **Gemini API is Busy**
+
+The API is experiencing high traffic right now. 
+
+**Please wait 30-60 seconds and try again.**
+
+💡 Tips:
+- Simplify your question
+- Break complex queries into smaller parts
+- If analyzing files, try smaller samples
+
+*Technical: Free tier allows 15 requests/minute, 1500/day*"""
                 else:
                     # For non-rate-limit errors, return immediately
-                    return f"An error occurred: {error_message}"
+                    print(f"❌ Non-rate-limit error: {error_message}")
+                    return f"**An error occurred:**\n\n{error_message}\n\nPlease try rephrasing your question or contact support if the issue persists."
 
-        return "Maximum retry attempts reached. Please try again later."
+        return """⚠️ **API Request Limit Reached**
+
+Please wait 30-60 seconds before trying again.
+
+The API is currently busy with high traffic."""
 
     def analyze_data(self, data: str, analysis_type: str = "general") -> str:
         """

@@ -1,11 +1,12 @@
 """
 Weather Service Integration
 Fetches weather data from OpenWeatherMap API for store locations
+Enhanced with geocoding, air quality, and weather alerts
 """
 
 import os
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 import requests
 
@@ -24,6 +25,212 @@ class WeatherService:
         """
         self.api_key = api_key or os.getenv("OPENWEATHER_API_KEY")
         self.base_url = "https://api.openweathermap.org/data/2.5"
+        self.geo_url = "https://api.openweathermap.org/geo/1.0"
+
+    def geocode_location(
+        self, city: str, state: Optional[str] = None, country: str = "IN"
+    ) -> Optional[GeoLocation]:
+        """
+        Convert city name to coordinates using OpenWeatherMap Geocoding API
+
+        Args:
+            city: City name (e.g., "Mumbai", "Delhi")
+            state: Optional state name for precision
+            country: Country code (default: "IN" for India)
+
+        Returns:
+            GeoLocation object or None if not found
+        """
+        if not self.api_key:
+            print("Warning: No OpenWeatherMap API key configured")
+            return None
+
+        try:
+            # Build location query
+            query = f"{city}"
+            if state:
+                query += f",{state}"
+            query += f",{country}"
+
+            url = f"{self.geo_url}/direct"
+            params = {"q": query, "limit": 1, "appid": self.api_key}
+
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            if not data:
+                print(f"Location not found: {query}")
+                return None
+
+            result = data[0]
+            return GeoLocation(
+                latitude=result["lat"],
+                longitude=result["lon"],
+                address="",
+                city=result.get("name", city),
+                state=result.get("state", state or ""),
+                pincode="",
+            )
+
+        except Exception as e:
+            print(f"Error geocoding location: {e}")
+            return None
+
+    def reverse_geocode(
+        self, latitude: float, longitude: float
+    ) -> Optional[Dict[str, str]]:
+        """
+        Convert coordinates to location name using OpenWeatherMap Reverse Geocoding
+
+        Args:
+            latitude: Latitude coordinate
+            longitude: Longitude coordinate
+
+        Returns:
+            Dictionary with 'city', 'state', 'country' or None if error
+        """
+        if not self.api_key:
+            print("Warning: No OpenWeatherMap API key configured")
+            return None
+
+        try:
+            url = f"{self.geo_url}/reverse"
+            params = {
+                "lat": latitude,
+                "lon": longitude,
+                "limit": 1,
+                "appid": self.api_key,
+            }
+
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            if not data:
+                return None
+
+            result = data[0]
+            return {
+                "city": result.get("name", "Unknown"),
+                "state": result.get("state", ""),
+                "country": result.get("country", ""),
+                "local_names": result.get("local_names", {}),
+            }
+
+        except Exception as e:
+            print(f"Error reverse geocoding: {e}")
+            return None
+
+    def get_air_quality(self, location: GeoLocation) -> Optional[Dict]:
+        """
+        Get air quality data for a location
+
+        Args:
+            location: GeoLocation object with coordinates
+
+        Returns:
+            Dictionary with AQI and pollutant data or None if error
+        """
+        if not self.api_key:
+            print("Warning: No OpenWeatherMap API key configured")
+            return None
+
+        try:
+            url = "https://api.openweathermap.org/data/2.5/air_pollution"
+            params = {
+                "lat": location.latitude,
+                "lon": location.longitude,
+                "appid": self.api_key,
+            }
+
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            if not data.get("list"):
+                return None
+
+            aqi_data = data["list"][0]
+
+            # AQI levels: 1=Good, 2=Fair, 3=Moderate, 4=Poor, 5=Very Poor
+            aqi_labels = {
+                1: "Good",
+                2: "Fair",
+                3: "Moderate",
+                4: "Poor",
+                5: "Very Poor",
+            }
+
+            return {
+                "aqi": aqi_data["main"]["aqi"],
+                "aqi_label": aqi_labels.get(aqi_data["main"]["aqi"], "Unknown"),
+                "components": aqi_data.get("components", {}),
+                "timestamp": datetime.now(),
+                "location": {
+                    "city": location.city,
+                    "coordinates": f"{location.latitude}, {location.longitude}",
+                },
+            }
+
+        except Exception as e:
+            print(f"Error fetching air quality: {e}")
+            return None
+
+    def get_weather_alerts(self, location: GeoLocation) -> Optional[List[Dict]]:
+        """
+        Get weather alerts/warnings for a location (requires One Call API 3.0)
+
+        Args:
+            location: GeoLocation object with coordinates
+
+        Returns:
+            List of alert dictionaries or None if unavailable
+        """
+        if not self.api_key:
+            print("Warning: No OpenWeatherMap API key configured")
+            return None
+
+        try:
+            url = "https://api.openweathermap.org/data/3.0/onecall"
+            params = {
+                "lat": location.latitude,
+                "lon": location.longitude,
+                "appid": self.api_key,
+                "exclude": "minutely,hourly,daily",  # Only get alerts
+            }
+
+            response = requests.get(url, params=params, timeout=10)
+
+            if response.status_code == 401:
+                print("Weather alerts require One Call API 3.0 subscription")
+                return None
+
+            response.raise_for_status()
+            data = response.json()
+
+            alerts = data.get("alerts", [])
+            if not alerts:
+                return []
+
+            formatted_alerts = []
+            for alert in alerts:
+                formatted_alerts.append(
+                    {
+                        "sender": alert.get("sender_name", "Unknown"),
+                        "event": alert.get("event", "Weather Alert"),
+                        "description": alert.get("description", ""),
+                        "start": datetime.fromtimestamp(alert.get("start", 0)),
+                        "end": datetime.fromtimestamp(alert.get("end", 0)),
+                        "tags": alert.get("tags", []),
+                    }
+                )
+
+            return formatted_alerts
+
+        except Exception as e:
+            print(f"Error fetching weather alerts: {e}")
+            return None
 
     def get_current_weather(self, location: GeoLocation) -> Optional[WeatherData]:
         """
@@ -73,7 +280,7 @@ class WeatherService:
         """
         # Limit to 15 days maximum
         days = min(days, 15)
-        
+
         if not self.api_key:
             print("Warning: No OpenWeatherMap API key configured")
             return self._get_mock_forecast(location, days)
@@ -95,7 +302,7 @@ class WeatherService:
                 data = response.json()
 
                 return self._parse_forecast_weather(data, location)
-            
+
             else:
                 # For 6-15 days, try One Call API 3.0 (requires subscription)
                 # Falls back to mock data if not available
@@ -105,19 +312,23 @@ class WeatherService:
                     "lon": location.longitude,
                     "appid": self.api_key,
                     "units": "metric",
-                    "exclude": "minutely,hourly,alerts"  # Only daily forecast
+                    "exclude": "minutely,hourly,alerts",  # Only daily forecast
                 }
 
                 response = requests.get(url, params=params, timeout=10)
-                
+
                 if response.status_code == 401:
                     # API key doesn't have access to One Call API - use mock data
-                    print(f"One Call API not available (15-day forecast requires subscription). Using mock data for days 6-{days}")
+                    print(
+                        f"One Call API not available (15-day forecast requires subscription). Using mock data for days 6-{days}"
+                    )
                     # Get 5-day real forecast + mock data for remaining days
                     real_forecast = self.get_forecast_weather(location, days=5)
-                    mock_forecast = self._get_mock_forecast(location, days - 5, start_day=5)
+                    mock_forecast = self._get_mock_forecast(
+                        location, days - 5, start_day=5
+                    )
                     return real_forecast + mock_forecast
-                
+
                 response.raise_for_status()
                 data = response.json()
 
@@ -206,7 +417,7 @@ class WeatherService:
         # One Call API returns daily forecasts
         for i, daily in enumerate(data.get("daily", [])[:days]):
             base_date = datetime.fromtimestamp(daily["dt"])
-            
+
             # Generate weather for different periods of the day
             for period in WeatherPeriod:
                 # Use different temperature values based on period
@@ -278,10 +489,12 @@ class WeatherService:
             last_updated=datetime.now(),
         )
 
-    def _get_mock_forecast(self, location: GeoLocation, days: int, start_day: int = 0) -> List[WeatherData]:
+    def _get_mock_forecast(
+        self, location: GeoLocation, days: int, start_day: int = 0
+    ) -> List[WeatherData]:
         """
         Generate mock forecast data
-        
+
         Args:
             location: GeoLocation object
             days: Number of days to forecast
@@ -302,7 +515,7 @@ class WeatherService:
 
                 # Add realistic variations based on day
                 day_variation = (day % 7) - 3  # -3 to +3 variation
-                
+
                 weather = WeatherData(
                     location=location,
                     date=date,
@@ -310,8 +523,12 @@ class WeatherService:
                     temperature_celsius=temp_variations[period] + day_variation,
                     feels_like_celsius=temp_variations[period] + day_variation + 2,
                     humidity=55 + (day * 3) % 30,  # 55-85% range
-                    weather_condition="Clear" if day % 3 == 0 else ("Cloudy" if day % 3 == 1 else "Rain"),
-                    weather_description="clear sky" if day % 3 == 0 else ("few clouds" if day % 3 == 1 else "light rain"),
+                    weather_condition="Clear"
+                    if day % 3 == 0
+                    else ("Cloudy" if day % 3 == 1 else "Rain"),
+                    weather_description="clear sky"
+                    if day % 3 == 0
+                    else ("few clouds" if day % 3 == 1 else "light rain"),
                     wind_speed=10.0 + (day * 1.5) % 15,  # 10-25 km/h range
                     visibility=10.0,
                     last_updated=datetime.now(),
