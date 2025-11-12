@@ -180,6 +180,30 @@ try:
 except Exception as e:
     print(f"⚠ Email authentication routes not available: {e}")
 
+# Register Admin Panel Blueprint (NEW - User Management & Access Control)
+try:
+    from src.admin import admin_bp, init_admin_db
+    from src.admin.access_control import AccessControl, DataFilter
+
+    # Initialize admin database tables
+    init_admin_db()
+    print("✓ Admin database initialized")
+
+    # Register admin blueprint
+    app.register_blueprint(admin_bp)
+    print("✓ Admin Panel routes registered at /admin")
+
+    # Create global instances for use in routes
+    admin_access_control = AccessControl()
+    admin_data_filter = DataFilter()
+
+    ADMIN_PANEL_AVAILABLE = True
+except Exception as e:
+    ADMIN_PANEL_AVAILABLE = False
+    admin_access_control = None
+    admin_data_filter = None
+    print(f"⚠ Admin Panel not available: {e}")
+
 # AI Chat features now integrated into main interface
 # No separate /ai-chat routes needed
 

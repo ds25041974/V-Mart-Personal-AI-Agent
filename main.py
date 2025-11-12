@@ -57,10 +57,25 @@ if __name__ == "__main__":
        • Context-aware recommendations
     
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    � STORE & ANALYTICS FEATURES
+    👑 ADMIN PANEL - USER MANAGEMENT
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     
-    �️  Store Locator Map: http://{host}:{port}/stores/map
+    🔐 Admin Dashboard: http://{host}:{port}/admin/dashboard
+       • Email verification & whitelist management
+       • User approval workflow
+       • 10-level data access control (HO → Warehouse → Zone → Store → etc.)
+       • Force-stop capability for suspended users
+       • Super Admins (Protected):
+         - dinesh.srivastava@vmart.co.in
+         - ds.250474@gmail.com
+         - dineshsrivastava07@gmail.com
+       • Activity logging & audit trail
+    
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    📊 STORE & ANALYTICS FEATURES
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    
+    🗺️  Store Locator Map: http://{host}:{port}/stores/map
     📊 Analytics Dashboard: http://{host}:{port}/analytics/dashboard-ui/VM_DL_001
     📈 Store Details: http://{host}:{port}/stores/vmart
     
@@ -69,6 +84,7 @@ if __name__ == "__main__":
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     
     • AI Chat Guide: docs/AI_CHAT_GUIDE.md
+    • Admin Panel: docs/ADMIN_PANEL_GUIDE.md
     • Store Locator: docs/STORE_LOCATOR_GUIDE.md
     • Analytics: docs/ANALYTICS_GUIDE.md
     • Quick Start: AI_CHAT_README.md

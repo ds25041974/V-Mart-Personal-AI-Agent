@@ -16,6 +16,7 @@ A comprehensive personal AI agent powered by Google's Gemini AI, featuring docum
 **🔴 HIGH PRIORITY - START HERE:**
 - ⭐ [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) - Complete system architecture with flowcharts and objectives
 - ⭐ [**CHATBOT_INTERFACE_GUIDE.md**](docs/CHATBOT_INTERFACE_GUIDE.md) - Detailed guide to all tabs and features
+- ⭐ [**ADMIN_PANEL_GUIDE.md**](docs/ADMIN_PANEL_GUIDE.md) - Complete admin panel documentation
 - ⭐ [**SERVICE_24x7_SETUP.md**](docs/SERVICE_24x7_SETUP.md) - 24x7 auto-start service configuration
 - [SETUP_GUIDE.md](docs/SETUP_GUIDE.md) - Complete setup instructions for Windows, macOS, and Linux
 - [USER_GUIDE.md](docs/USER_GUIDE.md) - Comprehensive usage guide
@@ -40,9 +41,15 @@ A comprehensive personal AI agent powered by Google's Gemini AI, featuring docum
 
 ### Security & Authentication
 - **🔐 Google OAuth**: Secure authentication
-- **� Demo Mode**: Quick access without OAuth setup
+- **👤 Demo Mode**: Quick access without OAuth setup
 - **🔒 Session Management**: Secure user sessions
 - **🛡️ Push Protection**: GitHub secret scanning enabled
+- **👑 Admin Panel**: Complete user management & access control system
+  - Email whitelist with verification
+  - Super admin privileges (3 protected emails)
+  - Force-stop capability for delisted users
+  - 10-level data access hierarchy
+  - Activity logging & audit trail
 
 ### Multi-Platform Support
 - ✅ Windows 10+
