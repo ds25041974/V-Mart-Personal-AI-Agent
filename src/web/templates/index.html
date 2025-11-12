@@ -325,9 +325,9 @@
                     <div id="selected-files-display" style="margin-bottom: 20px; display: none;">
                         <h3 style="font-size: 16px; margin-bottom: 10px;">Selected Files:</h3>
                         <div id="selected-files-list" style="max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;"></div>
-                        <button id="upload-files-btn" class="primary-btn" style="margin-top: 10px;">
-                            ⬆️ Upload & Analyze Files
-                        </button>
+                        <div id="upload-files-btn" class="info-badge" style="margin-top: 10px; padding: 10px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 4px; font-weight: 500;">
+                            📁 Files will be processed automatically
+                        </div>
                     </div>
                     
                     <!-- File Content Viewer -->
@@ -470,11 +470,28 @@
                 `);
                 $('#chat-history').scrollTop($('#chat-history')[0].scrollHeight);
 
+                // Prepare request data - include uploaded files from File Browser if available
+                const requestData = { 
+                    prompt: prompt, 
+                    use_context: true 
+                };
+                
+                // If files are uploaded in File Browser, include them for AI analysis
+                if (uploadedFileData && uploadedFileData.length > 0) {
+                    requestData.file_context = uploadedFileData.map(f => ({
+                        filename: f.filename,
+                        type: f.type || f.file_type,
+                        content: f.content || f.preview || '',
+                        metadata: f.metadata || {}
+                    }));
+                    console.log(`📎 Including ${uploadedFileData.length} uploaded file(s) in chat context`);
+                }
+
                 $.ajax({
                     url: '/ask',
                     method: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({ prompt: prompt, use_context: true }),
+                    data: JSON.stringify(requestData),
                     success: function(data) {
                         // Remove thinking indicator
                         $('#' + thinkingId).remove();
@@ -553,10 +570,16 @@
                 $('#file-upload-input').click();
             });
             
-            // Handle file selection
+            // Handle file selection - AUTO PROCESS FILES
             $('#file-upload-input').on('change', function(e) {
                 selectedFiles = Array.from(e.target.files);
                 displaySelectedFiles();
+                
+                // Auto-upload files immediately
+                if (selectedFiles.length > 0) {
+                    $('#upload-files-btn').html('⏳ Processing files...').css('background', '#fff3cd').css('border-left-color', '#ffc107');
+                    uploadFilesAutomatically();
+                }
             });
             
             // Display selected files
@@ -593,45 +616,201 @@
             // Clear selected files
             $('#clear-selected-files-btn').on('click', function() {
                 selectedFiles = [];
+                uploadedFileData = [];
                 $('#file-upload-input').val('');
                 displaySelectedFiles();
+                $('#file-content-viewer').hide();
+                $('#file-ai-chat').hide();
             });
             
-            // Upload and analyze files
-            $('#upload-files-btn').on('click', function() {
-                if (selectedFiles.length === 0) {
-                    alert('Please select files first');
-                    return;
-                }
-                
+            // Auto-upload files function
+            function uploadFilesAutomatically() {
                 const formData = new FormData();
                 selectedFiles.forEach(file => {
                     formData.append('files', file);
                 });
                 
-                $(this).prop('disabled', true).text('⏳ Uploading...');
+                // Update status to show processing
+                $('#upload-files-btn').html('⏳ Processing files...').css('background', '#fff3cd').css('border-left-color', '#ffc107');
                 
                 $.ajax({
                     url: '/ai-chat/upload',
-                    method: 'POST',
+                    type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
-                        uploadedFileData = response.files || [];
+                    cache: false,
+                    timeout: 60000, // 60 second timeout for large files
+                    success: function(data, textStatus, xhr) {
+                        console.log('📥 Upload response received:', {
+                            status: xhr.status,
+                            statusText: xhr.statusText,
+                            dataType: typeof data,
+                            contentType: xhr.getResponseHeader('Content-Type')
+                        });
+                        
+                        // Parse response if it's a string
+                        let response;
+                        if (typeof data === 'string') {
+                            console.log('🔄 Parsing string response...');
+                            try {
+                                response = JSON.parse(data);
+                                console.log('✅ JSON parsed successfully');
+                            } catch (parseError) {
+                                console.error('❌ JSON parse failed:', parseError);
+                                console.error('Raw response:', data.substring(0, 500));
+                                $('#upload-files-btn').html('❌ Invalid JSON from server').css('background', '#f8d7da').css('border-left-color', '#dc3545');
+                                showToast('❌ Server response is not valid JSON', 'error');
+                                return;
+                            }
+                        } else {
+                            console.log('✅ Response already parsed as object');
+                            response = data;
+                        }
+                        
+                        console.log('📊 Response structure:', {
+                            hasResponse: !!response,
+                            successField: response?.success,
+                            successType: typeof response?.success,
+                            filesField: !!response?.files,
+                            filesType: typeof response?.files,
+                            isArray: Array.isArray(response?.files),
+                            filesLength: response?.files?.length || 0
+                        });
+                        
+                        // Validation 1: Check response exists
+                        if (!response || typeof response !== 'object') {
+                            console.error('❌ Validation failed: No valid response object');
+                            $('#upload-files-btn').html('❌ Empty response').css('background', '#f8d7da').css('border-left-color', '#dc3545');
+                            showToast('❌ No response from server', 'error');
+                            return;
+                        }
+                        
+                        // Validation 2: Check success flag
+                        if (response.success === false) {
+                            console.error('❌ Validation failed: success=false', response.error);
+                            $('#upload-files-btn').html('❌ ' + (response.error || 'Upload failed')).css('background', '#f8d7da').css('border-left-color', '#dc3545');
+                            showToast('❌ ' + (response.error || 'Upload failed'), 'error');
+                            return;
+                        }
+                        
+                        // Validation 3: Check files array
+                        if (!response.files || !Array.isArray(response.files)) {
+                            console.error('❌ Validation failed: Invalid files array', {
+                                hasFiles: !!response.files,
+                                isArray: Array.isArray(response.files),
+                                type: typeof response.files
+                            });
+                            $('#upload-files-btn').html('❌ No files in response').css('background', '#f8d7da').css('border-left-color', '#dc3545');
+                            showToast('❌ No files received from server', 'error');
+                            return;
+                        }
+                        
+                        // Validation 4: Check array not empty
+                        if (response.files.length === 0) {
+                            console.warn('⚠️ Validation warning: Empty files array');
+                            $('#upload-files-btn').html('⚠️ No files processed').css('background', '#fff3cd').css('border-left-color', '#ffc107');
+                            showToast('⚠️ No files were processed', 'error');
+                            return;
+                        }
+                        
+                        // ALL VALIDATIONS PASSED!
+                        console.log(`✅✅✅ SUCCESS! All validations passed for ${response.files.length} file(s)`);
+                        console.log('📁 Files:', response.files.map(f => f.filename).join(', '));
+                        
+                        uploadedFileData = response.files;
                         displayFileContent(uploadedFileData);
                         $('#file-ai-chat').show();
-                        $('#upload-files-btn').prop('disabled', false).text('⬆️ Upload & Analyze Files');
-                        
-                        // Show success message
-                        alert(`Successfully uploaded ${uploadedFileData.length} file(s)`);
+                        $('#upload-files-btn').html(`✅ ${uploadedFileData.length} file(s) ready for AI chat`).css('background', '#d4edda').css('border-left-color', '#28a745');
+                        showToast(`✅ ${uploadedFileData.length} file(s) processed successfully`, 'success');
                     },
-                    error: function(xhr) {
-                        alert('Error uploading files: ' + (xhr.responseJSON?.error || 'Unknown error'));
-                        $('#upload-files-btn').prop('disabled', false).text('⬆️ Upload & Analyze Files');
+                    error: function(xhr, status, errorThrown) {
+                        console.error('❌ Upload ERROR:', {
+                            status: status,
+                            errorThrown: errorThrown,
+                            xhrStatus: xhr.status,
+                            xhrStatusText: xhr.statusText,
+                            responseText: xhr.responseText ? xhr.responseText.substring(0, 500) : 'none',
+                            responseJSON: xhr.responseJSON
+                        });
+                        
+                        // Special handling for parsererror - try to recover
+                        if (status === 'parsererror' && xhr.status === 200 && xhr.responseText) {
+                            console.warn('⚠️ Parser error but status 200 - attempting manual parse');
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                console.log('✅ Successfully recovered from parsererror!');
+                                
+                                // Validate and process the recovered response
+                                if (response && response.success && response.files && Array.isArray(response.files) && response.files.length > 0) {
+                                    uploadedFileData = response.files;
+                                    displayFileContent(uploadedFileData);
+                                    $('#file-ai-chat').show();
+                                    $('#upload-files-btn').html(`✅ ${uploadedFileData.length} file(s) ready for AI chat`).css('background', '#d4edda').css('border-left-color', '#28a745');
+                                    showToast(`✅ ${uploadedFileData.length} file(s) processed successfully`, 'success');
+                                    return; // Success! Exit error handler
+                                }
+                            } catch(e) {
+                                console.error('❌ Failed to recover:', e);
+                            }
+                        }
+                        
+                        let errorMsg = 'Upload failed';
+                        
+                        // Handle different error scenarios
+                        if (status === 'timeout') {
+                            errorMsg = 'Upload timeout - file too large or slow connection';
+                        } else if (status === 'abort') {
+                            errorMsg = 'Upload cancelled';
+                        } else if (status === 'parsererror') {
+                            errorMsg = 'Server response format error';
+                            console.error('❌ Parser error - Response was:', xhr.responseText);
+                        } else if (xhr.status === 0 && status === 'error') {
+                            errorMsg = 'Network error - cannot reach server';
+                        } else if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMsg = xhr.responseJSON.error;
+                        } else if (xhr.responseText) {
+                            // Try to parse error from text
+                            try {
+                                const resp = JSON.parse(xhr.responseText);
+                                if (resp.error) {
+                                    errorMsg = resp.error;
+                                } else if (resp.success === false) {
+                                    errorMsg = 'Server processing failed';
+                                }
+                            } catch(e) {
+                                // Not JSON, check if it's HTML error
+                                if (xhr.responseText.includes('<!DOCTYPE') || xhr.responseText.includes('<html')) {
+                                    errorMsg = `Server error (${xhr.status})`;
+                                } else {
+                                    errorMsg = xhr.responseText.substring(0, 100);
+                                }
+                            }
+                        } else if (xhr.status === 413) {
+                            errorMsg = 'File too large';
+                        } else if (xhr.status === 415) {
+                            errorMsg = 'Unsupported file type';
+                        } else if (xhr.status === 500) {
+                            errorMsg = 'Server internal error';
+                        } else if (xhr.status >= 400 && xhr.status < 500) {
+                            errorMsg = `Client error (${xhr.status})`;
+                        } else if (xhr.status >= 500) {
+                            errorMsg = `Server error (${xhr.status})`;
+                        }
+                        
+                        $('#upload-files-btn').html('❌ Error: ' + errorMsg).css('background', '#f8d7da').css('border-left-color', '#dc3545');
+                        showToast('❌ Error: ' + errorMsg, 'error');
                     }
                 });
-            });
+            }
+            
+            // Simple toast notification function
+            function showToast(message, type) {
+                const bgColor = type === 'success' ? '#4caf50' : '#f44336';
+                const toast = $(`<div style="position: fixed; bottom: 20px; right: 20px; background: ${bgColor}; color: white; padding: 15px 20px; border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 10000;">${message}</div>`);
+                $('body').append(toast);
+                setTimeout(() => toast.fadeOut(() => toast.remove()), 3000);
+            }
             
             // Display file content
             function displayFileContent(files) {
@@ -670,8 +849,24 @@
                 const message = $('#file-chat-input').val().trim();
                 if (!message) return;
                 
+                // Check if files are uploaded
+                if (!uploadedFileData || uploadedFileData.length === 0) {
+                    showToast('⚠️ Please select files first', 'error');
+                    return;
+                }
+                
                 $('#file-chat-history').append(`<div style="margin-bottom: 10px;"><strong>You:</strong> ${escapeHtml(message)}</div>`);
                 $('#file-chat-input').val('');
+                
+                // Prepare file context with FULL content
+                const fileContext = uploadedFileData.map(f => ({ 
+                    filename: f.filename, 
+                    type: f.type || f.file_type,
+                    content: f.content || f.preview || '',  // Use full content
+                    metadata: f.metadata || {}
+                }));
+                
+                $('#file-chat-history').append(`<div style="margin-bottom: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px;"><strong>AI:</strong> <em>Analyzing ${fileContext.length} file(s)...</em></div>`);
                 
                 $.ajax({
                     url: '/ask',
@@ -680,14 +875,18 @@
                     data: JSON.stringify({ 
                         prompt: message, 
                         use_context: true,
-                        file_context: uploadedFileData.map(f => ({ filename: f.filename, content: f.preview }))
+                        file_context: fileContext
                     }),
                     success: function(data) {
+                        // Remove "analyzing" message
+                        $('#file-chat-history div:last').remove();
                         $('#file-chat-history').append(`<div style="margin-bottom: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px;"><strong>AI:</strong> ${data.response}</div>`);
                         $('#file-chat-history').scrollTop($('#file-chat-history')[0].scrollHeight);
                     },
-                    error: function() {
-                        $('#file-chat-history').append('<div style="color: red;">Error occurred</div>');
+                    error: function(xhr) {
+                        $('#file-chat-history div:last').remove();
+                        const error = xhr.responseJSON?.error || 'Error occurred';
+                        $('#file-chat-history').append(`<div style="color: red; padding: 10px; background: #ffe6e6; border-radius: 4px;"><strong>Error:</strong> ${error}</div>`);
                     }
                 });
             }
@@ -748,7 +947,7 @@
                     url: '/api/paths/validate',
                     method: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify({ path: pathLocation }),
+                    data: JSON.stringify({ location: pathLocation }),
                     success: function(response) {
                         if (response.valid) {
                             showPathValidation('success', `✓ Valid path: ${response.message}`);

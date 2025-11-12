@@ -46,12 +46,18 @@ def add_path():
         if not data:
             return jsonify({"success": False, "error": "No data provided"}), 400
 
-        name = data.get("name", "")
-        location = data.get("location", "")
-        description = data.get("description", "")
+        name = data.get("name", "").strip()
+        location = data.get("location", "").strip()
+        description = data.get("description", "").strip()
+
+        # Validate inputs
+        if not name:
+            return jsonify({"success": False, "error": "Please provide path name"}), 400
 
         if not location:
-            return jsonify({"success": False, "error": "Location is required"}), 400
+            return jsonify(
+                {"success": False, "error": "Please provide path location"}
+            ), 400
 
         # Expand user home directory if present
         location = os.path.expanduser(location)
@@ -70,9 +76,11 @@ def add_path():
         )
 
     except ValueError as e:
-        return jsonify({"success": False, "error": str(e)}), 400
+        return jsonify(
+            {"success": False, "error": f"Error validating path: {str(e)}"}
+        ), 400
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": f"Error adding path: {str(e)}"}), 500
 
 
 @path_bp.route("/<int:path_id>", methods=["DELETE"])
@@ -262,7 +270,6 @@ def validate_path():
 
         # Get path info
         is_file = os.path.isfile(location)
-        is_dir = os.path.isdir(location)
 
         info = {
             "valid": True,
@@ -279,7 +286,7 @@ def validate_path():
             try:
                 file_count = sum(1 for _ in os.scandir(location) if _.is_file())
                 info["file_count"] = file_count
-            except:
+            except Exception:
                 info["file_count"] = 0
 
         return jsonify({"success": True, "path_info": info})

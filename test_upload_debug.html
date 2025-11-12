@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload Debug Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        #console-output { background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 5px; 
+                         font-family: monospace; font-size: 12px; max-height: 500px; overflow-y: auto; }
+        .log { margin: 5px 0; }
+        .log.success { color: #4ec9b0; }
+        .log.error { color: #f48771; }
+        .log.info { color: #9cdcfe; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; 
+                border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        input[type="file"] { margin: 10px 0; padding: 10px; }
+        #status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 File Upload Debug Test</h1>
+    <p>This page will test the exact AJAX upload mechanism and show detailed console logs.</p>
+    
+    <div class="test-section">
+        <h3>Test File Upload</h3>
+        <input type="file" id="file-input" multiple>
+        <br>
+        <button onclick="testUpload()">Upload Files</button>
+        <button onclick="clearConsole()">Clear Console</button>
+        <div id="status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Console Output</h3>
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        let logCount = 0;
+        
+        // Intercept console methods
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToConsole(message, type = 'info') {
+            logCount++;
+            const output = document.getElementById('console-output');
+            const logDiv = document.createElement('div');
+            logDiv.className = `log ${type}`;
+            logDiv.textContent = `[${logCount}] ${message}`;
+            output.appendChild(logDiv);
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : a).join(' '), 'info');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : a).join(' '), 'error');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsole(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : a).join(' '), 'info');
+        };
+        
+        function clearConsole() {
+            document.getElementById('console-output').innerHTML = '';
+            logCount = 0;
+            document.getElementById('status').innerHTML = '';
+        }
+        
+        function updateStatus(message, color) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.style.background = color;
+        }
+        
+        function testUpload() {
+            const fileInput = document.getElementById('file-input');
+            const files = fileInput.files;
+            
+            if (files.length === 0) {
+                alert('Please select files first!');
+                return;
+            }
+            
+            console.log(`📤 Starting upload of ${files.length} file(s)...`);
+            updateStatus('⏳ Uploading...', '#fff3cd');
+            
+            const formData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+                console.log(`Added file ${i+1}: ${files[i].name} (${files[i].size} bytes)`);
+            }
+            
+            $.ajax({
+                url: 'http://localhost:8000/ai-chat/upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 60000,
+                success: function(data, textStatus, xhr) {
+                    console.log('📥 Upload response received:', {
+                        status: xhr.status,
+                        statusText: xhr.statusText,
+                        dataType: typeof data,
+                        contentType: xhr.getResponseHeader('Content-Type')
+                    });
+                    
+                    // Parse response if it's a string
+                    let response;
+                    if (typeof data === 'string') {
+                        console.log('🔄 Parsing string response...');
+                        try {
+                            response = JSON.parse(data);
+                            console.log('✅ JSON parsed successfully');
+                        } catch (parseError) {
+                            console.error('❌ JSON parse failed:', parseError);
+                            console.error('Raw response:', data.substring(0, 500));
+                            updateStatus('❌ Invalid JSON from server', '#f8d7da');
+                            return;
+                        }
+                    } else {
+                        console.log('✅ Response already parsed as object');
+                        response = data;
+                    }
+                    
+                    console.log('📊 Response structure:', {
+                        hasResponse: !!response,
+                        successField: response?.success,
+                        successType: typeof response?.success,
+                        filesField: !!response?.files,
+                        filesType: typeof response?.files,
+                        isArray: Array.isArray(response?.files),
+                        filesLength: response?.files?.length || 0
+                    });
+                    
+                    console.log('📋 Full response object:', response);
+                    
+                    // Validation 1: Check response exists
+                    if (!response || typeof response !== 'object') {
+                        console.error('❌ Validation failed: No valid response object');
+                        updateStatus('❌ Empty response', '#f8d7da');
+                        return;
+                    }
+                    
+                    // Validation 2: Check success flag
+                    if (response.success === false) {
+                        console.error('❌ Validation failed: success=false', response.error);
+                        updateStatus('❌ ' + (response.error || 'Upload failed'), '#f8d7da');
+                        return;
+                    }
+                    
+                    // Validation 3: Check files array
+                    if (!response.files || !Array.isArray(response.files)) {
+                        console.error('❌ Validation failed: Invalid files array', {
+                            hasFiles: !!response.files,
+                            isArray: Array.isArray(response.files),
+                            type: typeof response.files
+                        });
+                        updateStatus('❌ No files in response', '#f8d7da');
+                        return;
+                    }
+                    
+                    // Validation 4: Check array not empty
+                    if (response.files.length === 0) {
+                        console.warn('⚠️ Validation warning: Empty files array');
+                        updateStatus('⚠️ No files processed', '#fff3cd');
+                        return;
+                    }
+                    
+                    // ALL VALIDATIONS PASSED!
+                    console.log(`✅✅✅ SUCCESS! All validations passed for ${response.files.length} file(s)`);
+                    console.log('📁 Files:', response.files.map(f => f.filename).join(', '));
+                    
+                    updateStatus(`✅ ${response.files.length} file(s) processed successfully!`, '#d4edda');
+                    
+                    // Display file details
+                    response.files.forEach((file, i) => {
+                        console.log(`\nFile ${i+1} Details:`, {
+                            filename: file.filename,
+                            type: file.file_type,
+                            size: file.size,
+                            contentLength: file.content?.length || 0,
+                            hasMetadata: !!file.metadata
+                        });
+                    });
+                },
+                error: function(xhr, status, errorThrown) {
+                    console.error('❌ AJAX Error:', {
+                        status: status,
+                        httpStatus: xhr.status,
+                        statusText: xhr.statusText,
+                        errorThrown: errorThrown,
+                        responseText: xhr.responseText?.substring(0, 500)
+                    });
+                    
+                    // Handle specific error types
+                    if (status === 'timeout') {
+                        updateStatus('❌ Upload timeout (60s)', '#f8d7da');
+                    } else if (status === 'error') {
+                        if (xhr.status === 0) {
+                            updateStatus('❌ Network error - server not reachable', '#f8d7da');
+                        } else {
+                            updateStatus(`❌ Server error (${xhr.status})`, '#f8d7da');
+                        }
+                    } else if (status === 'parsererror') {
+                        console.log('⚠️ Parse error detected, attempting recovery...');
+                        if (xhr.status === 200) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                console.log('✅ Recovery successful! Response:', response);
+                                if (response && response.success && response.files && Array.isArray(response.files) && response.files.length > 0) {
+                                    console.log('✅ Recovered response is valid, using it');
+                                    updateStatus(`✅ ${response.files.length} file(s) processed (recovered)`, '#d4edda');
+                                    return;
+                                }
+                            } catch(e) {
+                                console.error('❌ Recovery failed:', e);
+                            }
+                        }
+                        updateStatus('❌ Server response parsing error', '#f8d7da');
+                    } else {
+                        updateStatus('❌ Unknown error: ' + status, '#f8d7da');
+                    }
+                }
+            });
+        }
+        
+        console.log('✅ Debug test page loaded. Select files and click Upload to test.');
+    </script>
+</body>
+</html>

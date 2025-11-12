@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - V-Mart Personal AI Agent</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .signup-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-align: center;
+        }
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .password-requirements {
+            font-size: 12px;
+            color: #666;
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .requirement.met { color: #4caf50; }
+        .requirement.unmet { color: #999; }
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        button[type="submit"]:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .alert-error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+        .alert-success {
+            background: #efe;
+            color: #3c3;
+            border: 1px solid #cfc;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h1>🏪 V-Mart AI Agent</h1>
+        <p class="subtitle">Create your account to get started</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('email_auth.signup') }}" id="signup-form">
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" required 
+                       placeholder="Enter your full name" value="{{ request.form.get('full_name', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="you@example.com" value="{{ request.form.get('email', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required 
+                       placeholder="Create a strong password">
+                <div class="password-requirements">
+                    <div class="requirement" id="req-length">
+                        <span class="icon">○</span> At least 8 characters
+                    </div>
+                    <div class="requirement" id="req-upper">
+                        <span class="icon">○</span> One uppercase letter
+                    </div>
+                    <div class="requirement" id="req-lower">
+                        <span class="icon">○</span> One lowercase letter
+                    </div>
+                    <div class="requirement" id="req-number">
+                        <span class="icon">○</span> One number
+                    </div>
+                    <div class="requirement" id="req-special">
+                        <span class="icon">○</span> One special character (@$!%*?&#)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required 
+                       placeholder="Re-enter your password">
+            </div>
+
+            <button type="submit" id="submit-btn">Create Account</button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="{{ url_for('email_auth.login') }}">Sign In</a>
+        </div>
+
+        <div class="credits">
+            Developed by DSR | Inspired by LA | Powered by Gemini AI
+        </div>
+    </div>
+
+    <script>
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirm_password');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // Password validation
+        password.addEventListener('input', function() {
+            const value = this.value;
+            
+            // Length check
+            const reqLength = document.getElementById('req-length');
+            if (value.length >= 8) {
+                reqLength.classList.add('met');
+                reqLength.classList.remove('unmet');
+                reqLength.querySelector('.icon').textContent = '✓';
+            } else {
+                reqLength.classList.remove('met');
+                reqLength.classList.add('unmet');
+                reqLength.querySelector('.icon').textContent = '○';
+            }
+
+            // Uppercase check
+            const reqUpper = document.getElementById('req-upper');
+            if (/[A-Z]/.test(value)) {
+                reqUpper.classList.add('met');
+                reqUpper.classList.remove('unmet');
+                reqUpper.querySelector('.icon').textContent = '✓';
+            } else {
+                reqUpper.classList.remove('met');
+                reqUpper.classList.add('unmet');
+                reqUpper.querySelector('.icon').textContent = '○';
+            }
+
+            // Lowercase check
+            const reqLower = document.getElementById('req-lower');
+            if (/[a-z]/.test(value)) {
+                reqLower.classList.add('met');
+                reqLower.classList.remove('unmet');
+                reqLower.querySelector('.icon').textContent = '✓';
+            } else {
+                reqLower.classList.remove('met');
+                reqLower.classList.add('unmet');
+                reqLower.querySelector('.icon').textContent = '○';
+            }
+
+            // Number check
+            const reqNumber = document.getElementById('req-number');
+            if (/\d/.test(value)) {
+                reqNumber.classList.add('met');
+                reqNumber.classList.remove('unmet');
+                reqNumber.querySelector('.icon').textContent = '✓';
+            } else {
+                reqNumber.classList.remove('met');
+                reqNumber.classList.add('unmet');
+                reqNumber.querySelector('.icon').textContent = '○';
+            }
+
+            // Special character check
+            const reqSpecial = document.getElementById('req-special');
+            if (/[@$!%*?&#]/.test(value)) {
+                reqSpecial.classList.add('met');
+                reqSpecial.classList.remove('unmet');
+                reqSpecial.querySelector('.icon').textContent = '✓';
+            } else {
+                reqSpecial.classList.remove('met');
+                reqSpecial.classList.add('unmet');
+                reqSpecial.querySelector('.icon').textContent = '○';
+            }
+        });
+
+        // Form validation before submit
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            if (password.value !== confirmPassword.value) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+                confirmPassword.focus();
+                return false;
+            }
+
+            // Check password requirements
+            const passwordValue = password.value;
+            if (passwordValue.length < 8 || 
+                !/[A-Z]/.test(passwordValue) || 
+                !/[a-z]/.test(passwordValue) || 
+                !/\d/.test(passwordValue) || 
+                !/[@$!%*?&#]/.test(passwordValue)) {
+                e.preventDefault();
+                alert('Password does not meet all requirements!');
+                password.focus();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -171,6 +171,15 @@ try:
 except Exception as e:
     print(f"⚠ Path Manager routes not available: {e}")
 
+# Register Email Authentication Blueprint (NEW - Email Signup/Login)
+try:
+    from src.auth.email_auth import email_auth_bp
+
+    app.register_blueprint(email_auth_bp, url_prefix="/auth")
+    print("✓ Email authentication routes registered at /auth")
+except Exception as e:
+    print(f"⚠ Email authentication routes not available: {e}")
+
 # AI Chat features now integrated into main interface
 # No separate /ai-chat routes needed
 
@@ -267,49 +276,8 @@ def index():
     if "user" in session:
         return render_template("index.html", user=session["user"])
 
-    # Always show email login form (simplified mode)
-    return """
-    <html>
-    <head>
-        <title>V-Mart AI Agent - Login</title>
-        <style>
-            body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
-            .login-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-width: 400px; width: 100%; }
-            h1 { color: #333; margin-bottom: 10px; font-size: 28px; }
-            .subtitle { color: #666; margin-bottom: 30px; font-size: 14px; }
-            .form-group { margin-bottom: 20px; }
-            label { display: block; margin-bottom: 5px; color: #555; font-weight: 500; }
-            input[type="email"], input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
-            input[type="email"]:focus, input[type="text"]:focus { outline: none; border-color: #4285f4; }
-            button { width: 100%; padding: 12px; background: #4285f4; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: 500; transition: background 0.3s; }
-            button:hover { background: #357ae8; }
-            .note { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; font-size: 13px; color: #666; }
-            .note strong { color: #333; }
-        </style>
-    </head>
-    <body>
-        <div class="login-container">
-            <h1>🤖 V-Mart AI Agent</h1>
-            <p class="subtitle">Login to access your AI assistant</p>
-            <form action="/email-login" method="post">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="your.email@vmart.co.in" required>
-                </div>
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" placeholder="Your Full Name" required>
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            <div class="note">
-                <strong>📧 Allowed domains:</strong> vmart.co.in, vmartretail.com, limeroad.com<br>
-                <strong>🔐 Note:</strong> For Google Drive/Gmail access, you'll need to authorize with your Google account separately.
-            </div>
-        </div>
-    </body>
-    </html>
-    """
+    # Redirect to email-based signup/login page
+    return redirect("/auth/login")
 
 
 @app.route("/email-login", methods=["POST"])
@@ -367,6 +335,13 @@ def demo_login():
         "picture": "",
         "hd": "vmart.co.in",
     }
+    return redirect("/")
+
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    """Logout and clear session"""
+    session.clear()
     return redirect("/")
 
 
@@ -436,6 +411,7 @@ def ask():
     prompt = data.get("prompt")
     use_context = data.get("use_context", True)
     browsed_file = data.get("browsed_file")  # {name, content, source}
+    file_context = data.get("file_context", [])  # Files uploaded from File Browser
 
     if not prompt:
         return jsonify({"error": "Please provide a prompt."}), 400
@@ -492,8 +468,92 @@ def ask():
             formatted_response = format_ai_response(response)
             return jsonify({"response": formatted_response})
 
+        # PRIORITY 0: Handle uploaded files from File Browser (highest priority for data analysis)
+        if file_context and len(file_context) > 0:
+            print(f"\n{'=' * 80}")
+            print(
+                f"📎 FILE CONTEXT DETECTED: {len(file_context)} file(s) uploaded from File Browser"
+            )
+
+            # Build comprehensive file analysis context
+            files_summary = []
+            full_file_content = []
+
+            for idx, file_info in enumerate(file_context, 1):
+                filename = file_info.get("filename", f"file_{idx}")
+                file_type = file_info.get("type", "unknown")
+                content = file_info.get("content", "")
+                metadata = file_info.get("metadata", {})
+
+                print(f"   File {idx}: {filename} ({file_type})")
+                if metadata:
+                    print(f"           Metadata: {metadata}")
+
+                files_summary.append(f"- {filename} ({file_type})")
+
+                # Add file content with clear markers
+                full_file_content.append(f"""
+{"=" * 80}
+FILE {idx}: {filename}
+TYPE: {file_type}
+METADATA: {metadata}
+{"=" * 80}
+{content[:50000]}  
+{"=" * 80}
+""")
+
+            # Create enhanced prompt for V-Mart retail analysis
+            context_info.append(f"Analyzing {len(file_context)} uploaded file(s)")
+
+            enhanced_prompt = f"""**🚨 ABSOLUTE CRITICAL INSTRUCTION FOR AI 🚨**
+
+You are analyzing ATTACHED/UPLOADED FILES ONLY. You MUST follow these rules WITHOUT EXCEPTION:
+
+❌ DO NOT use any stored data or databases
+❌ DO NOT use your training knowledge about V-Mart or retail
+❌ DO NOT use general knowledge or assumptions
+❌ DO NOT reference information not in the files below
+❌ DO NOT use previous conversations or context
+❌ DO NOT make inferences beyond the explicit data
+
+✅ ONLY analyze the file content provided below
+✅ ONLY cite data explicitly visible in these files
+✅ ONLY quote exact values, names, IDs from the files
+✅ If information is NOT in the files, respond: "This information is not available in the uploaded files"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📎 UPLOADED FILES ({len(file_context)} file(s)):
+{chr(10).join(files_summary)}
+
+📊 FILE CONTENT (USE ONLY THIS DATA):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{"".join(full_file_content)}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**User's Question:** {prompt}
+
+**MANDATORY REQUIREMENTS:**
+1. Source every fact with the file name it came from
+2. Use exact values as they appear in the files (no rounding or estimates)
+3. If a store/product/metric isn't in the files, it doesn't exist for this analysis
+4. State "Based on the uploaded file [filename]..." in your response
+5. Do NOT add information from your general knowledge
+
+**Forbidden Actions:**
+- Referencing stores not listed in the files above
+- Using revenue/sales figures not in the files above
+- Making assumptions about data not explicitly stated
+- Using "typical" or "usually" or "generally" statements
+- Citing V-Mart information from your training data
+
+BEGIN ANALYSIS (FILE DATA ONLY):"""
+
+            print(f"{'=' * 80}\n")
+
         # PRIORITY 1: If user has browsed a file AND asking about it, use it directly
-        if browsed_file and browsed_file.get("content"):
+        elif browsed_file and browsed_file.get("content"):
             file_name = browsed_file.get("name", "unknown file")
             file_content = browsed_file.get("content", "")
 

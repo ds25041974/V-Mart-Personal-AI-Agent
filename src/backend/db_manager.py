@@ -211,6 +211,44 @@ class DatabaseManager:
             logger.error(f"Query execution error on {connection_id}: {str(e)}")
             return {"success": False, "error": str(e), "connection_id": connection_id}
 
+    def fetch_one(
+        self, connection_id: str, query: str, params: Optional[tuple] = None
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Execute query and return first row as dictionary
+
+        Args:
+            connection_id: Database connection ID
+            query: SQL query
+            params: Query parameters as tuple
+
+        Returns:
+            First row as dict or None if no results
+        """
+        result = self.execute_query(connection_id, query, params)
+        if result.get("success") and result.get("data"):
+            return result["data"][0] if len(result["data"]) > 0 else None
+        return None
+
+    def fetch_all(
+        self, connection_id: str, query: str, params: Optional[tuple] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Execute query and return all rows as list of dictionaries
+
+        Args:
+            connection_id: Database connection ID
+            query: SQL query
+            params: Query parameters as tuple
+
+        Returns:
+            List of rows as dicts or empty list if no results
+        """
+        result = self.execute_query(connection_id, query, params)
+        if result.get("success") and result.get("data"):
+            return result["data"]
+        return []
+
     def get_schema(
         self, connection_id: str, database: Optional[str] = None
     ) -> Dict[str, Any]:
